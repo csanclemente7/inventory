@@ -111,10 +111,10 @@ WSGI_APPLICATION = 'inventoryProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd6dlqkp3pqelln',
-        'USER': 'mcrrxsnhfgmjah',
-        'PASSWORD': 'fc2556b838363370a0844bf6af9dad5741f33bfa989324ca6b7f7200d9c9ea92',
-        'HOST': 'ec2-52-45-83-163.compute-1.amazonaws.com',
+        'NAME': 'd42lm6gg8t3qc5',
+        'USER': 'bbdroazepsqnfh',
+        'PASSWORD': 'aeb4f8c13973673538ebec97768c0b0fc53748cfd54dd220a3ef8bc84c552911',
+        'HOST': 'ec2-54-147-33-38.compute-1.amazonaws.com',
         'PORT': '5432',
         'TIME_ZONE': 'America/Bogota',
     }
