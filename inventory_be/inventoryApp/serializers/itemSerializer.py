@@ -7,5 +7,5 @@ class ItemSerializer(serializers.ModelSerializer):
     evidence = Base64ImageField(required=False)
     class Meta:
         model = Item
-        fields = ['id', 'name'. 'evidence']
+        fields = ['id', 'name', 'evidence']
     
