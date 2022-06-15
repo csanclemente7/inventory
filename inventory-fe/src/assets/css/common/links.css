@@ -1,0 +1,38 @@
+.link-container {
+  width: 100%;
+  display: flex;
+  gap: 0.4rem;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.link-container a {
+  color: var(--color-tertiary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: all 0.25s;
+  margin-bottom: 0.7rem;
+  margin-top: 0.5rem;
+}
+
+.link-container span {
+  display: flex;
+  margin-left: 0.5rem;
+  color: var(--text-light) !important;
+}
+.link-container p {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--color-tertiary);
+}
+.link-container i {
+  color: var(--white);
+}
+
+@media (max-width: 768px) {
+  .link-container {
+    width: 100%;
+  }
+}

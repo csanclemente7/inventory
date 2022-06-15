@@ -1,0 +1,48 @@
+.register__header {
+  position: initial;
+  text-align: center;
+  z-index: 2;
+}
+
+.register__img {
+  width: 50%;
+}
+
+.register__title {
+  font-size: 1.5rem;
+}
+
+.register__subtitle {
+  font-size: 2.4rem;
+}
+
+/* Para mobiles */
+@media only screen and (min-width: 0) {
+  .register__header--title {
+    font-size: 1.3rem;
+  }
+  .register__header--subtitle {
+    font-size: 2.4rem;
+  }
+}
+
+/* Para tablets*/
+@media only screen and (min-width: 768px) {
+  .register__img {
+    width: 20%;
+  }
+}
+
+/*Para escritorio*/
+@media only screen and (min-width: 922) {
+  .register__img {
+    width: 15%;
+  }
+}
+
+/* para pantallas grandes */
+@media only screen and (min-width: 1200px) {
+  .register__img {
+    width: 10%;
+  }
+}

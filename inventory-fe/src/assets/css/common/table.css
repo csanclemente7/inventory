@@ -1,0 +1,90 @@
+table.custom-responsiva {
+  width: 80% !important;
+  border-collapse: collapse !important;
+}
+
+.custom-responsiva tr:nth-of-type(odd) {
+  background: var(--light-row-table);
+  color: var(--text-dark);
+}
+
+.custom-responsiva tr {
+  background-color: var(--dark-row-table);
+}
+
+.custom-responsiva td {
+  cursor: pointer;
+}
+
+
+.delete-custom {
+  background: var(--popup-background);
+  border: none !important;
+  cursor: inherit !important;
+  align-items: center;
+}
+
+.custom-responsiva th {
+  background: var(--th-header-table);
+  color: white !important;
+  font-weight: bold !important;
+}
+
+.custom-responsiva td,
+.custom-responsiva th {
+  padding: 6px !important;
+  border: 1px solid #ccc;
+  text-align: center !important;
+  font-weight: bold !important;
+}
+
+table.custom-responsiva-two {
+  width: 40% !important;
+}
+
+.custom-responsiva-two th {
+  background: var(--th-header-table);
+  color: white !important;
+  font-weight: bold !important;
+  padding: 6px !important;
+  border: 1px solid #ccc;
+  text-align: center !important;
+  font-weight: bold !important;
+}
+
+.custom-responsiva-two td{
+  cursor: pointer;
+  text-align: center;
+  border: 0.5px solid #ccc;
+}
+
+.debe li {
+  color: var(--warning-color);
+  font-size: 0.8rem;
+  padding: 0.2rem;
+  opacity: 0.7;
+}
+
+.pendiente li {
+  color: var(--warning-color);
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.pagado li {
+  color: var(--color-success);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.pagado p {
+  color: var(--color-success);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  table.custom-responsiva {
+    width: 100% !important;
+  }
+}

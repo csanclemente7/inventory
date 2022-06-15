@@ -1,0 +1,120 @@
+.button {
+  display: block;
+  background-color: var(--color-secondary);
+  color: #ffffff;
+  margin-top: 1rem;
+  border: 1px solid var(--text);
+  border-radius: 7px;
+  border-radius: 5px;
+  padding: 0.5rem;
+  width: 100%;
+  max-width: 14rem;
+  line-height: 1.6rem;
+  font-size: 1.3rem;
+  transition: 0.3s ease-in-out all;
+  font-weight: 500;
+  align-self: center;
+  text-align: center;
+  cursor: pointer;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.button-add-client {
+  width: 40%;
+}
+
+.blue {
+  background: radial-gradient(
+    ellipse,
+    var(--color-primary),
+    var(--color-primary-dark)
+  );
+  border: 0px solid var(--color-primary);
+}
+
+.button:hover {
+  cursor: pointer;
+  background-color: var(--color-secondary-dark);
+}
+
+.add-item {
+  width: 100%;
+  max-width: 90%;
+}
+
+.add-item i {
+  font-size: 1.5rem;
+  color: var(--text-light);
+}
+
+
+.delete-button {
+  background-color: var(--popup-background);
+  border: none;
+  color: var(--error-color);
+  cursor: pointer;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.delete-button span {
+  color: var(--link-red-light);
+
+  font-size: 1.2rem !important;
+  font-weight: 100 !important;
+}
+
+.simple-button {
+  border: none;
+  background-color: unset;
+}
+
+.simple-button--add {
+  color: var(--primary-color);
+}
+
+.simple-button--delete {
+  color: var(--warning-color);
+}
+
+.simple-button--edit {
+  color: var(--success-color);
+}
+
+@media screen and (max-width: 768px) {
+  .button {
+    width: 100%;
+  }
+  .home-data h1 {
+    font-size: 30px;
+  }
+  .home-data h2 {
+    font-size: 25px;
+  }
+  .home-data img {
+    width: 100px;
+  }
+
+  .button button {
+    width: 80%;
+    padding: 0.5rem 0;
+  }
+
+  .add-item {
+    max-width: 100%;
+  }
+
+  .add-items-manually {
+    width: 100%;
+    max-width: 90%;
+  }
+  
+}

@@ -1,0 +1,49 @@
+.login__header {
+  position: initial;
+  text-align: center;
+  z-index: 2;
+}
+
+.login__img {
+  width: 50%;
+}
+
+.login__title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.login__subtitle {
+  font-size: 2.4rem;
+}
+
+/* Para mobiles */
+@media only screen and (min-width: 0) {
+  .login__header--title {
+    font-size: 1.3rem;
+  }
+  .login__header--subtitle {
+    font-size: 2.4rem;
+  }
+}
+
+/* Para tablets*/
+@media only screen and (min-width: 768px) {
+  .login__img {
+    width: 30%;
+  }
+}
+
+/*Para escritorio*/
+@media only screen and (min-width: 922) {
+  .login__img {
+    width: 25%;
+  }
+}
+
+/* para pantallas grandes */
+@media only screen and (min-width: 1200px) {
+  .login__img {
+    width: 20%;
+  }
+}

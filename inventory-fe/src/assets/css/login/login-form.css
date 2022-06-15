@@ -1,0 +1,75 @@
+.login__form {
+  position: relative;
+  padding: 3em 0;
+  text-align: center;
+  z-index: 2;
+}
+
+.login__item {
+  display: block;
+}
+
+.login__input {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 3px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  display: block;
+  font-size: 18px;
+  font-weight: 300;
+  margin: 0 auto 10px auto;
+  outline: 0;
+  padding: 10px 15px;
+  text-align: center;
+  width: 250px;
+  -webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+}
+
+.login__input:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.login__input:focus {
+  background-color: white;
+  width: 300px;
+  color: #333;
+}
+
+.login__errors {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.login__submit {
+  appearance: none;
+  outline: 0;
+  background-color: white;
+  border: 0;
+  margin-top: 10px;
+  padding: 10px 15px;
+  color: #007bbd;
+  border-radius: 3px;
+  width: 250px;
+  cursor: pointer;
+  font-size: 18px;
+  transition-duration: 0.25s;
+}
+
+.login__submit:hover {
+  background-color: #f5f7f9;
+}
+
+.login__link {
+  color: #fff;
+  display: block;
+  font-size: 14px;
+  font-weight: 300;
+  margin: 0 auto;
+  text-align: center;
+  text-decoration: none;
+  -webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+}

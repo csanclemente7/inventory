@@ -1,0 +1,9 @@
+.text_fail {
+  color: #bd1206;
+  font-size: 15px;
+}
+
+.text_success {
+  color: #01afbc;
+  font-size: 15px;
+}

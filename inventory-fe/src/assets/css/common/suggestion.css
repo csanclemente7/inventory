@@ -1,0 +1,25 @@
+.suggestion-container .suggestion-item {
+  display: block;
+  border-radius: 7px;
+  cursor: pointer;
+  color: var(--link-light);
+  font-size: 1rem;
+  text-align: left;
+  transition: all 0.25s;
+  padding: 0.5rem;
+}
+
+.suggestion-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.seggestion-price {
+  font-size: 1rem;
+  color: var(--price-color);
+}
+
+.suggestion-container .suggestion-item i {
+  color: var(--color-tertiary-light);
+}

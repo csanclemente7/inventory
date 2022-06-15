@@ -1,0 +1,92 @@
+.grid-container-menu {
+  display: grid;
+  grid-gap: 10px;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.grid-container-menu button {
+  margin-top: 0;
+}
+
+.grid-menu-search {
+  grid-column: 1 / 2;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-menu-insumos {
+  grid-column: 2 / 3;
+}
+
+.grid-menu-clientes {
+  grid-column: 3 / 4;
+  display: none !important;
+}
+
+.grid-menu-search form {
+  position: relative;
+}
+
+/* END SECCIÓN DE BÙSQUEDA */
+
+.grid-menu-search [type="search"] {
+  height: 50px;
+  font-size: 1.5rem;
+  background: var(--white);
+  color: var(--black);
+  border-radius: 4px;
+  box-shadow: var(--border-shadow);
+}
+
+.grid-menu-search [type="search"]::-webkit-search-decoration,
+.grid-menu-search [type="search"]::-webkit-search-cancel-button,
+.grid-menu-search [type="search"]::-webkit-search-results-button,
+.grid-menu-search [type="search"]::-webkit-search-results-decoration {
+  display: none;
+}
+
+.grid-menu-search ::placeholder {
+  color: var(--placeholder);
+}
+
+.grid-menu-search form button {
+  position: absolute;
+  top: 55%;
+  right: 4%;
+  transform: translateY(-50%);
+  border: none;
+  font-size: 1.5rem;
+  background: var(--white);
+}
+
+@media (max-width: 768px) {
+  .grid-container-menu {
+    margin-top: 1rem;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+    height: auto;
+    gap: 0px;
+  }
+
+  .grid-menu-search {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+  }
+
+  .grid-menu-insumos {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    width: 50%;
+    margin: 0 auto; /* borrar cuando se vea el botón clientes */
+  }
+
+  .grid-menu-clientes {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+  }
+}
