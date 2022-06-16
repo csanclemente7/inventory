@@ -1,10 +1,16 @@
 :root {
-  --color-primary: #007bbd;
-  --color-primary-light: #01afbc;
-  --color-primary-dark: #0060a1;
+  --color-primary: #b5f4e9;
+  --color-primary-light: #b5f4e9;
+  --color-primary-dark: #237a6b;
 
-  --color-secondary: #171e27;
-  --color-secondary-dark: #121922;
+  --color-secondary: #000023;
+  --color-secondary-dark: #60ccb4;
+
+  --red-button-color: #b62222;
+  --red-button-color-light: #ff0000;
+  --red-button-color-dark: #570303;
+
+  --green-button-color: #00b300;
 
   --text: #7e7e7e;
   --text-light: #dadada;

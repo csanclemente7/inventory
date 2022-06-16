@@ -4,6 +4,7 @@
 
     <div class="header" id="header" v-if="is_auth">
       <nav>
+        <p>INVENTORY</p>
         <button v-if="is_auth && !startLoader" v-on:click="loadHome">
           Inicio
         </button>
@@ -255,6 +256,12 @@ body :-ms-input-placeholder {
   background: #e5e7e9;
 }
 
+.header nav p {
+  margin-right: 55%;
+  color: #ffffff;
+  font-weight: 600;
+}
+
 .app {
   height: 100vh;
 }
@@ -289,6 +296,10 @@ body :-ms-input-placeholder {
     margin: 0 5px !important;
     padding: 5px 6px 5px 6px !important;
     font-size: 14px;
+  }
+  .header nav p {
+    margin-right: 15%;
+    color: #ffffff;
   }
 }
 
