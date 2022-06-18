@@ -257,7 +257,7 @@ body :-ms-input-placeholder {
 }
 
 .header nav p {
-  margin-right: 55%;
+  margin-right: 65%;
   color: #ffffff;
   font-weight: 600;
 }

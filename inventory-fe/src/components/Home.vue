@@ -20,7 +20,7 @@
   <section class="popups_container">
     <div class="popup" v-if="popUps.exit">
       <div class="popup-close-container">
-        <div class="popup_close" v-on:click="closePopUp('item')">
+        <div class="popup_close" v-on:click="closePopUp('exit')">
           <svg
             width="25"
             height="25"
@@ -38,108 +38,78 @@
           </svg>
         </div>
       </div>
+      <div class="popup-title rd">Salida</div>
 
-      <div class="create-report__errors">
-        <i
-          class="fa fa-exclamation-circle"
-          id="error-icon"
-          v-if="errors.error_message"
-        ></i>
-        <span v-if="!errors.error_createQuotation" class="text_success">{{
-          " " + success_message
-        }}</span>
-        <span v-if="errors.error_createQuotation" class="text_fail">{{
-          " " + errors.error_message
-        }}</span>
-      </div>
-
-      <h1 class="popup_title">
-        <img src="../assets/img/quotation_img.png" alt="" />&nbsp; Agregar
-        insumos
-      </h1>
-
-      <!--- Form -->
-      <form
-        class="formulario item-create-form"
-        v-on:submit.prevent="processCreateItem"
-      >
-        <div class="header-form">
-          <div class="input-container name">
+      <div class="grid-container-menu">
+        <div class="input-container grid-menu-search">
+          <!-- SECTION SEARCH FILTER -->
+          <form>
             <input
-              type="text"
-              name="name"
-              id="name"
-              class="input"
-              v-model="item.name"
-              maxlength="70"
+              type="search"
+              placeholder="Buscar..."
+              id="input_search"
+              v-model="filterSearch"
+              v-on:input="filterBySearchInput"
               autocomplete="off"
-              required
             />
-            <label class="input-label" for="price">Item</label>
-            <span class="input-message-error">Este campo no es valido</span>
-          </div>
-          <div class="input-container price">
-            <input
-              type="text"
-              name="price"
-              id="price"
-              class="input"
-              v-model="item.price"
-              maxlength="30"
-              autocomplete="off"
-              required
-            />
-            <label class="input-label" for="price">Precio</label>
-            <span class="input-message-error">Este campo no es valido</span>
-          </div>
-
-          <div class="input-container">
-            <button class="button" type="submit">Agregar</button>
-          </div>
+            <button
+              type="button"
+              aria-label="submit form"
+              v-on:click="filterBySearchInput"
+            >
+              <li class="fas fa-search"></li>
+            </button>
+          </form>
         </div>
-      </form>
-
-      <!-- TABLE -->
-      <table class="custom-responsiva-two">
+      </div>
+      <!--  EXIT TABLE -->
+      <table class="custom-responsiva">
         <thead>
           <tr>
+            <th>Codigo</th>
             <th>Item</th>
-            <th>Precio</th>
           </tr>
         </thead>
         <tbody>
-          <!--- problema a resolver -->
           <tr
-            v-for="item in paginatedData"
-            :key="item"
-            id="table_row delete-custom"
+            v-for="quotation in paginatedData"
+            :key="quotation"
+            id="table_row"
+            v-on:click="openPopUpUpdateQuotation('updateQuotation', quotation)"
           >
-            <td v-on:click="openPopUpItemUpdate('itemUpdate', item)">
-              {{ item.name }}
-            </td>
-            <td v-on:click="openPopUpItemUpdate('itemUpdate', item)">
-              ${{ priceToString(item.price) }}
-            </td>
-            <!-- delete button -->
-            <td>
-              <button
-                class="delete-button"
-                type="button"
-                aria-label="submit form"
-                v-on:click="processDeleteItemUpdate(items, item)"
-              >
-                <!-- delete icon -->
-                <li class="fa fa-trash"></li>
-              </button>
-            </td>
+            <td>{{ quotation.id }}</td>
+            <td>{{ quotation.date }}</td>
+            <td>{{ quotation.client_name }}</td>
+            <td>${{ priceToString(quotation.total) }}</td>
           </tr>
         </tbody>
       </table>
     </div>
+    <div class="popup" v-if="popUps.entry">
+      <div class="popup-close-container">
+        <div class="popup_close" v-on:click="closePopUp('entry')">
+          <svg
+            width="25"
+            height="25"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            stroke="var(--link-red-light)"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
   </section>
 </template>
-
 <script>
+import axios from "axios";
 export default {
   name: "Home",
   data: function () {
@@ -151,14 +121,42 @@ export default {
       },
     };
   },
-  openPopUp: function (popUp) {
-    //this.home = document.querySelector(".home");
-    //this.home.classList.add("parentDiv");
-    this.popUps[popUp] = true;
-  },
+  methods: {
+    verifyAuth: function () {
+      this.is_auth = localStorage.getItem("isAuth") || false;
+      if (this.is_auth == false) {
+        this.$router.push("logIn");
+      }
+    },
 
-  closePopUp: function (popUp) {
-    this.popUps[popUp] = false;
+    verifyToken: function () {
+      this.startLoader = true;
+      return axios
+        .post(
+          "https://inventory-be.herokuapp.com/refresh",
+          { refresh: localStorage.getItem("token_refresh") },
+          { headers: {} }
+        )
+        .then((result) => {
+          localStorage.setItem("token_access", result.data.access);
+          this.startLoader = false;
+        })
+        .catch(() => {
+          this.$emit("logOut");
+        });
+    },
+
+    openPopUp: function (popUp) {
+      this.popUps[popUp] = true;
+    },
+
+    closePopUp: function (popUp) {
+      this.popUps[popUp] = false;
+    },
+
+    created: function () {
+      this.verifyAuth();
+    },
   },
 };
 </script>
