@@ -1,6 +1,16 @@
 <template>
   <main class="input-container">
-    <center><input type="text" name="" id="input" class="input" /></center>
+    <center>
+      <input
+        type="text"
+        name=""
+        id="input"
+        class="input"
+        v-model="inputContent"
+      />
+      <br /><br />
+      <h1>{{ inputContent }}</h1>
+    </center>
   </main>
 </template>
 
@@ -8,7 +18,9 @@
 export default {
   name: "input",
   data: function () {
-    return {};
+    return {
+      inputContent: "",
+    };
   },
   methods: {},
 };
