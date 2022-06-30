@@ -17,6 +17,7 @@
         <button v-if="false" v-on:click="loadHistorialGeneralAdmin">
           Admin
         </button>
+        <button v-if="true" v-on:click="loadInput">Input</button>
       </nav>
     </div>
 
@@ -100,6 +101,9 @@ export default {
     },
     loadHistorialGeneralAdmin: function () {
       this.$router.push({ name: "historialGeneralAdmin" });
+    },
+    loadInput: function () {
+      this.$router.push({ name: "input" });
     },
 
     completedLogIn: function (data) {
