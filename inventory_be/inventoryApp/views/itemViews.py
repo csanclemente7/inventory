@@ -18,6 +18,12 @@ class ItemCreateView(generics.CreateAPIView):
         valid_data   = tokenBackend.decode(token,verify=False)
         
         if valid_data['user_id'] != kwargs['user']:
+
+            if request.data['evidence']:
+                evidence = request.data['evidence']
+                evidence.name = 'evidencia.png'
+                request.data['evidence'] = evidence
+            
             stringResponse = {'detail':'Unauthorized Request'}
             return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -80,9 +86,10 @@ class ItemUpdateView(generics.UpdateAPIView):
 
         if valid_data['user_id'] != self.kwargs['user']:
 
-            archivo = request.data['firma_url']
-            archivo.name = 'firma.png'
-            request.data['firma_url'] = archivo
+            if request.data['evidence']:
+                evidence = request.data['evidence']
+                evidence.name = 'evidencia.png'
+                request.data['evidence'] = evidence
 
             stringResponse = {'detail': 'Unauthorized Request'}
             return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
