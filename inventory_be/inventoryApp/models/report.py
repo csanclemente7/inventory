@@ -8,7 +8,7 @@ class Report(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     dateTime = models.DateTimeField(default= timezone.localdate())
     status = models.CharField(max_length=10)
-    observation = models.TextField(max_length=100)
+    observation = models.TextField(max_length=100, blank=True, null=True)
     employee = models.CharField(max_length=50)
 
     def __str__(self):
