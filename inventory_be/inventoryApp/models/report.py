@@ -1,12 +1,13 @@
 from django.db import models
 from django.utils import timezone
 from .item import Item
+import datetime
 
 
 class Report(models.Model):
     id = models.BigAutoField(primary_key=True)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    dateTime = models.DateTimeField(default= timezone.localdate())
+    dateTime = models.DateTimeField(default= datetime.datetime.now(tz=timezone.utc))
     status = models.CharField(max_length=10)
     observation = models.TextField(max_length=100, null=True, blank=True)
     employee = models.CharField(max_length=50)

@@ -7,6 +7,8 @@ from rest_framework.permissions                       import IsAuthenticated
 from rest_framework_simplejwt.backends                import TokenBackend
 from inventoryApp.models.report                 import Report
 from inventoryApp.serializers.reportSerializer   import ReportSerializer
+import datetime
+from django.utils import timezone
 
 class ReportCreateView(generics.CreateAPIView):
     queryset           = Report.objects.all()
@@ -16,10 +18,28 @@ class ReportCreateView(generics.CreateAPIView):
         token        = request.META.get('HTTP_AUTHORIZATION')[7:]
         tokenBackend = TokenBackend(algorithm=settings.SIMPLE_JWT['ALGORITHM'])
         valid_data   = tokenBackend.decode(token,verify=False)
-        
+
         if valid_data['user_id'] != kwargs['user']:
             stringResponse = {'detail':'Unauthorized Request'}
             return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
+        ReportStatus = request.data['status']
+        itemId = request.data['item']
+        lastReport = (Report.objects.filter(item_id=itemId)).last()
+        if(lastReport):
+            lastReportStatus = lastReport.status
+            lastReportEmployee = lastReport.employee
+
+            if(lastReportStatus == ReportStatus):
+                stringResponse = {'detail':'duplicated'}
+                return Response(stringResponse, status=status.HTTP_208_ALREADY_REPORTED)
+
+            if(ReportStatus == 'input'):
+                request.data['employee'] = lastReportEmployee
+        request.data['dateTime'] = (datetime.datetime.now(tz=timezone.utc))
+        
+        if (lastReport == None  and ReportStatus == 'input'):
+                stringResponse = {'detail':'without output'}
+                return Response(stringResponse, status=status.HTTP_406_NOT_ACCEPTABLE)
 
         serializer = ReportSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -57,7 +77,25 @@ class ReportListView(generics.ListAPIView):
         
         queryset = Report.objects.all()
         return queryset.order_by('-id')
- 
+
+
+class ReportOutputListView(generics.ListAPIView):
+    serializer_class   = ReportSerializer
+    permission_classes = (IsAuthenticated,)
+    
+    def get_queryset(self):
+        token        = self.request.META.get('HTTP_AUTHORIZATION')[7:]
+        tokenBackend = TokenBackend(algorithm=settings.SIMPLE_JWT['ALGORITHM'])
+        valid_data   = tokenBackend.decode(token,verify=False)
+        
+        if valid_data['user_id'] != self.kwargs['user']:
+            stringResponse = {'detail':'Unauthorized Request'}
+            return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
+        
+        queryset = Report.objects.all()
+        return queryset.order_by('-id')
+
+
 class ReportUpdateView(generics.UpdateAPIView):
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
@@ -86,6 +124,7 @@ class ReportUpdateView(generics.UpdateAPIView):
 
             stringResponse = {'detail': 'Unauthorized Request'}
             return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
+        request.data['dateTime'] = (datetime.datetime.now(tz=timezone.utc))
         return super().put(request, *args, **kwargs)
 
 class ReportDeleteView(generics.DestroyAPIView):

@@ -14,7 +14,7 @@ class ReportSerializer(serializers.ModelSerializer):
             'id': report.id,
             'item_id': report.item.id,
             'item_name': report.item.name,
-            'dateTime': format_datetime(report.dateTime, '%Y-%m-%d %H:%M'),
+            'dateTime': report.dateTime,
             'date': report.dateTime.date().strftime('%d-%m-%Y'),
             'time': report.dateTime.time().strftime('%H:%M'),
             'status': report.status,
