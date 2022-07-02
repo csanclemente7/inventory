@@ -18,7 +18,6 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView, TokenRefreshView)
 from inventoryApp import views
 
-
 urlpatterns = [
     path('login', TokenObtainPairView.as_view()),
     path('refresh', TokenRefreshView.as_view()),
@@ -34,10 +33,11 @@ urlpatterns = [
     path('item/<int:user>/<int:pk>/update', views.ItemUpdateView.as_view()), #ok
     path('item/<int:user>/<int:pk>/delete', views.ItemDeleteView.as_view()), #ok
 
-    # URLS de report 
+    # URLS de report
     path('report/<int:user>', views.ReportCreateView.as_view()), #ok
     path('report/<int:user>/<int:pk>', views.ReportDetailView.as_view()), #ok
     path('reports/<int:user>', views.ReportListView.as_view()), #ok
+    path('reports/<int:user>/outside', views.ReportOutputListView.as_view()), #ok
     path('report/<int:user>/<int:pk>/update', views.ReportUpdateView.as_view()), #ok
     path('report/<int:user>/<int:pk>/delete', views.ReportDeleteView.as_view()), #ok
 

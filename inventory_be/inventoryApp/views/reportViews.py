@@ -92,8 +92,10 @@ class ReportOutputListView(generics.ListAPIView):
             stringResponse = {'detail':'Unauthorized Request'}
             return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
         
-        queryset = Report.objects.all()
-        return queryset.order_by('-id')
+        queryset = Report.objects.all().order_by('-id')
+        inputs = Report.objects.filter(status='input')
+        outputs = Report.objects.filter(status='output')
+        return (filterOutputs(queryset,inputs,outputs))
 
 
 class ReportUpdateView(generics.UpdateAPIView):
@@ -148,3 +150,31 @@ class ReportDeleteView(generics.DestroyAPIView):
         except Report.DoesNotExist:
             stringResponse = {'detail': 'reporte no existe'}
             return Response(stringResponse, status=status.HTTP_404_NOT_FOUND)   
+
+
+
+
+
+# function para filtrar los reportes
+
+def filterOutputs (reports,inputsList,outputsList):
+  inputs = inputsList
+  outputs = outputsList
+  finalList = []
+  def quantityOutputsByItem(itemId):
+    outputsSize = [i for i in outputs if str(i).split(" ")[1] == itemId]
+    return (len(outputsSize))
+
+  def quantityInputsByItem(itemId):
+    inputSize = [i for i in inputs if str(i).split(" ")[1] == itemId]
+    return (len(inputSize))
+
+
+  for report in reports:
+    if ( quantityOutputsByItem(str(report).split(" ")[1]) != quantityInputsByItem(str(report).split(" ")[1])):
+        if (len([i for i in finalList if str(i).split(" ")[1] == str(report).split(" ")[1]]) == 0):
+            finalList.append(report)
+        
+
+
+  return finalList
