@@ -1,52 +1,54 @@
 <template>
-  <section class="home" v-if="modals.home">
-    <div class="home-data">
-      <div class="button-container">
-        <button class="button red" @click="openModal('output')">
-          <img src="../assets/img/exit.png" />
-        </button>
+  <div class="main">
+    <section class="home" v-if="modals.home">
+      <div class="home-data">
+        <div class="button-container">
+          <button class="button red" @click="openModal('output')">
+            <img src="../assets/img/exit.png" />
+          </button>
 
-        <button class="button green" @click="openModal('input')">
-          <img src="../assets/img/entry.png" alt="" />
-        </button>
+          <button class="button green" @click="openModal('input')">
+            <img src="../assets/img/entry.png" alt="" />
+          </button>
+        </div>
+        <div class="image" v-if="false">
+          <img src="../assets/img/home_image.svg" alt="" />
+          <h3>Todo al día</h3>
+        </div>
       </div>
-      <div class="image" v-if="false">
-        <img src="../assets/img/home_image.svg" alt="" />
-        <h3>Todo al día</h3>
+    </section>
+    <!--- MODALS -->
+    <section class="modals_container" v-if="!modals.home">
+      <!-- OUTPUT MODAL -->
+      <div class="modals modals_output" v-if="modals.output">
+        <!--  botón cerrar -- -->
+        <i
+          class="fas fa-times"
+          @click="openModal('home')"
+          v-if="!modals.home"
+        ></i>
+        <!-- título -->
+        <div class="modals_title">
+          <h1>Salida&nbsp;</h1>
+          <i class="fas fa-arrow-right"></i>
+        </div>
       </div>
-    </div>
-  </section>
-  <!--- MODALS -->
-  <section class="modals_container" v-if="!modals.home">
-    <!-- OUTPUT MODAL -->
-    <div class="modals modals_output" v-if="modals.output">
-      <!--  botón cerrar -- -->
-      <i
-        class="fas fa-times"
-        @click="openModal('home')"
-        v-if="!modals.home"
-      ></i>
-      <!-- título -->
-      <div class="modals_title">
-        <h1>Salida&nbsp;</h1>
-        <i class="fas fa-arrow-right"></i>
+      <!-- INPUT MODAL -->
+      <div class="modals modals_input" v-if="modals.input">
+        <!--  botón cerrar -- -->
+        <i
+          class="fas fa-times"
+          @click="openModal('home')"
+          v-if="!modals.home"
+        ></i>
+        <!-- título -->
+        <div class="modals_title">
+          <i class="fas fa-arrow-right"></i>
+          <h1>&nbsp;Entrada</h1>
+        </div>
       </div>
-    </div>
-    <!-- INPUT MODAL -->
-    <div class="modals modals_input" v-if="modals.input">
-      <!--  botón cerrar -- -->
-      <i
-        class="fas fa-times"
-        @click="openModal('home')"
-        v-if="!modals.home"
-      ></i>
-      <!-- título -->
-      <div class="modals_title">
-        <i class="fas fa-arrow-right"></i>
-        <h1>&nbsp;Entrada</h1>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 <script>
 import axios from "axios";
@@ -128,6 +130,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .home {
   width: 100%;
   height: 100%;
