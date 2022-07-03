@@ -5,19 +5,21 @@
     <div class="header" id="header" v-if="is_auth">
       <nav>
         <p>INVENTORY</p>
-        <button v-if="is_auth && !startLoader" v-on:click="loadHome">
-          Inicio
-        </button>
-        <button v-if="is_auth && !startLoader" v-on:click="logOut">
-          Cerrar Sesión
-        </button>
-        <button v-if="is_auth && is_admin" v-on:click="loadSignUp">
-          Nuevo Usuario
-        </button>
-        <button v-if="false" v-on:click="loadHistorialGeneralAdmin">
-          Admin
-        </button>
-        <button v-if="true" v-on:click="loadInput">Input</button>
+        <div class="header-buttons-container">
+          <button v-if="is_auth && !startLoader" v-on:click="loadHome">
+            Inicio
+          </button>
+          <button v-if="is_auth && !startLoader" v-on:click="logOut">
+            Cerrar Sesión
+          </button>
+          <button v-if="is_auth && is_admin" v-on:click="loadSignUp">
+            Nuevo Usuario
+          </button>
+          <button v-if="false" v-on:click="loadHistorialGeneralAdmin">
+            Admin
+          </button>
+          <button v-if="true" v-on:click="loadInput">Input</button>
+        </div>
       </nav>
     </div>
 
@@ -80,7 +82,6 @@ export default {
   methods: {
     // metodos que definen el comportamiento que tendrá la aplicación
     verifyAuth: function () {
-      console.log("verificando auth");
       this.is_auth = localStorage.getItem("isAuth") || false;
       if (this.is_auth == false) {
         this.$router.push({ name: "logIn" });
@@ -222,6 +223,15 @@ body :-ms-input-placeholder {
   color: white;
   font-weight: 300;
 }
+
+.header-buttons-container {
+  float: right;
+  width: 50%;
+  display: flex;
+  justify-content: right;
+  align-content: center;
+}
+
 #header {
   margin: 0%;
   padding: 0;
@@ -243,7 +253,6 @@ body :-ms-input-placeholder {
   justify-content: right;
   padding-right: 5%;
   align-items: center;
-  font-size: 15px;
 }
 .header nav button {
   color: #e5e7e9;
@@ -254,6 +263,7 @@ body :-ms-input-placeholder {
   cursor: pointer;
   font-weight: 600;
   border: none;
+  font-size: 20px;
 }
 .header nav button:hover {
   color: #283747;
@@ -261,9 +271,11 @@ body :-ms-input-placeholder {
 }
 
 .header nav p {
-  margin-right: 65%;
+  width: 50%;
+  float: left;
   color: #ffffff;
   font-weight: 600;
+  margin-left: 5rem;
 }
 
 .app {
@@ -273,6 +285,9 @@ body :-ms-input-placeholder {
 .main-component {
   margin: 0%;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .footer {
   margin: 0;

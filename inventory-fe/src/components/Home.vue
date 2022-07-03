@@ -1,109 +1,49 @@
 <template>
-  <div class="home">
+  <section class="home" v-if="modals.home">
     <div class="home-data">
       <div class="button-container">
-        <button v-on:click="openPopUp('exit')" class="button red">
+        <button class="button red" @click="openModal('output')">
           <img src="../assets/img/exit.png" />
         </button>
 
-        <button v-on:click="openPopUp('entry')" class="button green">
+        <button class="button green" @click="openModal('input')">
           <img src="../assets/img/entry.png" alt="" />
         </button>
       </div>
-      <div class="image">
+      <div class="image" v-if="false">
         <img src="../assets/img/home_image.svg" alt="" />
         <h3>Todo al día</h3>
       </div>
     </div>
-  </div>
-  <!--- POP UP EXIT -->
-  <section class="popups_container">
-    <div class="popup" v-if="popUps.exit">
-      <div class="popup-close-container">
-        <div class="popup_close" v-on:click="closePopUp('exit')">
-          <svg
-            width="25"
-            height="25"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            stroke="var(--link-red-light)"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-            />
-          </svg>
-        </div>
+  </section>
+  <!--- MODALS -->
+  <section class="modals_container" v-if="!modals.home">
+    <!-- OUTPUT MODAL -->
+    <div class="modals modals_output" v-if="modals.output">
+      <!--  botón cerrar -- -->
+      <i
+        class="fas fa-times"
+        @click="openModal('home')"
+        v-if="!modals.home"
+      ></i>
+      <!-- título -->
+      <div class="modals_title">
+        <h1>Salida&nbsp;</h1>
+        <i class="fas fa-arrow-right"></i>
       </div>
-      <div class="popup-title rd">Salida</div>
-
-      <div class="grid-container-menu">
-        <div class="input-container grid-menu-search">
-          <!-- SECTION SEARCH FILTER -->
-          <form>
-            <input
-              type="search"
-              placeholder="Buscar..."
-              id="input_search"
-              v-model="filterSearch"
-              v-on:input="filterBySearchInput"
-              autocomplete="off"
-            />
-            <button
-              type="button"
-              aria-label="submit form"
-              v-on:click="filterBySearchInput"
-            >
-              <li class="fas fa-search"></li>
-            </button>
-          </form>
-        </div>
-      </div>
-      <!--  EXIT TABLE -->
-      <table class="custom-responsiva">
-        <thead>
-          <tr>
-            <th>Codigo</th>
-            <th>Item</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="quotation in paginatedData"
-            :key="quotation"
-            id="table_row"
-            v-on:click="openPopUpUpdateQuotation('updateQuotation', quotation)"
-          >
-            <td>{{ quotation.id }}</td>
-            <td>{{ quotation.date }}</td>
-            <td>{{ quotation.client_name }}</td>
-            <td>${{ priceToString(quotation.total) }}</td>
-          </tr>
-        </tbody>
-      </table>
     </div>
-    <div class="popup" v-if="popUps.entry">
-      <div class="popup-close-container">
-        <div class="popup_close" v-on:click="closePopUp('entry')">
-          <svg
-            width="25"
-            height="25"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            stroke="var(--link-red-light)"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-            />
-          </svg>
-        </div>
+    <!-- INPUT MODAL -->
+    <div class="modals modals_input" v-if="modals.input">
+      <!--  botón cerrar -- -->
+      <i
+        class="fas fa-times"
+        @click="openModal('home')"
+        v-if="!modals.home"
+      ></i>
+      <!-- título -->
+      <div class="modals_title">
+        <i class="fas fa-arrow-right"></i>
+        <h1>&nbsp;Entrada</h1>
       </div>
     </div>
   </section>
@@ -114,10 +54,23 @@ export default {
   name: "Home",
   data: function () {
     return {
-      popUps: {
-        exit: false,
-        entry: false,
+      modals: {
+        home: true,
+        output: false,
+        input: false,
         item: false,
+      },
+      outputReport: {
+        item: "",
+        status: "output",
+        observation: "",
+        employee: "",
+      },
+      inputReport: {
+        item: "",
+        status: "input",
+        observation: "",
+        employee: "",
       },
     };
   },
@@ -146,12 +99,24 @@ export default {
         });
     },
 
-    openPopUp: function (popUp) {
-      this.popUps[popUp] = true;
+    openModal: function (modal) {
+      this.modals[modal] = true;
+      if (modal != "home") {
+        let home = document.querySelector(".home");
+        home.classList.add("parentDiv");
+      }
+      // iterar objeto
+      for (let key in this.modals) {
+        if (key != modal) {
+          this.modals[key] = false;
+        }
+      }
     },
 
-    closePopUp: function (popUp) {
-      this.popUps[popUp] = false;
+    closeModal: function (modal) {
+      this.modals[modal] = false;
+      let home = document.querySelector(".home");
+      home.classList.remove("parentDiv");
     },
 
     created: function () {
@@ -163,12 +128,25 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.home {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-data {
+  width: 100%;
+}
+
 .home-data image {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
 }
 
 .image img {
@@ -190,6 +168,7 @@ li {
 a {
   color: #42b983;
 }
+@import "../assets/css/common/modals.css";
 @import "../assets/css/common/popUp.css";
 @import "../assets/css/common/grid-menu.css";
 @import "../assets/css/common/inputs.css";

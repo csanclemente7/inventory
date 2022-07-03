@@ -5,14 +5,11 @@
   align-items: center;
 }
 
-.item-create-form {
-  margin-top: 1rem;
-  width: 60%;
-  margin-bottom: 1rem;
-}
-
-.item-create-form button {
-  margin-top: 0 !important;
+.output-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .form__label {
@@ -29,50 +26,21 @@
   gap: 5%;
 }
 
-.client {
-  width: 40%;
-}
-
-.iva {
-  width: 12.4%;
-}
-
-.descuento {
-  width: 12.4%;
-}
-
-.add-items-manually {
-  width: 20%;
-  margin-bottom: 1.5rem !important;
-}
-.add-items-manually button {
-  font-size: 1.125rem;
-  background-color: none;
-  border: none;
-}
-
 .input-container {
   font-weight: bold;
   position: relative;
   margin-bottom: 0.5rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-end;
+  align-items: center;
   box-sizing: border-box;
 }
 
-.input-container .editbtn {
-  padding: 0.5rem;
-  position: absolute;
-  top: 50%;
-  right: 0%;
-  transform: translateY(-50%);
-  border: none;
-  font-size: 1.5rem;
-  background: var(--page-content-blockColor);
+.output-form .fa-plus {
+  color: var(--green-button-color);
+  font-size: 2rem;
   cursor: pointer;
-  font-size: 1.4rem;
-  color: var(--color-tertiary);
 }
 
 .input {
@@ -87,120 +55,23 @@
   border-radius: 0.5rem;
 }
 
-/** css del formulario de crear cotización */
-.row-form {
+.input-salida {
+  border: 1px solid black;
+  background-color: var(--black);
+  color: var(--text-light);
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  flex-wrap: wrap;
+  font-size: 1.5rem;
+  padding: 0.5rem;
 }
 
 textarea {
   width: 30rem;
 }
 
-/* .name {
-  display: flex;
-  flex-direction: column;
-  width: 45%;
-} */
-
-.item {
-  display: flex;
-  flex-direction: column;
-  width: 40%;
-}
-
-.price {
-  display: flex;
-  flex-direction: column;
-  width: 20%;
-}
-
-.price input:disabled {
-  background: var(--disabled-color);
-}
-
-.quantity {
-  display: flex;
-  flex-direction: column;
-  width: 18%;
-}
-
-.quantity input:disabled {
-  background: var(--disabled-color);
-}
-
-.total {
-  display: flex;
-  flex-direction: column;
-  width: 19%;
-}
-
-.total input:disabled {
-  background: var(--disabled-color);
-}
-
-.delete {
-  display: flex;
-  flex-direction: column;
-  width: 0%;
-}
-
-/** css del formulario de crear item  **/
-
-.item-create-form .name {
-  width: 80%;
-}
-
-.item-create-form .price {
-  width: 20%;
-}
-
-/** css de formulario cliente */
-.client-form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1rem;
-  gap: 2%;
-  flex-wrap: wrap;
-  padding: 5%;
-}
-
-.client-form-title {
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-  width: 100%;
-  text-align: center;
-}
-
-.client-name {
-  width: 42%;
-}
-
-.client-city {
-  width: 42%;
-}
-
-.client-address {
-  width: 42%;
-}
-
-.client-email {
-  width: 42%;
-}
-
-.client-phone {
-  width: 42%;
-}
 /** css otras cosas */
 
 .input::placeholder {
-  visibility: hidden;
-  color: var(--text);
+  color: var(--placeholder);
 }
 
 .input:focus {
@@ -224,50 +95,29 @@ textarea {
   transition: all 0.25s;
 }
 
-.input-container--invalid {
-  margin-bottom: 0.5rem;
-}
-
-.input-container--invalid .input {
-  border: 1px solid var(--error-color);
-  border-radius: 7px;
-}
-
-.input-container--invalid .input-label {
-  color: var(--warning-color);
-}
-
-.input-message-error {
-  display: none;
-}
-
-.input-container--invalid .input-message-error {
-  color: var(--warning-color);
-  display: block;
-  margin-top: 0.5rem;
-  padding-left: 0.5rem;
-}
-
 .textarea {
   box-sizing: border-box;
   border: 1px solid var(--text);
   padding: 0.5rem;
   border-radius: 7px;
   width: 100%;
-  font-size: 1.125rem;
+  font-size: 1.4rem;
   min-height: 3rem;
 }
 
 .textarea-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
-  margin-top: 2rem;
   margin-bottom: 1rem;
   font-weight: bold;
+  width: 60%;
 }
 
 .textarea::placeholder {
   color: var(--text);
-  font-size: 0.875rem;
+  font-size: 1.2rem;
 }
 
 .textarea:focus {
@@ -289,91 +139,11 @@ textarea {
   transition: all 0.25s;
 }
 
-.textarea-container--invalid {
-  margin-bottom: 0.5rem;
-}
-
-.textarea-container--invalid .textarea {
-  border: 1px solid var(--warning-color);
-}
-
-.textarea-container--invalid .textarea-label {
-  color: var(--warning-color);
-}
-
-.textarea-mensagem-erro {
-  display: none;
-}
-
-.textarea-container--invalid .textarea-mensagem-erro {
-  display: block;
-  color: var(--warning-color);
-  margin-top: 0.5rem;
-  padding-left: 0.5rem;
-}
-
 /* Para mobiles */
 @media screen and (max-width: 768px) {
   .header-form {
     flex-direction: column;
   }
-
-  .client {
-    width: 100%;
-  }
-
-  .iva {
-    width: 100%;
-  }
-
-  .descuento {
-    width: 100%;
-  }
-
-  .row-form {
-    flex-direction: column;
-    border: 1px solid var(--light-border-color);
-    margin: 5px;
-    padding: 5px;
-  }
-  .item {
-    width: 100%;
-  }
-  .price {
-    width: 100%;
-  }
-
-  .item-create-form .price {
-    width: 100%;
-  }
-
-  .total {
-    width: 100%;
-  }
-  .quantity {
-    width: 100%;
-  }
-
-  .client-name {
-    width: 100%;
-  }
-
-  .client-city {
-    width: 100%;
-  }
-
-  .client-address {
-    width: 100%;
-  }
-
-  .client-email {
-    width: 100%;
-  }
-
-  .client-phone {
-    width: 100%;
-  }
-
   textarea {
     width: 14rem;
   }

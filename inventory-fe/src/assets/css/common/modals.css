@@ -1,0 +1,46 @@
+.modals_container {
+  width: 80%;
+  height: 60%;
+}
+
+/* TÍTULO DEL MODAL */
+.modals_title {
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ICONO DE CERRAR MODAL */
+.fa-times {
+  color: var(--link-red-light);
+  font-size: 2rem;
+  text-align: right;
+  padding: 0.5rem 0.66rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.modals {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
+}
+
+/* MODAL DE SALIDA (OUTPUTS) */
+
+.modals_output {
+  background-image: linear-gradient(
+    45deg,
+    var(--output-modal-color2) 0%,
+    var(--output-modal-color1) 100%
+  );
+}
+.modals_input {
+  background-image: linear-gradient(
+    45deg,
+    var(--input-modal-color2) 0%,
+    var(--input-modal-color1) 100%
+  );
+}

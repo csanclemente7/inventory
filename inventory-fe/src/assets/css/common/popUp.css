@@ -1,6 +1,6 @@
 .popups_container {
-  padding-top: 6%;
-  height: auto;
+  padding-top: 5%;
+  height: 100%;
   width: 100%;
   position: relative;
   display: flex;
@@ -11,7 +11,7 @@
 }
 
 .popup {
-  background-color: #ffffffda;
+  background-color: var(--popup-background-default);
   backdrop-filter: blur(30px);
   background-position: center;
   background-repeat: no-repeat;
@@ -32,27 +32,25 @@
   margin-top: -40%;
 }
 
+.pop-output {
+  background-image: url(../../img/popUp-light-bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  backdrop-filter: blur(0px);
+}
+.pop-input {
+  background-image: url(../../img/popUp-light-bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  backdrop-filter: blur(0px);
+}
 
 .parentDiv {
   pointer-events: none;
 }
 
-.popup-suggestions {
-  background-color: rgba(2, 2, 32, 0.525);
-  backdrop-filter: blur(30px);
-  background-image: none;
-  width: 40% !important;
-  position: absolute;
-  z-index: 3;
-  border: 0.1px solid #ddddddb5;
-  filter: brightness(1);
-  box-shadow: none;
-}
-
-
 .rd {
-  color: red
-
+  color: red;
 }
 
 .popup img {
@@ -68,7 +66,6 @@
   font-size: 40px !important;
   color: var(--text);
 }
-
 
 .popup-close-container {
   width: 100%;
@@ -97,10 +94,6 @@
     width: 80%;
   }
 
-  .popup-clientes {
-    width: 70%;
-  }
-
   .popup-suggestions {
     width: 70%;
   }
@@ -119,9 +112,6 @@
   .popup .popup_title {
     font-size: 50px;
   }
-  .popup-clientes {
-    width: 50%;
-  }
 }
 
 /*Para escritorio*/
@@ -133,9 +123,6 @@
   .popup .popup_title {
     font-size: 50px;
   }
-  .popup-clientes {
-    width: 50%;
-  }
 }
 
 /* para pantallas grandes */
@@ -146,8 +133,5 @@
 
   .popup .popup_title {
     font-size: 50px;
-  }
-  .popup-clientes {
-    width: 50%;
   }
 }
