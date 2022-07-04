@@ -213,6 +213,7 @@ export default {
     getEmployees: function () {
       employeeServices.getEmployeesList().then((result) => {
         this.employees = result;
+        console.log(this.employees);
       });
     },
 
@@ -271,7 +272,6 @@ export default {
     this.verifyAuth();
     this.getInitialData();
     this.getEmployees();
-    console.log(this.employees);
   },
 };
 </script>
