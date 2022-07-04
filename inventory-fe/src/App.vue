@@ -18,7 +18,6 @@
           <button v-if="false" v-on:click="loadHistorialGeneralAdmin">
             Admin
           </button>
-          <button v-if="true" v-on:click="loadInput">Input</button>
         </div>
       </nav>
     </div>
@@ -197,6 +196,11 @@ body {
   height: 100%;
   position: relative;
 }
+
+p {
+  margin-bottom: 0 !important;
+}
+
 body ::-webkit-input-placeholder {
   /* WebKit browsers */
   font-family: "Source Sans Pro", sans-serif;

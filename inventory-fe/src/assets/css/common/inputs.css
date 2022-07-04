@@ -12,6 +12,24 @@
   flex-direction: column;
 }
 
+.item-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  width: 50%;
+  gap: 0.5rem;
+}
+
+.item-form .input-container {
+  margin-bottom: 0 !important;
+  width: 50%;
+}
+.item-form .button-container {
+  margin-bottom: 0 !important;
+  width: 30% !important;
+}
+
 .form__label {
   font-size: 1.125rem;
   margin-bottom: 1rem;
@@ -62,6 +80,11 @@
   display: flex;
   font-size: 1.5rem;
   padding: 0.5rem;
+}
+
+.item-name input {
+  height: 50%;
+  width: 100%;
 }
 
 textarea {
@@ -146,5 +169,10 @@ textarea {
   }
   textarea {
     width: 14rem;
+  }
+
+  .item-form {
+    flex-direction: column;
+    width: 100%;
   }
 }

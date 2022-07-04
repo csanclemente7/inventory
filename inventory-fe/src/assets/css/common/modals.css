@@ -1,6 +1,6 @@
 .modals_container {
   width: 80%;
-  height: 60%;
+  height: 70%;
 }
 
 /* TÍTULO DEL MODAL */
@@ -9,6 +9,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: inherit;
 }
 
 /* ICONO DE CERRAR MODAL */

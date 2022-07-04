@@ -172,10 +172,11 @@ export default {
       home.classList.remove("parentDiv");
     },
 
-    created: function () {
+
+  },
+      created: function () {
       this.verifyAuth();
     },
-  },
 };
 </script>
 
