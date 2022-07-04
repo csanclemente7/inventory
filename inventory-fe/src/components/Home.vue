@@ -32,6 +32,14 @@
           <h1>Salida&nbsp;</h1>
           <i class="fas fa-arrow-right"></i>
         </div>
+        <form>
+          <select id="select_employee" v-model="employee.name">
+            <option v-for="employee in employees" :key="employee">
+              {{ employee }}
+            </option>
+          </select>
+          <button>Siguiente</button>
+        </form>
       </div>
       <!-- INPUT MODAL -->
       <div class="modals modals_input" v-if="modals.input">
@@ -126,6 +134,7 @@
 import axios from "axios";
 import { itemServices } from "../service/item-service";
 import { paginationItems } from "../paginationItems";
+import { employeeServices } from "../service/employee-service";
 export default {
   name: "Home",
   data: function () {
@@ -156,6 +165,10 @@ export default {
         observation: "",
         employee: "",
       },
+      employee: {
+        name: "",
+      },
+      employees: [],
     };
   },
   methods: {
@@ -195,6 +208,12 @@ export default {
           this.modals[key] = false;
         }
       }
+    },
+
+    getEmployees: function () {
+      employeeServices.getEmployeesList().then((result) => {
+        this.employees = result;
+      });
     },
 
     closeModal: function (modal) {
@@ -251,6 +270,8 @@ export default {
   created: function () {
     this.verifyAuth();
     this.getInitialData();
+    this.getEmployees();
+    console.log(this.employees);
   },
 };
 </script>

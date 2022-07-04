@@ -41,4 +41,11 @@ urlpatterns = [
     path('report/<int:user>/<int:pk>/update', views.ReportUpdateView.as_view()), #ok
     path('report/<int:user>/<int:pk>/delete', views.ReportDeleteView.as_view()), #ok
 
+    #URLS de employee
+    path('employee/<int:user>/<int:pk>', views.EmployeeDetailView.as_view()), #ok
+    path('employee/<int:user>', views.EmployeeCreateView.as_view()), #ok
+    path('employees/<int:user>', views.EmployeeListView.as_view()), #ok
+    path('employee/<int:user>/<int:pk>/update', views.EmployeeUpdateView.as_view()), #ok
+    path('employee/<int:user>/<int:pk>/delete', views.EmployeeDeleteView.as_view()), #ok
+
 ]
