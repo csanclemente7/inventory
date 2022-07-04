@@ -32,6 +32,14 @@
           <h1>Salida&nbsp;</h1>
           <i class="fas fa-arrow-right"></i>
         </div>
+        <form>
+          <select id="select_employee" v-model="employee.name">
+            <option v-for="employee in employees" :key="employee">
+              {{ employee }}
+            </option>
+          </select>
+          <button>Siguiente</button>
+        </form>
       </div>
       <!-- INPUT MODAL -->
       <div class="modals modals_input" v-if="modals.input">
@@ -52,6 +60,7 @@
 </template>
 <script>
 import axios from "axios";
+import { employeeServices } from "../service/employee-service";
 export default {
   name: "Home",
   data: function () {
@@ -74,6 +83,10 @@ export default {
         observation: "",
         employee: "",
       },
+      employee: {
+        name: "",
+      },
+      employees: [],
     };
   },
   methods: {
@@ -115,15 +128,23 @@ export default {
       }
     },
 
+    getEmployees: function () {
+      employeeServices.getEmployeesList().then((result) => {
+        this.employees = result;
+      });
+    },
+
     closeModal: function (modal) {
       this.modals[modal] = false;
       let home = document.querySelector(".home");
       home.classList.remove("parentDiv");
     },
+  },
 
-    created: function () {
-      this.verifyAuth();
-    },
+  created: function () {
+    this.verifyAuth();
+    this.getEmployees();
+    console.log(this.employees);
   },
 };
 </script>
