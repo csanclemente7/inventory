@@ -266,12 +266,15 @@ export default {
           this.items
         );
       });
+      employeeServices.getEmployeesList().then((result) => {
+        this.employees = result;
+        console.log(this.employees);
+      });
     },
   },
   created: function () {
     this.verifyAuth();
     this.getInitialData();
-    this.getEmployees();
   },
 };
 </script>
