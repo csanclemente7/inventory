@@ -107,8 +107,8 @@
             <div class="input-container item-name">
               <input
                 type="text"
-                name="name"
-                id="name"
+                name="itemName"
+                id="itemName"
                 class="input"
                 v-model="item.name"
                 autocomplete="off"

@@ -170,4 +170,9 @@ textarea {
   textarea {
     width: 14rem;
   }
+
+  .item-form {
+    flex-direction: column;
+    width: 100%;
+  }
 }
