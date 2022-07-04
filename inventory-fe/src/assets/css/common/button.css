@@ -36,11 +36,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
 }
 
 .button-add-client {
   width: 40%;
+}
+
+.button-add-item {
+  height: 20%;
+  margin-top: 0 !important;
 }
 
 /* CREATE ITEM BUTTON */

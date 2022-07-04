@@ -11,6 +11,14 @@
   align-items: center;
 }
 
+.modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: inherit;
+}
+
 /* ICONO DE CERRAR MODAL */
 .fa-times {
   color: var(--link-red-light);

@@ -63,64 +63,184 @@
           @click="openModal('home')"
           v-if="!modals.home"
         ></i>
-        <!-- título -->
-        <div class="modals_title">
-          <i class="fas fa-cubes fa-2x"></i>
-          <h1>&nbsp;Insumos</h1>
-        </div>
-
-        <!-- TABLA INSUMOS -->
-        <!--         <table class="custom-responsiva">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Fecha</th>
-              <th>Cliente</th>
-              <th>Valor</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="quotation in paginatedData"
-              :key="quotation"
-              id="table_row"
-              v-on:click="
-                openPopUpUpdateQuotation('updateQuotation', quotation)
-              "
+        <div class="modal-content">
+          <!-- título -->
+          <div class="modals_title">
+            <i class="fas fa-cubes fa-2x"></i>
+            <h1>&nbsp;Insumos</h1>
+          </div>
+          <div class="link-container">
+            <i
+              class="fas fa-plus fa-2x create-item-link"
+              v-if="!newItem"
+              @click="newItem = !newItem"
+              >&nbsp;Nuevo Item</i
             >
-              <td>{{ quotation.id }}</td>
-              <td>{{ quotation.date }}</td>
-              <td>{{ quotation.client_name }}</td>
-              <td>${{ priceToString(quotation.total) }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="pagination-container" v-if="!startLoader">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item">
-                <a class="page-link" v-on:click="getPreviousPage()">Anterior</a>
-              </li>
-              <li
-                v-for="page in pagination.totalPages(quotations.length)"
-                :key="page"
-                v-on:click="getDataPage(page, quotations)"
-                class="page-item"
-              >
-                <a class="page-link" v-if="page != actualPage">{{ page }}</a>
-                <div class="page-item active" aria-current="page">
-                  <span class="page-link" v-if="page === actualPage">{{
-                    actualPage
-                  }}</span>
-                </div>
-              </li>
+            <i
+              class="fas fa-minus fa-2x create-item-link"
+              v-if="newItem"
+              @click="newItem = !newItem"
+              >&nbsp;Nuevo Item</i
+            >
+          </div>
+          <!-- CREATE ITEM FORM -->
+          <form
+            class="item-form"
+            v-if="newItem"
+            v-on:submit.prevent="processCreateItem"
+          >
+            <div class="item-form-title">
+              <h2></h2>
+            </div>
+            <div class="input-container item-name">
+              <input
+                type="text"
+                name="id"
+                id="id"
+                class="input"
+                v-model="item.id"
+                autocomplete="off"
+                required
+              />
+              <label class="input-label" for="name">Código</label>
+            </div>
+            <div class="input-container item-name">
+              <input
+                type="text"
+                name="name"
+                id="name"
+                class="input"
+                v-model="item.name"
+                autocomplete="off"
+                required
+              />
+              <label class="input-label" for="name">Nombre</label>
+            </div>
+            <div class="button-container">
+              <button class="button button-add-item" type="submit">
+                Agregar
+              </button>
+            </div>
+          </form>
+          <br />
+          <!-- UPDATE ITEM FORM -->
+          <form
+            class="item-form"
+            v-if="updateItem"
+            v-on:submit.prevent="processUpdateItem"
+          >
+            <div class="item-form-title">
+              <h2></h2>
+            </div>
+            <div class="input-container item-name">
+              <input
+                type="text"
+                name="id"
+                id="id"
+                class="input"
+                v-model="itemUpdate.id"
+                autocomplete="off"
+                required
+              />
+              <label class="input-label" for="name">Código</label>
+            </div>
+            <div class="input-container item-name">
+              <input
+                type="text"
+                name="name"
+                id="name"
+                class="input"
+                v-model="itemUpdate.name"
+                autocomplete="off"
+                required
+              />
+              <label class="input-label" for="name">Nombre</label>
+            </div>
+            <div class="button-container">
+              <button class="button button-add-item" type="submit">
+                Actualizar
+              </button>
+            </div>
+            <div
+              class="link-container update-item-link"
+              @click="updateItem = false"
+            >
+              Cancelar
+            </div>
+          </form>
 
-              <li class="page-item">
-                <a class="page-link" v-on:click="getNextPage()">Siguiente</a>
-              </li>
-            </ul>
-          </nav>
-        </div> -->
+          <!-- TABLA INSUMOS -->
+          <table class="custom-responsiva table-items">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Item</th>
+                <th scope="col" class="atach"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="item in paginatedDataItems"
+                :key="item"
+                id="table_row delete-custom"
+                @click="
+                  () => {
+                    updateItem = true;
+                    itemUpdate.id = item.id;
+                    itemUpdate.name = item.name;
+                  }
+                "
+              >
+                <td>
+                  {{ item.id }}
+                </td>
+                <td>
+                  {{ item.name }}
+                </td>
+                <td>
+                  <i
+                    class="fas fa-trash delete-icon"
+                    @click="processDeleteItem(item.id)"
+                  ></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br />
+          <!-- PAGINATION ITEMS -->
+          <div class="pagination-container">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item">
+                  <a class="page-link" v-on:click="getPreviousPageItems()"
+                    >Anterior</a
+                  >
+                </li>
+                <li
+                  v-for="page in paginationItems.totalPages(items.length)"
+                  :key="page"
+                  v-on:click="getDataPageItems(page, items)"
+                  class="page-item"
+                >
+                  <a class="page-link" v-if="page != actualPageItems">{{
+                    page
+                  }}</a>
+                  <div class="page-item active" aria-current="page">
+                    <span class="page-link" v-if="page === actualPageItems">{{
+                      actualPageItems
+                    }}</span>
+                  </div>
+                </li>
+
+                <li class="page-item">
+                  <a class="page-link" v-on:click="getNextPageItems()"
+                    >Siguiente</a
+                  >
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
       </div>
     </section>
     <div class="float-buttons-container">
@@ -168,7 +288,23 @@ export default {
       employee: {
         name: "",
       },
+
+      item: {
+        id: "",
+        name: "",
+        evidence: "",
+      },
+
+      itemUpdate: {
+        id: "",
+        name: "",
+        evidence: "",
+      },
+
       employees: [],
+      filterSearch: "",
+      newItem: false,
+      updateItem: false,
     };
   },
   methods: {
@@ -214,6 +350,77 @@ export default {
       employeeServices.getEmployeesList().then((result) => {
         this.employees = result;
         console.log(this.employees);
+      });
+    },
+    // ITEM FUNCTIONS
+
+    processCreateItem: function () {
+      this.startLoader = true;
+      itemServices.createItem(this.item).then((result) => {
+        itemServices.getItemsList().then((result) => {
+          this.items = result;
+          this.startLoader = false;
+          this.paginatedDataItems = paginationItems.getDataPage(
+            this.actualPageItems,
+            this.items
+          );
+          this.item = {
+            id: "",
+            name: "",
+            evidence: "",
+          };
+        });
+      });
+    },
+
+    processUpdateItem: function () {
+      console.log(this.itemUpdate);
+      itemServices.updateItem(this.itemUpdate).then((result) => {
+        this.itemUpdate = {
+          id: "",
+          name: "",
+          evidence: "",
+        };
+        (this.updateItem = false),
+          itemServices.getItemsList().then((result) => {
+            this.items = result;
+            this.startLoader = false;
+            this.paginatedDataItems = paginationItems.getDataPage(
+              this.actualPageItems,
+              this.items
+            );
+            this.item = {
+              id: "",
+              name: "",
+              evidence: "",
+            };
+          });
+      });
+    },
+    processDeleteItem: function (itemId) {
+      this.startLoader = true;
+      swal({
+        title: "¿Estás seguro?",
+        text: "Una vez eliminado, no podrás recuperar este elemento",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          itemServices.deleteItem(itemId).then((response) => {
+            console.log(response);
+            itemServices.getItemsList().then((result) => {
+              this.items = result;
+              this.startLoader = false;
+              this.paginatedDataItems = paginationItems.getDataPage(
+                this.actualPageItems,
+                this.items
+              );
+            });
+          });
+        } else {
+          this.startLoader = false;
+        }
       });
     },
 
@@ -325,11 +532,24 @@ ul {
 }
 li {
   display: inline-block;
-  margin: 0 10px;
+  cursor: pointer;
 }
 a {
   color: #42b983;
 }
+
+.atach {
+  width: 10px;
+}
+
+.delete-icon {
+  color: var(--delete-color);
+  position: relative;
+  top: 0px;
+  left: -10px;
+  cursor: pointer;
+}
+
 @import "../assets/css/common/modals.css";
 @import "../assets/css/common/popUp.css";
 @import "../assets/css/common/grid-menu.css";
