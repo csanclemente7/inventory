@@ -33,12 +33,20 @@
           <i class="fas fa-arrow-right"></i>
         </div>
         <form>
-          <select id="select_employee" v-model="employee.name">
+          <p>Paso 1: Selecciona trabajdores</p>
+          <select
+            id="select_employee"
+            v-model="employee.name"
+            @change="employeeSelected()"
+          >
             <option v-for="employee in employees" :key="employee">
               {{ employee.name }}
             </option>
           </select>
-          <button>Agregar</button>
+          <p v-for="employee in employeesSelected" :key="employee">
+            {{ employee }}
+          </p>
+          <button>Siguiente</button>
         </form>
       </div>
       <!-- INPUT MODAL -->
@@ -305,6 +313,7 @@ export default {
       filterSearch: "",
       newItem: false,
       updateItem: false,
+      employeesSelected: [],
     };
   },
   methods: {
@@ -478,10 +487,21 @@ export default {
         console.log(this.employees);
       });
     },
+
+    employeeSelected: function () {
+      if (!this.employeesSelected.includes(this.employee.name)) {
+        this.employeesSelected.push(this.employee.name);
+        console.log(this.employeesSelected);
+        this.employee.name = "";
+      } else {
+        alert("Trabajador ya ha sido agregado!");
+      }
+    },
   },
   created: function () {
     this.verifyAuth();
     this.getInitialData();
+    console.log(this.employee.name);
   },
 };
 </script>

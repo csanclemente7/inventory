@@ -265,9 +265,9 @@ body :-ms-input-placeholder {
   padding: 2px 8px;
   margin: 0 5px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 500;
   border: none;
-  font-size: 20px;
+  font-size: 17px;
 }
 .header nav button:hover {
   color: #283747;
