@@ -35,10 +35,10 @@
         <form>
           <select id="select_employee" v-model="employee.name">
             <option v-for="employee in employees" :key="employee">
-              {{ employee }}
+              {{ employee.name }}
             </option>
           </select>
-          <button>Siguiente</button>
+          <button>Agregar</button>
         </form>
       </div>
       <!-- INPUT MODAL -->
