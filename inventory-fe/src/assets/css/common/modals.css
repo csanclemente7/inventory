@@ -44,6 +44,15 @@
     var(--input-modal-color1) 100%
   );
 }
+.modals_insumos {
+  background-image: linear-gradient(
+    45deg,
+    var(--insumos-modal-color2) 0%,
+    var(--insumos-modal-color1) 100%
+  );
+}
+
+/* TABLA */
 
 .tabla {
   width: 100%;

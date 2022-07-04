@@ -47,20 +47,102 @@
           <h1>&nbsp;Entrada</h1>
         </div>
       </div>
+      <!-- INSUMOS MODAL -->
+      <div class="modals modals_insumos" v-if="modals.insumos">
+        <!--  botón cerrar -- -->
+        <i
+          class="fas fa-times"
+          @click="openModal('home')"
+          v-if="!modals.home"
+        ></i>
+        <!-- título -->
+        <div class="modals_title">
+          <i class="fas fa-cubes fa-2x"></i>
+          <h1>&nbsp;Insumos</h1>
+        </div>
+
+        <!-- TABLA INSUMOS -->
+        <!--         <table class="custom-responsiva">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Fecha</th>
+              <th>Cliente</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="quotation in paginatedData"
+              :key="quotation"
+              id="table_row"
+              v-on:click="
+                openPopUpUpdateQuotation('updateQuotation', quotation)
+              "
+            >
+              <td>{{ quotation.id }}</td>
+              <td>{{ quotation.date }}</td>
+              <td>{{ quotation.client_name }}</td>
+              <td>${{ priceToString(quotation.total) }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="pagination-container" v-if="!startLoader">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link" v-on:click="getPreviousPage()">Anterior</a>
+              </li>
+              <li
+                v-for="page in pagination.totalPages(quotations.length)"
+                :key="page"
+                v-on:click="getDataPage(page, quotations)"
+                class="page-item"
+              >
+                <a class="page-link" v-if="page != actualPage">{{ page }}</a>
+                <div class="page-item active" aria-current="page">
+                  <span class="page-link" v-if="page === actualPage">{{
+                    actualPage
+                  }}</span>
+                </div>
+              </li>
+
+              <li class="page-item">
+                <a class="page-link" v-on:click="getNextPage()">Siguiente</a>
+              </li>
+            </ul>
+          </nav>
+        </div> -->
+      </div>
     </section>
+    <div class="float-buttons-container">
+      <button class="button create-item-btn" @click="openModal('insumos')">
+        INSUMOS
+      </button>
+    </div>
   </div>
 </template>
 <script>
 import axios from "axios";
+import { itemServices } from "../service/item-service";
+import { paginationItems } from "../paginationItems";
 export default {
   name: "Home",
   data: function () {
     return {
+      items: [],
+
+      paginationItems: paginationItems,
+      paginatedDataItems: [],
+      actualPageItems: 1,
+      startLoader: false,
+
       modals: {
         home: true,
         output: false,
         input: false,
         item: false,
+        /* insumos: false, */
       },
       outputReport: {
         item: "",
@@ -121,12 +203,58 @@ export default {
       home.classList.remove("parentDiv");
     },
 
-    created: function () {
-      this.verifyAuth();
+    // PAGINATION FUNCTIONS
+    // trae los datos paginados de items
+    getDataPageItems: function (page, items) {
+      this.filterSearch = ""; // borra el filtro
+      this.actualPageItems = page;
+      this.paginatedDataItems = paginationItems.getDataPage(page, items);
     },
+
+    // trae los datos de la página anterior
+    getPreviousPageItems: function () {
+      this.filterSearch = ""; // borra el filtro
+      this.actualPageItems = paginationItems.getPreviousPage(
+        this.actualPageItems
+      );
+
+      this.paginatedDataItems = paginationItems.getDataPage(
+        this.actualPageItems,
+        this.items
+      );
+    },
+
+    // trae los datos de la página siguiente
+    getNextPageItems: function () {
+      this.filterSearch = ""; // borra el filtro
+      this.actualPageItems = paginationItems.getNextPage(
+        this.actualPageItems,
+        paginationItems.totalPages(this.items.length)
+      );
+
+      this.paginatedDataItems = paginationItems.getDataPage(
+        this.actualPageItems,
+        this.items
+      );
+    },
+    getInitialData: function () {
+      itemServices.getItemsList().then((result) => {
+        this.items = result;
+        this.totalInitialDataResults += 1;
+        this.paginatedDataItems = paginationItems.getDataPage(
+          this.actualPageItems,
+          this.items
+        );
+      });
+    },
+  },
+  created: function () {
+    this.verifyAuth();
+    this.getInitialData();
   },
 };
 </script>
+
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
@@ -183,6 +311,7 @@ a {
 @import "../assets/css/common/grid-menu.css";
 @import "../assets/css/common/inputs.css";
 @import "../assets/css/common/button.css";
+@import "../assets/css/common/float-buttons.css";
 @import "../assets/css/common/links.css";
 @import "../assets/css/common/suggestion.css";
 @import "../assets/css/base/base.css";

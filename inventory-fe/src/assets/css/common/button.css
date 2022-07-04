@@ -43,6 +43,21 @@
   width: 40%;
 }
 
+/* CREATE ITEM BUTTON */
+.create-item-btn {
+  background-color: #ffffff;
+  color: #000;
+  font-size: 1.5rem;
+  transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  width: 110%;
+  height: 5%;
+  margin-left: 0 !important;
+  padding: 0 !important;
+  margin-top: 0 !important;
+  margin-left: -38% !important;
+}
+
 .blue {
   background: radial-gradient(
     ellipse,
@@ -136,5 +151,9 @@
   .add-items-manually {
     width: 100%;
     max-width: 90%;
+  }
+
+  .create-item-btn {
+    font-size: 1.3rem;
   }
 }

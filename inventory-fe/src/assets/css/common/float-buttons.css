@@ -1,0 +1,7 @@
+.float-buttons-container {
+  height: 100%;
+  width: 7rem;
+  position: fixed;
+  left: 0px;
+  padding-top: 10vh;
+}
