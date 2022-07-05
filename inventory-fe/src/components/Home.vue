@@ -48,9 +48,11 @@
               v-model="employee.name"
               @change="employeeSelected()"
             >
+             <option value="" selected disabled>Seleccionar Empleado</option>
               <option v-for="employee in employees" :key="employee">
                 {{ employee.name }}
               </option>
+             
             </select>
             <p v-for="employee in employeesSelected" :key="employee">
               {{ employee }}
@@ -64,7 +66,7 @@
             <b>Empleados seleccionados</b><br />
             <br />
             <p v-for="employee in employeesSelected" :key="employee">
-              {{ employee }}
+              <h3>{{ employee }}</h3>
             </p>
             <form v-on:submit.prevent="searchItem(item.id)">
               <input type="text" autofocus v-model="item.id" />

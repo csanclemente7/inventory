@@ -7,7 +7,7 @@
   );
   background: linear-gradient(
     to top right,
-    var(--color-primary-light) 0%,
+    var(--color-primary-dark) 0%,
     var(--color-primary) 100%
   );
   position: absolute;
