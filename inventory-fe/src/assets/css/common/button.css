@@ -83,6 +83,17 @@
   background-color: var(--color-primary-light);
 }
 
+.back_container {
+  padding: 10px;
+  text-align: center !important;
+  align-items: center;
+}
+
+.back_container a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
 .add-item {
   width: 40%;
   max-width: 50%;

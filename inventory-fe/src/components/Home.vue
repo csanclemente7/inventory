@@ -61,7 +61,6 @@
 
         <div class="search-form" v-if="secondPage">
           <form>
-            <b>Empleados seleccionados</b><br />
             <br />
             <p v-for="employee in employeesSelected" :key="employee">
               {{ employee }}
@@ -79,16 +78,20 @@
               <button class="button third-btn">Enviar</button>
             </div>
           </form>
-          <button
-            @click="
-              () => {
-                this.secondPage = false;
-                this.firstPage = true;
-              }
-            "
-          >
-            Atras
-          </button>
+          <div class="back-container">
+            <a
+              class="go-back"
+              @click="
+                () => {
+                  this.secondPage = false;
+                  this.firstPage = true;
+                }
+              "
+            >
+              <i class="fas fa-arrow-left"></i>
+              Atras
+            </a>
+          </div>
         </div>
       </div>
       <!-- INPUT MODAL -->

@@ -44,7 +44,10 @@
     var(--output-modal-color2) 0%,
     var(--output-modal-color1) 100%
   );
+  align-items: center;
+  
 }
+
 .modals_input {
   background-image: linear-gradient(
     45deg,
