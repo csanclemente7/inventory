@@ -117,7 +117,6 @@ DATABASES = {
         'PASSWORD': 'aeb4f8c13973673538ebec97768c0b0fc53748cfd54dd220a3ef8bc84c552911',
         'HOST': 'ec2-54-147-33-38.compute-1.amazonaws.com',
         'PORT': '5432',
-        'TIME_ZONE': 'America/Bogota',
     }
 }
 
@@ -155,12 +154,10 @@ DJANGO_REST_MULTITOKENAUTH_RESET_TOKEN_EXPIRY_TIME = 24
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
 LANGUAGE_CODE = 'es-co'
-
 TIME_ZONE = 'America/Bogota'
 timezone.activate(TIME_ZONE)
 USE_I18N = True
 USE_L10N = True
-USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)

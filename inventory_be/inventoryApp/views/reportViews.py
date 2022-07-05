@@ -23,14 +23,14 @@ class ReportCreateView(generics.CreateAPIView):
         if valid_data['user_id'] != kwargs['user']:
             stringResponse = {'detail':'Unauthorized Request'}
             return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
-        print(timezone.now())
         ReportStatus = request.data['status']
         itemId = request.data['item']
         lastReport = (Report.objects.filter(item_id=itemId)).last()
+        currentDate = timezone.now()
+        print(currentDate)
         if(lastReport):
             lastReportStatus = lastReport.status
             lastReportEmployee = lastReport.employee
-
             if(lastReportStatus == ReportStatus):
                 stringResponse = {'detail':'duplicated'}
                 return Response(stringResponse, status=status.HTTP_208_ALREADY_REPORTED)
@@ -45,7 +45,7 @@ class ReportCreateView(generics.CreateAPIView):
         serializer = ReportSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-
+        print(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class ReportDetailView(generics.RetrieveAPIView):
