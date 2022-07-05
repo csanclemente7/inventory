@@ -10,6 +10,7 @@ from inventoryApp.serializers.reportSerializer   import ReportSerializer
 import datetime
 from django.utils import timezone
 
+
 class ReportCreateView(generics.CreateAPIView):
     queryset           = Report.objects.all()
     serializer_class   = ReportSerializer
@@ -25,17 +26,17 @@ class ReportCreateView(generics.CreateAPIView):
         ReportStatus = request.data['status']
         itemId = request.data['item']
         lastReport = (Report.objects.filter(item_id=itemId)).last()
+        currentDate = timezone.now()
+        print(currentDate)
         if(lastReport):
             lastReportStatus = lastReport.status
             lastReportEmployee = lastReport.employee
-
             if(lastReportStatus == ReportStatus):
                 stringResponse = {'detail':'duplicated'}
                 return Response(stringResponse, status=status.HTTP_208_ALREADY_REPORTED)
 
             if(ReportStatus == 'input'):
                 request.data['employee'] = lastReportEmployee
-        request.data['dateTime'] = (datetime.datetime.now(tz=timezone.utc))
         
         if (lastReport == None  and ReportStatus == 'input'):
                 stringResponse = {'detail':'without output'}
@@ -44,7 +45,7 @@ class ReportCreateView(generics.CreateAPIView):
         serializer = ReportSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-
+        print(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class ReportDetailView(generics.RetrieveAPIView):
@@ -126,7 +127,6 @@ class ReportUpdateView(generics.UpdateAPIView):
 
             stringResponse = {'detail': 'Unauthorized Request'}
             return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
-        request.data['dateTime'] = (datetime.datetime.now(tz=timezone.utc))
         return super().put(request, *args, **kwargs)
 
 class ReportDeleteView(generics.DestroyAPIView):

@@ -42,8 +42,23 @@
   width: 5% !important;
 }
 
+.delete-icon {
+  color: var(--delete-color);
+  position: relative;
+  top: 0px;
+  left: 0px;
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .link-container {
     width: 100%;
+  }
+  .delete-icon {
+    color: var(--delete-color);
+    position: relative;
+    top: 0px;
+    left: 0px;
+    cursor: pointer;
   }
 }

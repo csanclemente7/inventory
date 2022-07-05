@@ -1,0 +1,25 @@
+.delete-icon {
+  color: var(--delete-color);
+  position: relative;
+  top: 0px;
+  left: 0px;
+  cursor: pointer;
+}
+
+.atach {
+  width: 10px;
+}
+
+@media (max-width: 768px) {
+  .delete-icon {
+    color: var(--delete-color);
+    position: relative;
+    top: 0px;
+    left: 0px;
+    cursor: pointer;
+  }
+}
+
+.atach {
+  width: 10px;
+}
