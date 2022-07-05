@@ -33,11 +33,19 @@
           <i class="fas fa-arrow-right"></i>
         </div>
         <form>
-          <select id="select_employee" v-model="employee.name">
+          <p>Paso 1: Selecciona trabajdores</p>
+          <select
+            id="select_employee"
+            v-model="employee.name"
+            @change="employeeSelected()"
+          >
             <option v-for="employee in employees" :key="employee">
-              {{ employee }}
+              {{ employee.name }}
             </option>
           </select>
+          <p v-for="employee in employeesSelected" :key="employee">
+            {{ employee }}
+          </p>
           <button>Siguiente</button>
         </form>
       </div>
@@ -258,7 +266,6 @@
             <th>Código</th>
             <th>Item</th>
             <th>Empleado</th>
-            <th scope="col" class="atach"></th>
           </tr>
         </thead>
         <tbody>
@@ -386,6 +393,7 @@ export default {
       filterSearch: "",
       newItem: false,
       updateItem: false,
+      employeesSelected: [],
     };
   },
   methods: {
@@ -628,23 +636,20 @@ export default {
         );
       });
     },
+
+    employeeSelected: function () {
+      if (!this.employeesSelected.includes(this.employee.name)) {
+        this.employeesSelected.push(this.employee.name);
+        console.log(this.employeesSelected);
+        this.employee.name = "";
+      } else {
+        alert("Trabajador ya ha sido agregado!");
+      }
+    },
   },
   created: function () {
-    let date = new Date(new Date().toJSON().toString());
-    console.log(date);
     this.verifyAuth();
     this.getInitialData();
-    let report = {
-      item: "90311026",
-      status: "output",
-      observation: "",
-      employee: "Faisal Aboultaif",
-      dateTime: new Date(new Date().toJSON().toString()),
-    };
-
-    reportServices.createReport(report).then((result) => {
-      console.log(result);
-    });
   },
 };
 </script>
