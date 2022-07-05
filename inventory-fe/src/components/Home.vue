@@ -248,22 +248,103 @@
         INSUMOS
       </button>
     </div>
+
+    <!-- TABLE OUTPUT REPORTS-->
+    <div class="main-table-container">
+      <table class="custom-responsiva table-items">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Código</th>
+            <th>Item</th>
+            <th>Empleado</th>
+            <th scope="col" class="atach"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="report in paginatedDataOutputReports"
+            :key="report"
+            id="table_row delete-custom"
+          >
+            <td>
+              {{ dateToString(report.date) }}
+              <br />
+              {{ convertTimeToLocal(report.time) }}
+            </td>
+            <td>
+              {{ report.item_id }}
+            </td>
+            <td>
+              {{ report.item_name }}
+            </td>
+            <td>
+              {{ report.employee }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+      <!-- PAGINATION REPORTS -->
+      <div class="pagination-container">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" v-on:click="getPreviousPageOutputReports()"
+                >Anterior</a
+              >
+            </li>
+            <li
+              v-for="page in paginationOutputReports.totalPages(
+                outputReports.length
+              )"
+              :key="page"
+              v-on:click="getDataPageOutputReports(page, outputReports)"
+              class="page-item"
+            >
+              <a class="page-link" v-if="page != actualPageOutputReports">{{
+                page
+              }}</a>
+              <div class="page-item active" aria-current="page">
+                <span
+                  class="page-link"
+                  v-if="page === actualPageOutputReports"
+                  >{{ actualPageOutputReports }}</span
+                >
+              </div>
+            </li>
+
+            <li class="page-item">
+              <a class="page-link" v-on:click="getNextPageOutputReports()"
+                >Siguiente</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import axios from "axios";
 import { itemServices } from "../service/item-service";
 import { paginationItems } from "../paginationItems";
+import { paginationOutputReports } from "../paginationOutputReports";
 import { employeeServices } from "../service/employee-service";
+import { reportServices } from "../service/report-service";
 export default {
   name: "Home",
   data: function () {
     return {
       items: [],
+      outputReports: [],
 
       paginationItems: paginationItems,
+      paginationOutputReports: paginationOutputReports,
       paginatedDataItems: [],
+      paginatedDataOutputReports: [],
       actualPageItems: 1,
+      actualPageOutputReports: 1,
       startLoader: false,
 
       modals: {
@@ -349,7 +430,6 @@ export default {
     getEmployees: function () {
       employeeServices.getEmployeesList().then((result) => {
         this.employees = result;
-        console.log(this.employees);
       });
     },
     // ITEM FUNCTIONS
@@ -374,7 +454,6 @@ export default {
     },
 
     processUpdateItem: function () {
-      console.log(this.itemUpdate);
       itemServices.updateItem(this.itemUpdate).then((result) => {
         this.itemUpdate = {
           id: "",
@@ -408,7 +487,6 @@ export default {
       }).then((willDelete) => {
         if (willDelete) {
           itemServices.deleteItem(itemId).then((response) => {
-            console.log(response);
             itemServices.getItemsList().then((result) => {
               this.items = result;
               this.startLoader = false;
@@ -430,15 +508,13 @@ export default {
       home.classList.remove("parentDiv");
     },
 
-    // PAGINATION FUNCTIONS
-    // trae los datos paginados de items
+    // PAGINATION FUNCTIONS FOR ITEMS
     getDataPageItems: function (page, items) {
       this.filterSearch = ""; // borra el filtro
       this.actualPageItems = page;
       this.paginatedDataItems = paginationItems.getDataPage(page, items);
     },
 
-    // trae los datos de la página anterior
     getPreviousPageItems: function () {
       this.filterSearch = ""; // borra el filtro
       this.actualPageItems = paginationItems.getPreviousPage(
@@ -451,7 +527,6 @@ export default {
       );
     },
 
-    // trae los datos de la página siguiente
     getNextPageItems: function () {
       this.filterSearch = ""; // borra el filtro
       this.actualPageItems = paginationItems.getNextPage(
@@ -464,6 +539,75 @@ export default {
         this.items
       );
     },
+    // PAGINATION FUNCTIONS FOR OUTPUT REPORTS
+    getDataPageOutputReports: function (page, outputReports) {
+      this.filterSearch = ""; // borra el filtro
+      this.actualPageOutputReports = page;
+      this.paginatedDataOutputReports = paginationOutputReports.getDataPage(
+        page,
+        outputReports
+      );
+    },
+
+    getPreviousPageOutputReports: function () {
+      this.filterSearch = ""; // borra el filtro
+      this.actualPageOutputReports = paginationOutputReports.getPreviousPage(
+        this.actualPageOutputReports
+      );
+
+      this.paginatedDataOutputReports = paginationOutputReports.getDataPage(
+        this.actualPageOutputReports,
+        this.outputReports
+      );
+    },
+
+    getNextPageOutputReports: function () {
+      this.filterSearch = ""; // borra el filtro
+      this.actualPageOutputReports = paginationOutputReports.getNextPage(
+        this.actualPageOutputReports,
+        paginationOutputReports.totalPages(this.outputReports.length)
+      );
+
+      this.paginatedDataOutputReports = paginationOutputReports.getDataPage(
+        this.actualPageOutputReports,
+        this.outputReports
+      );
+    },
+
+    // OTRAS FUNCIONES
+    // convert date AAAA-MM-DD to DD/MM/AAAA
+    dateToString: function (date) {
+      date = date.toString();
+      if (date != null && date != undefined) {
+        let dateArray = date.split("-");
+        dateArray[1] =
+          dateArray[1].length == 1 ? "0" + dateArray[1] : dateArray[1];
+        dateArray[2] =
+          dateArray[2].length == 1 ? "0" + dateArray[2] : dateArray[2];
+        return dateArray.join("/");
+      }
+    },
+
+    // convert time 00:00 to am/pm
+    convertTimeToLocal: function (time) {
+      if (time != null || time != undefined) {
+        let time_array = time.split(":");
+        let hour = time_array[0];
+        let minute = time_array[1];
+        let ampm = "am";
+        if (hour >= 12) {
+          ampm = "pm";
+          if (hour > 12) {
+            hour = hour - 12;
+          }
+        }
+
+        let new_time = hour + ":" + minute + " " + ampm;
+        return new_time;
+      }
+    },
+
+    // DATOS INICIALES DE LA APP
     getInitialData: function () {
       itemServices.getItemsList().then((result) => {
         this.items = result;
@@ -475,26 +619,45 @@ export default {
       });
       employeeServices.getEmployeesList().then((result) => {
         this.employees = result;
-        console.log(this.employees);
+      });
+      reportServices.getReportsOutputList().then((result) => {
+        this.outputReports = result;
+        this.paginatedDataOutputReports = paginationOutputReports.getDataPage(
+          this.actualPageOutputReports,
+          this.outputReports
+        );
       });
     },
   },
   created: function () {
+    let date = new Date(new Date().toJSON().toString());
+    console.log(date);
     this.verifyAuth();
     this.getInitialData();
+    let report = {
+      item: "90311026",
+      status: "output",
+      observation: "",
+      employee: "Faisal Aboultaif",
+      dateTime: new Date(new Date().toJSON().toString()),
+    };
+
+    reportServices.createReport(report).then((result) => {
+      console.log(result);
+    });
   },
 };
 </script>
-
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .main {
   width: 100%;
-  height: 100%;
+  height: 70%;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .home {
@@ -538,28 +701,18 @@ a {
   color: #42b983;
 }
 
-.atach {
-  width: 10px;
-}
-
-.delete-icon {
-  color: var(--delete-color);
-  position: relative;
-  top: 0px;
-  left: -10px;
-  cursor: pointer;
-}
-
 @import "../assets/css/common/modals.css";
 @import "../assets/css/common/popUp.css";
 @import "../assets/css/common/grid-menu.css";
 @import "../assets/css/common/inputs.css";
+@import "../assets/css/common/icons.css";
 @import "../assets/css/common/button.css";
 @import "../assets/css/common/float-buttons.css";
 @import "../assets/css/common/links.css";
 @import "../assets/css/common/suggestion.css";
 @import "../assets/css/base/base.css";
 @import "../assets/css/common/table.css";
+@import "../assets/css/common/tableMain.css";
 @import "../assets/css/common/tableResults.css";
 @import "../assets/css/common/lds-ripple.css";
 </style>

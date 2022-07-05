@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import django_heroku
 from pathlib import Path
 from datetime import timedelta
+from django.utils import timezone
 import os
 import cloudinary_storage
 
@@ -156,9 +157,9 @@ DJANGO_REST_MULTITOKENAUTH_RESET_TOKEN_EXPIRY_TIME = 24
 LANGUAGE_CODE = 'es-co'
 
 TIME_ZONE = 'America/Bogota'
-
+timezone.activate(TIME_ZONE)
 USE_I18N = True
-
+USE_L10N = True
 USE_TZ = True
 
 

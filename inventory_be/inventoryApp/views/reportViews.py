@@ -10,6 +10,7 @@ from inventoryApp.serializers.reportSerializer   import ReportSerializer
 import datetime
 from django.utils import timezone
 
+
 class ReportCreateView(generics.CreateAPIView):
     queryset           = Report.objects.all()
     serializer_class   = ReportSerializer
@@ -22,6 +23,7 @@ class ReportCreateView(generics.CreateAPIView):
         if valid_data['user_id'] != kwargs['user']:
             stringResponse = {'detail':'Unauthorized Request'}
             return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
+        print(timezone.now())
         ReportStatus = request.data['status']
         itemId = request.data['item']
         lastReport = (Report.objects.filter(item_id=itemId)).last()
@@ -35,7 +37,6 @@ class ReportCreateView(generics.CreateAPIView):
 
             if(ReportStatus == 'input'):
                 request.data['employee'] = lastReportEmployee
-        request.data['dateTime'] = (datetime.datetime.now(tz=timezone.utc))
         
         if (lastReport == None  and ReportStatus == 'input'):
                 stringResponse = {'detail':'without output'}
@@ -126,7 +127,6 @@ class ReportUpdateView(generics.UpdateAPIView):
 
             stringResponse = {'detail': 'Unauthorized Request'}
             return Response(stringResponse, status=status.HTTP_401_UNAUTHORIZED)
-        request.data['dateTime'] = (datetime.datetime.now(tz=timezone.utc))
         return super().put(request, *args, **kwargs)
 
 class ReportDeleteView(generics.DestroyAPIView):
