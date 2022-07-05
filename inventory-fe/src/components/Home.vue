@@ -3,11 +3,11 @@
     <section class="home" v-if="modals.home">
       <div class="home-data">
         <div class="button-container">
-          <button class="button red" @click="openModal('output')">
+          <button class="button second-btn" @click="openModal('output')">
             <img src="../assets/img/exit.png" />
           </button>
 
-          <button class="button green" @click="openModal('input')">
+          <button class="button first-btn" @click="openModal('input')">
             <img src="../assets/img/entry.png" alt="" />
           </button>
         </div>
@@ -69,8 +69,15 @@
             <form v-on:submit.prevent="searchItem(item.id)">
               <input type="text" autofocus v-model="item.id" />
               <button>Agregar</button>
-              <p v-for="item in itemsSelected" :key="item">{{ item }}</p>
+              <ul class="list">
+                <li class="list-item" v-for="item in itemsSelected" :key="item">
+                  {{ item.id }} {{ item.name }}
+                </li>
+              </ul>
             </form>
+            <div class="button-container">
+              <button class="button third-btn">Enviar</button>
+            </div>
           </form>
           <button
             @click="
@@ -542,7 +549,9 @@ export default {
     searchItem: function (code) {
       let itemsId = this.items.map((item) => item.id);
       if (itemsId.includes(code)) {
-        this.itemsSelected.push(code);
+        let item = this.items.filter((item) => item.id === code);
+        this.itemsSelected.push(item[0]);
+        this.item.id = "";
       }
     },
   },

@@ -18,7 +18,7 @@
   cursor: pointer;
   margin-left: 1rem;
   margin-right: 1rem;
-  height: 125px;
+  height: 55px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -62,26 +62,24 @@
   margin-left: -38% !important;
 }
 
-.blue {
-  background: radial-gradient(
-    ellipse,
-    var(--color-primary),
-    var(--color-primary-dark)
-  );
-  border: 0px solid var(--color-primary);
-}
-
-.red {
-  background-color: var(--red-button-color);
-}
-
-.green {
+.first-btn {
   background-color: var(--green-button-color);
+  height: 125px;
+}
+
+.second-btn {
+  background-color: var(--red-button-color);
+  height: 125px;
+}
+
+.third-btn {
+  background: var( --color-secondary-dark);
+  border: 0px solid var(--color-primary);
 }
 
 .button:hover {
   cursor: pointer;
-  background-color: var(--color-secondary-dark);
+  background-color: var(--color-primary-light);
 }
 
 .add-item {
