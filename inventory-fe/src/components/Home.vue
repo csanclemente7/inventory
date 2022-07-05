@@ -32,22 +32,57 @@
           <h1>Salida&nbsp;</h1>
           <i class="fas fa-arrow-right"></i>
         </div>
-        <form>
-          <p>Paso 1: Selecciona trabajdores</p>
-          <select
-            id="select_employee"
-            v-model="employee.name"
-            @change="employeeSelected()"
+        <!-- Formulario-->
+        <div class="employee-form" v-if="firstPage">
+          <form
+            v-on:submit.prevent="
+              () => {
+                this.firstPage = false;
+                this.secondPage = true;
+              }
+            "
           >
-            <option v-for="employee in employees" :key="employee">
-              {{ employee.name }}
-            </option>
-          </select>
-          <p v-for="employee in employeesSelected" :key="employee">
-            {{ employee }}
-          </p>
-          <button>Siguiente</button>
-        </form>
+            <p>Paso 1: Selecciona trabajdores</p>
+            <select
+              id="select_employee"
+              v-model="employee.name"
+              @change="employeeSelected()"
+            >
+              <option v-for="employee in employees" :key="employee">
+                {{ employee.name }}
+              </option>
+            </select>
+            <p v-for="employee in employeesSelected" :key="employee">
+              {{ employee }}
+            </p>
+            <button>Siguiente</button>
+          </form>
+        </div>
+
+        <div class="search-form" v-if="secondPage">
+          <form>
+            <b>Empleados seleccionados</b><br />
+            <br />
+            <p v-for="employee in employeesSelected" :key="employee">
+              {{ employee }}
+            </p>
+            <form v-on:submit.prevent="searchItem(item.id)">
+              <input type="text" autofocus v-model="item.id" />
+              <button>Agregar</button>
+              <p v-for="item in itemsSelected" :key="item">{{ item }}</p>
+            </form>
+          </form>
+          <button
+            @click="
+              () => {
+                this.secondPage = false;
+                this.firstPage = true;
+              }
+            "
+          >
+            Atras
+          </button>
+        </div>
       </div>
       <!-- INPUT MODAL -->
       <div class="modals modals_input" v-if="modals.input">
@@ -394,6 +429,9 @@ export default {
       newItem: false,
       updateItem: false,
       employeesSelected: [],
+      firstPage: true,
+      secondPage: false,
+      itemsSelected: [],
     };
   },
   methods: {
@@ -624,6 +662,7 @@ export default {
           this.actualPageItems,
           this.items
         );
+        console.log(this.items[0].id);
       });
       employeeServices.getEmployeesList().then((result) => {
         this.employees = result;
@@ -644,6 +683,16 @@ export default {
         this.employee.name = "";
       } else {
         alert("Trabajador ya ha sido agregado!");
+        this.employee.name = "";
+      }
+    },
+
+    //pendiente
+    searchItem: function (code) {
+      for (i in items) {
+        if (items[i].id.includes(code)) {
+          itemsSelected.push(code);
+        }
       }
     },
   },
