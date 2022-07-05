@@ -540,10 +540,9 @@ export default {
 
     //pendiente
     searchItem: function (code) {
-      for (i in items) {
-        if (items[i].id.includes(code)) {
-          itemsSelected.push(code);
-        }
+      let itemsId = this.items.map((item) => item.id);
+      if (itemsId.includes(code)) {
+        this.itemsSelected.push(code);
       }
     },
   },
