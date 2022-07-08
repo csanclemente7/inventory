@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <section class="home" v-if="modals.home">
+    <section class="home inherit" v-if="modals.home">
       <div class="home-data">
         <div class="button-container">
           <button class="button second-btn" @click="openModal('output')">
@@ -66,8 +66,8 @@
           </form>
         </div>
 
-        <div class="search-form" v-if="secondPage">
-          <form>
+        <div class="search-form-container" v-if="secondPage">
+          <form class="search-form">
             <br />
             <p v-for="employee in employeesSelected" :key="employee">
               {{ employee }}
@@ -80,11 +80,21 @@
                 v-model="item.id"
               />
               <button>Agregar</button>
-              <ul class="list">
-                <li class="list-item" v-for="item in itemsSelected" :key="item">
-                  {{ item.id }} {{ item.name }}
+              <ol class="list">
+                <li
+                  li
+                  class="list-item"
+                  v-for="item in itemsSelected"
+                  :key="item"
+                >
+                  <button
+                    @click="deleteItemSelected(item)"
+                    class="item-selected"
+                  >
+                    <a>{{ item.id }} {{ item.name }}</a>
+                  </button>
                 </li>
-              </ul>
+              </ol>
             </form>
             <div class="button-container">
               <button class="button third-btn">Enviar</button>
@@ -482,16 +492,17 @@ export default {
     },
 
     openModal: function (modal) {
-      this.modals[modal] = true;
-      if (modal != "home") {
-        let home = document.querySelector(".home");
-        home.classList.add("parentDiv");
-      }
       // iterar objeto
       for (let key in this.modals) {
         if (key != modal) {
           this.modals[key] = false;
         }
+      }
+      this.modals[modal] = true;
+      if (modal != "home") {
+        let home = document.querySelector(".home");
+        home.classList.add("parentDiv");
+        home.classList.remove("absolute");
       }
     },
 
@@ -675,6 +686,10 @@ export default {
       }
     },
 
+    deleteItemSelected: function (item) {
+      this.itemsSelected = this.itemsSelected.filter((i) => i != item);
+    },
+
     // DATOS INICIALES DE LA APP
     getInitialData: function () {
       itemServices.getItemsList().then((result) => {
@@ -684,7 +699,6 @@ export default {
           this.actualPageItems,
           this.items
         );
-        console.log(this.items[0].id);
       });
       employeeServices.getEmployeesList().then((result) => {
         this.employees = result;
@@ -701,7 +715,6 @@ export default {
     employeeSelected: function () {
       if (!this.employeesSelected.includes(this.employee.name)) {
         this.employeesSelected.push(this.employee.name);
-        console.log(this.employeesSelected);
         this.employee.name = "";
       } else {
         alert("Trabajador ya ha sido agregado!");
@@ -712,7 +725,7 @@ export default {
     //pendiente
     searchItem: function (code) {
       let itemsId = this.items.map((item) => item.id);
-      if (itemsId.includes(code)) {
+      if (itemsId.includes(code.trim())) {
         let item = this.items.filter((item) => item.id === code);
         this.itemsSelected.push(item[0]);
         this.item.id = "";
@@ -745,6 +758,12 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  z-index: 10;
+}
+
+.inherit {
+  position: inherit;
 }
 
 .home-data {
@@ -788,6 +807,7 @@ a {
 @import "../assets/css/common/button.css";
 @import "../assets/css/common/float-buttons.css";
 @import "../assets/css/common/links.css";
+@import "../assets/css/common/itemsSelectedList.css";
 @import "../assets/css/common/suggestion.css";
 @import "../assets/css/base/base.css";
 @import "../assets/css/common/table.css";

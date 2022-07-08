@@ -74,7 +74,7 @@
 }
 
 .third-btn {
-  background: var( --color-secondary-dark);
+  background: var(--color-secondary-dark);
   border: 0px solid var(--color-primary);
 }
 

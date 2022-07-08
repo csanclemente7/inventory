@@ -4,4 +4,5 @@
   position: fixed;
   left: 0px;
   padding-top: 10vh;
+  z-index: 30;
 }
