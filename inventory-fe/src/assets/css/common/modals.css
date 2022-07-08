@@ -75,6 +75,7 @@
   width: 80% !important;
 }
 .modals_insumos {
+  margin-top: 20%;
   background-image: linear-gradient(
     45deg,
     var(--insumos-modal-color2) 0%,
