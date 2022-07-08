@@ -39,6 +39,12 @@
               () => {
                 this.firstPage = false;
                 this.secondPage = true;
+
+                if (input != undefined) {
+                  let input = document.getElementById('items-selected-input');
+                  input.focus();
+                  console.log(input);
+                }
               }
             "
           >
@@ -67,7 +73,12 @@
               {{ employee }}
             </p>
             <form v-on:submit.prevent="searchItem(item.id)">
-              <input type="text" autofocus v-model="item.id" />
+              <input
+                id="items-selected-input"
+                type="text"
+                autofocus
+                v-model="item.id"
+              />
               <button>Agregar</button>
               <ol class="list">
                 <li
@@ -718,6 +729,8 @@ export default {
         let item = this.items.filter((item) => item.id === code);
         this.itemsSelected.push(item[0]);
         this.item.id = "";
+        let input = document.getElementById("items-selected-input");
+        input.focus();
       }
     },
   },
