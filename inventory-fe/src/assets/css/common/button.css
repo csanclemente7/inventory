@@ -76,6 +76,8 @@
 .third-btn {
   background: var(--color-secondary-dark);
   border: 0px solid var(--color-primary);
+  margin-left: 0rem;
+  margin-right: 0rem;
 }
 
 .button:hover {

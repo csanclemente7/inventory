@@ -33,18 +33,12 @@
           <i class="fas fa-arrow-right"></i>
         </div>
         <!-- Formulario-->
-        <div class="employee-form" v-if="firstPage">
+        <div class="search-form-container" v-if="firstPage">
           <form
             v-on:submit.prevent="
               () => {
                 this.firstPage = false;
                 this.secondPage = true;
-
-                if (input != undefined) {
-                  let input = document.getElementById('items-selected-input');
-                  input.focus();
-                  console.log(input);
-                }
               }
             "
           >
@@ -62,12 +56,14 @@
             <p v-for="employee in employeesSelected" :key="employee">
               {{ employee }}
             </p>
-            <button>Siguiente</button>
+            <div class="button-container">
+              <button class="button third-btn">Siguiente</button>
+            </div>
           </form>
         </div>
 
         <div class="search-form-container" v-if="secondPage">
-          <form class="search-form">
+          <form v-on:submit.prevent="processCreateReport" class="search-form">
             <br />
             <p v-for="employee in employeesSelected" :key="employee">
               {{ employee }}
@@ -511,6 +507,16 @@ export default {
         this.employees = result;
       });
     },
+
+    getOutputReports: function () {
+      reportServices.getReportsOutputList().then((result) => {
+        this.outputReports = result;
+        this.paginatedDataOutputReports = paginationOutputReports.getDataPage(
+          this.actualPageOutputReports,
+          this.outputReports
+        );
+      });
+    },
     // ITEM FUNCTIONS
 
     processCreateItem: function () {
@@ -688,6 +694,8 @@ export default {
 
     deleteItemSelected: function (item) {
       this.itemsSelected = this.itemsSelected.filter((i) => i != item);
+      let input = document.getElementById("items-selected-input");
+      input.focus();
     },
 
     // DATOS INICIALES DE LA APP
@@ -732,6 +740,24 @@ export default {
         let input = document.getElementById("items-selected-input");
         input.focus();
       }
+    },
+
+    //funcion para crear un reporte desde secondPage
+    processCreateReport: function () {
+      this.startLoader = true;
+      this.itemsSelected.forEach((item) => {
+        let outputReport = {
+          item: item.id,
+          status: "output",
+          observation: "",
+          employee: this.employeesSelected.join(", "),
+        };
+        reportServices.createReport(outputReport).then((result) => {});
+      });
+      this.getOutputReports();
+      this.openModal("home");
+      this.itemsSelected = [];
+      this.employeeSelected = [];
     },
   },
   created: function () {
