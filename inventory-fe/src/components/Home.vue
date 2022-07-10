@@ -512,7 +512,7 @@ export default {
       reportServices.getReportsOutputList().then((result) => {
         this.outputReports = result;
         this.paginatedDataOutputReports = paginationOutputReports.getDataPage(
-          this.actualPageOutputReports,
+          1,
           this.outputReports
         );
       });
@@ -525,10 +525,7 @@ export default {
         itemServices.getItemsList().then((result) => {
           this.items = result;
           this.startLoader = false;
-          this.paginatedDataItems = paginationItems.getDataPage(
-            this.actualPageItems,
-            this.items
-          );
+          this.paginatedDataItems = paginationItems.getDataPage(1, this.items);
           this.item = {
             id: "",
             name: "",
@@ -752,9 +749,10 @@ export default {
           observation: "",
           employee: this.employeesSelected.join(", "),
         };
-        reportServices.createReport(outputReport).then((result) => {});
+        reportServices.createReport(outputReport).then((result) => {
+          this.getOutputReports();
+        });
       });
-      this.getOutputReports();
       this.openModal("home");
       this.itemsSelected = [];
       this.employeeSelected = [];
