@@ -43,6 +43,10 @@
   width: 40%;
 }
 
+.input-button:hover {
+  background-color: var(--color-primary-dark) !important;
+}
+
 .button-add-item {
   height: 20%;
   margin-top: 0 !important;
@@ -59,6 +63,7 @@
   background-color: #ffffff;
   color: #000;
   font-size: 1.5rem;
+  font-weight: 500;
   transform: rotate(-90deg);
   -webkit-transform: rotate(-90deg);
   width: 110%;
@@ -177,5 +182,20 @@
 
   .create-item-btn {
     font-size: 1.3rem;
+  }
+
+  .create-item-btn {
+    background-color: #ffffff;
+    color: #000;
+    font-size: 1rem;
+
+    transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    width: 80%;
+    height: 4%;
+    margin-left: 0 !important;
+    padding: 0 !important;
+    margin-top: 0 !important;
+    margin-left: -28% !important;
   }
 }

@@ -77,7 +77,10 @@
         </div>
 
         <div class="search-form-container" v-if="secondPage">
-          <form v-on:submit.prevent="processCreateReport" class="search-form">
+          <form
+            v-on:submit.prevent="processCreateReport('output')"
+            class="search-form"
+          >
             <br />
             <p v-for="employee in employeesSelected" :key="employee">
               {{ employee }}
@@ -139,6 +142,20 @@
           <i class="fas fa-arrow-right"></i>
           <h1>&nbsp;Entrada</h1>
         </div>
+
+        <!-- INPUT -->
+        <form v-on:submit.prevent="processCreateReport('input')">
+          <div class="input-container">
+            <input
+              type="text"
+              class="input input-entrada"
+              v-model="inputReport.item"
+            />
+          </div>
+          <div class="button-container">
+            <button class="button input-button">Enviar</button>
+          </div>
+        </form>
       </div>
       <!-- INSUMOS MODAL -->
       <div class="modals modals_insumos" v-if="modals.insumos">
@@ -474,6 +491,8 @@ export default {
       firstPage: true,
       secondPage: false,
       itemsSelected: [],
+      initialDataCounter: 0,
+      initialDataElements: ["items", "employees", "reports"],
     };
   },
   methods: {
@@ -526,7 +545,7 @@ export default {
       reportServices.getReportsOutputList().then((result) => {
         this.outputReports = result;
         this.paginatedDataOutputReports = paginationOutputReports.getDataPage(
-          this.actualPageOutputReports,
+          1,
           this.outputReports
         );
       });
@@ -539,10 +558,7 @@ export default {
         itemServices.getItemsList().then((result) => {
           this.items = result;
           this.startLoader = false;
-          this.paginatedDataItems = paginationItems.getDataPage(
-            this.actualPageItems,
-            this.items
-          );
+          this.paginatedDataItems = paginationItems.getDataPage(1, this.items);
           this.item = {
             id: "",
             name: "",
@@ -718,18 +734,28 @@ export default {
       );
     },
 
+    // Comprobar si los datos iniciales ya fueron completados para desactivar el loader
+    comproveInitialData: function () {
+      this.initialDataCounter += 1;
+      if (this.initialDataCounter === this.initialDataElements.length) {
+        this.startLoader = false;
+      }
+    },
+
     // DATOS INICIALES DE LA APP
     getInitialData: function () {
+      this.startLoader = true;
       itemServices.getItemsList().then((result) => {
         this.items = result;
-        this.totalInitialDataResults += 1;
         this.paginatedDataItems = paginationItems.getDataPage(
           this.actualPageItems,
           this.items
         );
+        this.comproveInitialData();
       });
       employeeServices.getEmployeesList().then((result) => {
         this.employees = result;
+        this.comproveInitialData();
       });
       reportServices.getReportsOutputList().then((result) => {
         this.outputReports = result;
@@ -737,6 +763,7 @@ export default {
           this.actualPageOutputReports,
           this.outputReports
         );
+        this.comproveInitialData();
       });
     },
 
@@ -763,18 +790,26 @@ export default {
     },
 
     //funcion para crear un reporte desde secondPage
-    processCreateReport: function () {
+    processCreateReport: function (reportType) {
       this.startLoader = true;
-      this.itemsSelected.forEach((item) => {
-        let outputReport = {
-          item: item.id,
-          status: "output",
-          observation: "",
-          employee: this.employeesSelected.join(", "),
-        };
-        reportServices.createReport(outputReport).then((result) => {});
-      });
-      this.getOutputReports();
+      if (reportType === "output") {
+        this.itemsSelected.forEach((item) => {
+          let outputReport = {
+            item: item.id,
+            status: "output",
+            observation: "",
+            employee: this.employeesSelected.join(", "),
+          };
+          reportServices.createReport(outputReport).then((result) => {
+            this.getOutputReports();
+          });
+        });
+      } else if (reportType === "input") {
+        reportServices.createReport(this.inputReport).then((result) => {
+          this.getOutputReports();
+          this.inputReport.item = "";
+        });
+      }
       this.openModal("home");
       this.itemsSelected = [];
       this.employeeSelected = [];
