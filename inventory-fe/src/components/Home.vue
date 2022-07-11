@@ -150,6 +150,7 @@
               type="text"
               class="input input-entrada"
               v-model="inputReport.item"
+              autofocus
             />
           </div>
           <div class="button-container">
