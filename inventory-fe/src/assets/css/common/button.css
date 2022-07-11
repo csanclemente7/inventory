@@ -48,6 +48,12 @@
   margin-top: 0 !important;
 }
 
+.btn-employee-selected{
+  justify-content: center;
+  background: #ffffff;
+  align-items: center;
+}
+
 /* CREATE ITEM BUTTON */
 .create-item-btn {
   background-color: #ffffff;

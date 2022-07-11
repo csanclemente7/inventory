@@ -6,6 +6,7 @@
   width: 100%;
 }
 
+
 .search-form {
   width: auto;
   height: auto;
@@ -13,6 +14,10 @@
 
 .list-item {
   display: block !important;
+}
+
+.list-item button{
+  align-items: center !important;
 }
 
 .item-selected {

@@ -53,9 +53,23 @@
                 {{ employee.name }}
               </option>
             </select>
-            <p v-for="employee in employeesSelected" :key="employee">
-              {{ employee }}
-            </p>
+            <br />
+            <br />
+            <ol class="list">
+              <li
+                li
+                class="list-item"
+                v-for="employee in employeesSelected"
+                :key="employee"
+              >
+                <button
+                  @click="deleteEmployeeSelected(employee)"
+                  class="btn-employee-selected"
+                >
+                  {{ employee }}
+                </button>
+              </li>
+            </ol>
             <div class="button-container">
               <button class="button third-btn">Siguiente</button>
             </div>
@@ -696,6 +710,12 @@ export default {
       this.itemsSelected = this.itemsSelected.filter((i) => i != item);
       let input = document.getElementById("items-selected-input");
       input.focus();
+    },
+
+    deleteEmployeeSelected: function (employee) {
+      this.employeesSelected = this.employeesSelected.filter(
+        (i) => i != employee
+      );
     },
 
     // DATOS INICIALES DE LA APP
