@@ -39,6 +39,7 @@
               () => {
                 this.firstPage = false;
                 this.secondPage = true;
+                this.focusInput('items-selected-input');
               }
             "
           >
@@ -104,7 +105,7 @@
                     @click="deleteItemSelected(item)"
                     class="item-selected"
                   >
-                    <a>{{ item.id }} {{ item.name }}</a>
+                    <a>{{ item.id }} &nbsp; &nbsp;{{ item.name }}</a>
                   </button>
                 </li>
               </ol>
@@ -435,6 +436,7 @@ import { paginationItems } from "../paginationItems";
 import { paginationOutputReports } from "../paginationOutputReports";
 import { employeeServices } from "../service/employee-service";
 import { reportServices } from "../service/report-service";
+import swal from "sweetalert2";
 export default {
   name: "Home",
   data: function () {
@@ -800,6 +802,7 @@ export default {
 
     //funcion para crear un reporte desde secondPage
     processCreateReport: function (reportType) {
+      const Swal = require("sweetalert2");
       this.startLoader = true;
       if (reportType === "output") {
         this.itemsSelected.forEach((item) => {
@@ -811,12 +814,26 @@ export default {
           };
           reportServices.createReport(outputReport).then((result) => {
             this.getOutputReports();
+            Swal.fire({
+              position: "top",
+              icon: "success",
+              title: "Realizado con exito",
+              showConfirmButton: false,
+              timer: 1500,
+            });
           });
         });
       } else if (reportType === "input") {
         reportServices.createReport(this.inputReport).then((result) => {
           this.getOutputReports();
           this.inputReport.item = "";
+          Swal.fire({
+            position: "top",
+            icon: "success",
+            title: "Realizado con exito",
+            showConfirmButton: false,
+            timer: 200,
+          });
         });
       }
       if (reportType != "input") {
@@ -824,7 +841,15 @@ export default {
       }
 
       this.itemsSelected = [];
-      this.employeeSelected = [];
+      this.employeesSelected = [];
+      this.secondPage = false;
+      this.firstPage = true;
+    },
+    focusInput: function (idInput) {
+      setTimeout(function () {
+        let input = document.getElementById(idInput);
+        input.focus();
+      }, 100);
     },
   },
   created: function () {
