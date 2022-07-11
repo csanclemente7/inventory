@@ -42,7 +42,7 @@
               }
             "
           >
-            <p>Paso 1: Selecciona trabajdores</p>
+            <p>Paso 1: Selecciona trabajadores</p>
             <select
               id="select_employee"
               v-model="employee.name"
