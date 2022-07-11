@@ -811,7 +811,10 @@ export default {
           this.inputReport.item = "";
         });
       }
-      this.openModal("home");
+      if (reportType != "input") {
+        this.openModal("home");
+      }
+
       this.itemsSelected = [];
       this.employeeSelected = [];
     },
