@@ -148,6 +148,7 @@
           <div class="input-container">
             <input
               type="text"
+              id="input-entrada"
               class="input input-entrada"
               v-model="inputReport.item"
               autofocus
@@ -533,6 +534,13 @@ export default {
         let home = document.querySelector(".home");
         home.classList.add("parentDiv");
         home.classList.remove("absolute");
+      }
+
+      if (modal === "input") {
+        setTimeout(function () {
+          let input = document.getElementById("input-entrada");
+          input.focus();
+        }, 100);
       }
     },
 
