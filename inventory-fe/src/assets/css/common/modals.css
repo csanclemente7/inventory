@@ -73,11 +73,13 @@
   );
   align-items: center;
   top: 30%;
-  position: absolute;
+  position: inherit;
   z-index: 40;
   width: 40%;
   height: auto;
   min-height: 30%;
+  margin-bottom: 1%;
+  margin-top: 10%;
 }
 .modals_insumos {
   margin-top: 30%;
