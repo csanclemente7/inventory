@@ -1,0 +1,39 @@
+@import url(https://fonts.googleapis.com/css?family=Lato);
+
+h1 {
+  font-family: "Lato", sans-serif;
+  color: #86afad;
+  text-align: center;
+  margin: 60px auto 40px;
+}
+
+.container-progress {
+  display: block;
+  margin: 0 auto;
+}
+.progress {
+  fill: none;
+  stroke: #f8f8f8;
+  stroke-width: 12;
+  stroke-linecap: round;
+  transform-origin: center;
+  transform: rotate(-90deg);
+}
+.progressBar text {
+  font-family: "Lato", sans-serif;
+  fill: #86afad;
+}
+.progressBar #lang {
+  width: 550px;
+  margin: 0 auto;
+  font-family: "Lato", sans-serif;
+  color: #86afad;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+}
+.progressBar #lang div {
+  margin: 0 13% 0 9%;
+  vertical-align: top;
+  display: inline-block;
+}
