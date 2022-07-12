@@ -9,6 +9,7 @@ from inventoryApp.models.report                 import Report
 from inventoryApp.serializers.reportSerializer   import ReportSerializer
 import datetime
 from django.utils import timezone
+from datetime import timedelta
 
 
 class ReportCreateView(generics.CreateAPIView):
@@ -27,7 +28,9 @@ class ReportCreateView(generics.CreateAPIView):
         itemId = request.data['item']
         lastReport = (Report.objects.filter(item_id=itemId)).last()
         currentDate = timezone.now()
-        print(currentDate)
+        #print("timezone",currentDate)
+        #print("datetime",datetime.datetime.now())
+        request.data['dateTime'] = currentDate
         if(lastReport):
             lastReportStatus = lastReport.status
             lastReportEmployee = lastReport.employee
@@ -45,7 +48,6 @@ class ReportCreateView(generics.CreateAPIView):
         serializer = ReportSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        print(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class ReportDetailView(generics.RetrieveAPIView):

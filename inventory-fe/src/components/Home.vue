@@ -355,7 +355,10 @@
     </div>
 
     <!-- TABLE OUTPUT REPORTS-->
-    <div class="main-table-container">
+    <div
+      class="main-table-container"
+      v-if="paginatedDataOutputReports.length > 0"
+    >
       <table class="custom-responsiva table-items">
         <thead>
           <tr>
@@ -427,6 +430,23 @@
         </nav>
       </div>
     </div>
+
+    <!--- IMÁGEN TODO AL DÍA -->
+    <div class="progressBar" v-if="showProgressBar">
+      <h1>circular progress bar</h1>
+      <svg class="container-progress" width="600px" height="210px">
+        <circle class="progress" id="two" cx="300" cy="100" r="75px" />
+        <text
+          id="percent-two"
+          text-anchor="middle"
+          x="300"
+          y="112"
+          style="font-size: 36px"
+        >
+          0
+        </text>
+      </svg>
+    </div>
   </div>
 </template>
 <script>
@@ -497,6 +517,9 @@ export default {
       itemsSelected: [],
       initialDataCounter: 0,
       initialDataElements: ["items", "employees", "reports"],
+      circle1: null,
+      text1: "",
+      showProgressBar: false,
     };
   },
   methods: {
@@ -553,12 +576,15 @@ export default {
     },
 
     getOutputReports: function () {
+      this.outputReports = [];
       reportServices.getReportsOutputList().then((result) => {
         this.outputReports = result;
+
         this.paginatedDataOutputReports = paginationOutputReports.getDataPage(
           1,
           this.outputReports
         );
+        this.comproveProgressBarLoad();
       });
     },
     // ITEM FUNCTIONS
@@ -774,6 +800,7 @@ export default {
           this.actualPageOutputReports,
           this.outputReports
         );
+        this.comproveProgressBarLoad();
         this.comproveInitialData();
       });
     },
@@ -867,6 +894,7 @@ export default {
             showConfirmButton: false,
             timer: 200,
           });
+          this.openModal("home");
         });
       }
     },
@@ -875,6 +903,56 @@ export default {
         let input = document.getElementById(idInput);
         input.focus();
       }, 100);
+    },
+
+    comproveProgressBarLoad: function () {
+      if (this.outputReports.length === 0) {
+        this.showProgressBar = true;
+        setTimeout(function () {
+          this.circle1 = document.getElementById("two");
+          this.text1 = document.getElementById("percent-two");
+          (function () {
+            var angle1 = 0;
+            var percent1 = 100 * 4.7;
+
+            let timer1 = window.setInterval(
+              function () {
+                circle1.setAttribute("stroke-dasharray", angle1 + ", 20000");
+                text1.innerHTML =
+                  parseInt((angle1 / 475) * 100).toString() + "%";
+
+                if (angle1 >= percent1) {
+                  window.clearInterval(timer1);
+                }
+                angle1 += 7;
+              }.bind(this),
+              30
+            );
+          })();
+        }, 100);
+      } else {
+        this.showProgressBar = false;
+      }
+    },
+
+    progressBarLoad: function (circle1, text1) {
+      (function () {
+        var angle1 = 0;
+        var percent1 = 100 * 4.7;
+
+        let timer1 = window.setInterval(
+          function () {
+            circle1.setAttribute("stroke-dasharray", angle1 + ", 20000");
+            text1.innerHTML = parseInt((angle1 / 475) * 100).toString() + "%";
+
+            if (angle1 >= percent1) {
+              window.clearInterval(timer1);
+            }
+            angle1 += 7;
+          }.bind(this),
+          30
+        );
+      })();
     },
   },
   created: function () {
@@ -957,4 +1035,5 @@ a {
 @import "../assets/css/common/tableMain.css";
 @import "../assets/css/common/tableResults.css";
 @import "../assets/css/common/lds-ripple.css";
+@import "../assets/css/common/percentage.css";
 </style>
