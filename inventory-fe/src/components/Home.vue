@@ -433,7 +433,7 @@
 
     <!--- IMÁGEN TODO AL DÍA -->
     <div class="progressBar" v-if="showProgressBar">
-      <h1>circular progress bar</h1>
+      <h1>Todo al día</h1>
       <svg class="container-progress" width="600px" height="210px">
         <circle class="progress" id="two" cx="300" cy="100" r="75px" />
         <text
@@ -842,7 +842,11 @@ export default {
     processCreateReport: function (reportType) {
       const Swal = require("sweetalert2");
       this.startLoader = true;
-      if (reportType === "output") {
+      if (
+        this.itemsSelected.length != 0 &&
+        this.employeesSelected.length != 0 &&
+        reportType === "output"
+      ) {
         this.itemsSelected.forEach((item) => {
           let outputReport = {
             item: item.id,
@@ -861,7 +865,25 @@ export default {
             });
           });
         });
-      } else if (reportType === "input") {
+
+        if (reportType != "input") {
+          this.openModal("home");
+        }
+        this.itemsSelected = [];
+        this.employeesSelected = [];
+        this.secondPage = false;
+        this.firstPage = true;
+      } else {
+        Swal.fire({
+          position: "top",
+          icon: "warning",
+          title: "Completa todos los pasos",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+      //Ventana modal
+      if (reportType === "input") {
         reportServices.createReport(this.inputReport).then((result) => {
           this.getOutputReports();
           this.inputReport.item = "";
@@ -872,17 +894,11 @@ export default {
             showConfirmButton: false,
             timer: 200,
           });
-          this.openModal("home");
+          if (this.showProgressBar === true) {
+            this.openModal("home");
+          }
         });
       }
-      if (reportType != "input") {
-        this.openModal("home");
-      }
-
-      this.itemsSelected = [];
-      this.employeesSelected = [];
-      this.secondPage = false;
-      this.firstPage = true;
     },
     focusInput: function (idInput) {
       setTimeout(function () {
