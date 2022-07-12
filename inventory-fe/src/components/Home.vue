@@ -894,7 +894,7 @@ export default {
             showConfirmButton: false,
             timer: 200,
           });
-          if (this.showProgressBar === false) {
+          if (this.showProgressBar === true) {
             this.openModal("home");
           }
         });
