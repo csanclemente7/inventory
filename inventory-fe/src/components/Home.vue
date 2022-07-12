@@ -355,7 +355,10 @@
     </div>
 
     <!-- TABLE OUTPUT REPORTS-->
-    <div class="main-table-container">
+    <div
+      class="main-table-container"
+      v-if="paginatedDataOutputReports.length > 0"
+    >
       <table class="custom-responsiva table-items">
         <thead>
           <tr>
@@ -427,6 +430,8 @@
         </nav>
       </div>
     </div>
+
+    <!--- IMAGE -->
   </div>
 </template>
 <script>
@@ -834,6 +839,7 @@ export default {
             showConfirmButton: false,
             timer: 200,
           });
+          this.openModal("home");
         });
       }
       if (reportType != "input") {
