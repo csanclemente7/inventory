@@ -790,10 +790,21 @@ export default {
 
     //pendiente
     searchItem: function (code) {
+      const Swal = require("sweetalert2");
       let itemsId = this.items.map((item) => item.id);
       if (itemsId.includes(code.trim())) {
         let item = this.items.filter((item) => item.id === code);
-        this.itemsSelected.push(item[0]);
+        if (!this.itemsSelected.includes(item[0])) {
+          this.itemsSelected.push(item[0]);
+        } else if (this.itemsSelected.includes(item[0])) {
+          Swal.fire({
+            position: "top",
+            icon: "warning",
+            title: "No se puede registrar dos veces!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
         this.item.id = "";
         let input = document.getElementById("items-selected-input");
         input.focus();
