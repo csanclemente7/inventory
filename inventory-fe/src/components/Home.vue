@@ -815,26 +815,48 @@ export default {
     processCreateReport: function (reportType) {
       const Swal = require("sweetalert2");
       this.startLoader = true;
-      if (reportType === "output") {
-        this.itemsSelected.forEach((item) => {
-          let outputReport = {
-            item: item.id,
-            status: "output",
-            observation: "",
-            employee: this.employeesSelected.join(", "),
-          };
-          reportServices.createReport(outputReport).then((result) => {
-            this.getOutputReports();
-            Swal.fire({
-              position: "top",
-              icon: "success",
-              title: "Realizado con exito",
-              showConfirmButton: false,
-              timer: 1500,
+      if (
+        this.itemsSelected.length != 0 &&
+        this.employeesSelected.length != 0
+      ) {
+        if (reportType === "output") {
+          this.itemsSelected.forEach((item) => {
+            let outputReport = {
+              item: item.id,
+              status: "output",
+              observation: "",
+              employee: this.employeesSelected.join(", "),
+            };
+            reportServices.createReport(outputReport).then((result) => {
+              this.getOutputReports();
+              Swal.fire({
+                position: "top",
+                icon: "success",
+                title: "Realizado con exito",
+                showConfirmButton: false,
+                timer: 1500,
+              });
             });
           });
+        }
+        if (reportType != "input") {
+          this.openModal("home");
+        }
+        this.itemsSelected = [];
+        this.employeesSelected = [];
+        this.secondPage = false;
+        this.firstPage = true;
+      } else {
+        Swal.fire({
+          position: "top",
+          icon: "warning",
+          title: "Completa todos los pasos",
+          showConfirmButton: false,
+          timer: 1500,
         });
-      } else if (reportType === "input") {
+      }
+
+      if (reportType === "input") {
         reportServices.createReport(this.inputReport).then((result) => {
           this.getOutputReports();
           this.inputReport.item = "";
@@ -847,14 +869,6 @@ export default {
           });
         });
       }
-      if (reportType != "input") {
-        this.openModal("home");
-      }
-
-      this.itemsSelected = [];
-      this.employeesSelected = [];
-      this.secondPage = false;
-      this.firstPage = true;
     },
     focusInput: function (idInput) {
       setTimeout(function () {
