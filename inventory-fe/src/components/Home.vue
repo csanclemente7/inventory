@@ -86,12 +86,16 @@
             <p v-for="employee in employeesSelected" :key="employee">
               {{ employee }}
             </p>
-            <form v-on:submit.prevent="searchItem(item.id)">
+            <form
+              class="create-report-form"
+              v-on:submit.prevent="searchItem(item.id)"
+            >
               <input
                 id="items-selected-input"
                 type="text"
                 autofocus
                 v-model="item.id"
+                autoComplete="off"
               />
               <button>Agregar</button>
               <ol class="list">
@@ -107,6 +111,36 @@
                   >
                     <a>{{ item.id }} &nbsp; &nbsp;{{ item.name }}</a>
                   </button>
+                  &nbsp;&nbsp;
+
+                  <textarea
+                    v-model="item.observation"
+                    v-if="item.showTextArea"
+                    name=""
+                    id=""
+                    cols="10"
+                    rows="1"
+                  ></textarea>
+                  <div class="link-container">
+                    <i
+                      class="fas fa-plus fa-2x create-item-link"
+                      v-if="!item.showTextArea"
+                      @click="
+                        () => {
+                          item.showTextArea = !item.showTextArea;
+                        }
+                      "
+                    ></i>
+                    <i
+                      class="fas fa-minus fa-2x create-item-link"
+                      v-if="item.showTextArea"
+                      @click="
+                        () => {
+                          item.showTextArea = !item.showTextArea;
+                        }
+                      "
+                    ></i>
+                  </div>
                 </li>
               </ol>
             </form>
@@ -510,6 +544,7 @@ export default {
       employees: [],
       filterSearch: "",
       newItem: false,
+      newComment: false,
       updateItem: false,
       employeesSelected: [],
       firstPage: true,
@@ -822,6 +857,7 @@ export default {
       if (itemsId.includes(code.trim())) {
         let item = this.items.filter((item) => item.id === code);
         if (!this.itemsSelected.includes(item[0])) {
+          item[0].showTextArea = false;
           this.itemsSelected.push(item[0]);
         } else if (this.itemsSelected.includes(item[0])) {
           Swal.fire({
@@ -851,7 +887,7 @@ export default {
           let outputReport = {
             item: item.id,
             status: "output",
-            observation: "",
+            observation: item.observation,
             employee: this.employeesSelected.join(", "),
           };
           reportServices.createReport(outputReport).then((result) => {
@@ -955,6 +991,9 @@ export default {
           30
         );
       })();
+    },
+    imprimir: function (value) {
+      console.log(value);
     },
   },
   created: function () {

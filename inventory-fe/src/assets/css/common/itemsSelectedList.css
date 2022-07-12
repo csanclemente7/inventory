@@ -13,11 +13,24 @@
 }
 
 .list-item {
-  display: block !important;
+  display: flex !important;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .list-item button{
-  align-items: center !important;
+  width: 60%;
+}
+
+.list-item textarea{
+  width: 40%;
+}
+
+.list-item .link-container {
+  width: 5%;
+
 }
 
 .item-selected {

@@ -21,6 +21,19 @@
   gap: 0.5rem;
 }
 
+.create-report-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.create-report-form input{
+  width: 60% !important;
+  font-size: 1.4rem !important;
+  text-align: center;
+}
+
 .item-form .input-container {
   margin-bottom: 0 !important;
   width: 50%;
