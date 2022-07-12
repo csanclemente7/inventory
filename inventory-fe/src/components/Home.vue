@@ -433,7 +433,7 @@
 
     <!--- IMÁGEN TODO AL DÍA -->
     <div class="progressBar" v-if="showProgressBar">
-      <h1>circular progress bar</h1>
+      <h1>Todo al día</h1>
       <svg class="container-progress" width="600px" height="210px">
         <circle class="progress" id="two" cx="300" cy="100" r="75px" />
         <text
@@ -844,28 +844,28 @@ export default {
       this.startLoader = true;
       if (
         this.itemsSelected.length != 0 &&
-        this.employeesSelected.length != 0
+        this.employeesSelected.length != 0 &&
+        reportType === "output"
       ) {
-        if (reportType === "output") {
-          this.itemsSelected.forEach((item) => {
-            let outputReport = {
-              item: item.id,
-              status: "output",
-              observation: "",
-              employee: this.employeesSelected.join(", "),
-            };
-            reportServices.createReport(outputReport).then((result) => {
-              this.getOutputReports();
-              Swal.fire({
-                position: "top",
-                icon: "success",
-                title: "Realizado con exito",
-                showConfirmButton: false,
-                timer: 1500,
-              });
+        this.itemsSelected.forEach((item) => {
+          let outputReport = {
+            item: item.id,
+            status: "output",
+            observation: "",
+            employee: this.employeesSelected.join(", "),
+          };
+          reportServices.createReport(outputReport).then((result) => {
+            this.getOutputReports();
+            Swal.fire({
+              position: "top",
+              icon: "success",
+              title: "Realizado con exito",
+              showConfirmButton: false,
+              timer: 1500,
             });
           });
-        }
+        });
+
         if (reportType != "input") {
           this.openModal("home");
         }
@@ -882,7 +882,7 @@ export default {
           timer: 1500,
         });
       }
-
+      //Ventana modal
       if (reportType === "input") {
         reportServices.createReport(this.inputReport).then((result) => {
           this.getOutputReports();
@@ -894,7 +894,9 @@ export default {
             showConfirmButton: false,
             timer: 200,
           });
-          this.openModal("home");
+          if (this.showProgressBar === false) {
+            this.openModal("home");
+          }
         });
       }
     },
