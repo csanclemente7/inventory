@@ -44,16 +44,18 @@
             "
           >
             <p>Paso 1: Selecciona trabajadores</p>
-            <select
-              id="select_employee"
-              v-model="employee.name"
-              @change="employeeSelected()"
-            >
-              <option value="" selected disabled>Seleccionar Empleado</option>
-              <option v-for="employee in employees" :key="employee">
-                {{ employee.name }}
-              </option>
-            </select>
+            <div class="select_employee">
+              <select
+                id="select_employee"
+                v-model="employee.name"
+                @change="employeeSelected()"
+              >
+                <option value="" selected disabled>Seleccionar Empleado</option>
+                <option v-for="employee in employees" :key="employee">
+                  {{ employee.name }}
+                </option>
+              </select>
+            </div>
             <br />
             <br />
             <ol class="list">
@@ -82,10 +84,12 @@
             v-on:submit.prevent="processCreateReport('output')"
             class="search-form"
           >
+            <div class="employees-container">
+              <p>
+                {{ employeesSelected.join(", ") }}
+              </p>
+            </div>
             <br />
-            <p v-for="employee in employeesSelected" :key="employee">
-              {{ employee }}
-            </p>
             <form
               class="create-report-form"
               v-on:submit.prevent="searchItem(item.id)"

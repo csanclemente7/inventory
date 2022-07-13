@@ -6,10 +6,24 @@
   width: 100%;
 }
 
-
 .search-form {
   width: auto;
   height: auto;
+  width: 60%;
+}
+
+
+.select_employee {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.employees-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .list-item {
