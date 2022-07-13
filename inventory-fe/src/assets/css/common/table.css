@@ -3,6 +3,13 @@ table.custom-responsiva {
   border-collapse: collapse !important;
 }
 
+.table-container-two {
+  display: flexbox;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .custom-responsiva tr:nth-of-type(odd) {
   background: var(--light-row-table);
   color: var(--text-dark);

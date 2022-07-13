@@ -9,6 +9,9 @@
           <button v-if="is_auth && !startLoader" v-on:click="loadHome">
             Inicio
           </button>
+          <button v-if="is_auth && !startLoader" v-on:click="loadHistorial">
+            Historial
+          </button>
           <button v-if="is_auth && !startLoader" v-on:click="logOut">
             Cerrar Sesión
           </button>
@@ -95,6 +98,9 @@ export default {
     },
     loadLogIn: function () {
       this.$router.push({ name: "logIn" });
+    },
+    loadHistorial: function () {
+      this.$router.push({ name: "historial" });
     },
     loadSignUp: function () {
       this.$router.push({ name: "signUp" });

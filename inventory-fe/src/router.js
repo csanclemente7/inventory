@@ -3,6 +3,7 @@ import App from "./App.vue";
 import LogIn from "./components/LogIn.vue";
 import SignUp from "./components/SignUp.vue";
 import Home from "./components/Home.vue";
+import Historial from "./components/Historial.vue";
 const routes = [
   {
     path: "/",
@@ -23,6 +24,11 @@ const routes = [
     path: "/home",
     name: "home",
     component: Home,
+  },
+  {
+    path: "/historial",
+    name: "historial",
+    component: Historial,
   },
 ];
 const router = createRouter({
