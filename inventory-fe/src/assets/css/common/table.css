@@ -4,7 +4,7 @@ table.custom-responsiva {
 }
 
 .table-container-two {
-  display: flexbox;
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;

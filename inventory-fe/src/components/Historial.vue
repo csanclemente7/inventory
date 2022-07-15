@@ -7,8 +7,9 @@
           type="search"
           placeholder="Buscar..."
           id="input_search_clientes"
-          v-model="defaultInputSearch"
+          v-model="inputSearch"
           v-on:input="filterBySearch"
+          autoComplete="off"
         />
         <button type="submit" aria-label="submit form">
           <li class="fas fa-search"></li>
@@ -31,7 +32,7 @@
           </thead>
           <tbody>
             <tr
-              v-for="report in paginatedDataOutputReports"
+              v-for="report in paginatedDataReports"
               :key="report"
               id="table_row delete-custom"
             >
@@ -61,7 +62,7 @@
           <nav aria-label="Page navigation example">
             <ul class="pagination">
               <li class="page-item">
-                <a class="page-link" v-on:click="getPreviousPageOutputReports()"
+                <a class="page-link" v-on:click="getPreviousPageReports()"
                   >Anterior</a
                 >
               </li>
@@ -70,7 +71,7 @@
                   outputReports.length
                 )"
                 :key="page"
-                v-on:click="getDataPageOutputReports(page, outputReports)"
+                v-on:click="getDataPageReports(page, outputReports)"
                 class="page-item"
               >
                 <a class="page-link" v-if="page != actualPageOutputReports">{{
@@ -86,7 +87,7 @@
               </li>
 
               <li class="page-item">
-                <a class="page-link" v-on:click="getNextPageOutputReports()"
+                <a class="page-link" v-on:click="getNextPageReports()"
                   >Siguiente</a
                 >
               </li>
@@ -99,21 +100,19 @@
 </template>
 <script>
 import axios from "axios";
-import { itemServices } from "../service/item-service";
 import { paginationItems } from "../paginationItems";
 import { paginationReports } from "../paginationReports";
-import { employeeServices } from "../service/employee-service";
 import { reportServices } from "../service/report-service";
-import swal from "sweetalert2";
 export default {
   name: "Historial",
   data: function () {
     return {
       items: [],
+      itemReports: [],
       outputReports: [],
 
       paginationReports: paginationReports,
-      paginatedDataOutputReports: [],
+      paginatedDataReports: [],
       actualPageItems: 1,
       actualPageOutputReports: 1,
       startLoader: false,
@@ -125,17 +124,11 @@ export default {
         employee: "",
       },
 
-      employees: [],
       filterSearch: "",
-      newItem: false,
-      newComment: false,
-      updateItem: false,
-      employeesSelected: [],
       firstPage: true,
       secondPage: false,
       itemsSelected: [],
       initialDataCounter: 0,
-      initialDataElements: ["items", "employees", "reports"],
       circle1: null,
       text1: "",
       showProgressBar: false,
@@ -166,125 +159,20 @@ export default {
         });
     },
 
-    openModal: function (modal) {
-      // iterar objeto
-      for (let key in this.modals) {
-        if (key != modal) {
-          this.modals[key] = false;
-        }
-      }
-      this.modals[modal] = true;
-      if (modal != "home") {
-        let home = document.querySelector(".home");
-        home.classList.add("parentDiv");
-        home.classList.remove("absolute");
-      }
-
-      if (modal === "input") {
-        setTimeout(function () {
-          let input = document.getElementById("input-entrada");
-          input.focus();
-        }, 100);
-      }
-    },
-
-    getEmployees: function () {
-      employeeServices.getEmployeesList().then((result) => {
-        this.employees = result;
-      });
-    },
-
     getOutputReports: function () {
       this.outputReports = [];
       reportServices.getReportsOutputList().then((result) => {
         this.outputReports = result;
 
-        this.paginatedDataOutputReports = paginationReports.getDataPage(
+        this.paginatedDataReports = paginationReports.getDataPage(
           1,
           this.outputReports
         );
-        this.comproveProgressBarLoad();
       });
     },
     // ITEM FUNCTIONS
 
-    processCreateItem: function () {
-      this.startLoader = true;
-      itemServices.createItem(this.item).then((result) => {
-        itemServices.getItemsList().then((result) => {
-          this.items = result;
-          this.startLoader = false;
-          this.paginatedDataItems = paginationItems.getDataPage(1, this.items);
-          this.item = {
-            id: "",
-            name: "",
-            evidence: "",
-          };
-        });
-      });
-    },
-
-    processUpdateItem: function () {
-      itemServices.updateItem(this.itemUpdate).then((result) => {
-        this.itemUpdate = {
-          id: "",
-          name: "",
-          evidence: "",
-        };
-        (this.updateItem = false),
-          itemServices.getItemsList().then((result) => {
-            this.items = result;
-            this.startLoader = false;
-            this.paginatedDataItems = paginationItems.getDataPage(
-              this.actualPageItems,
-              this.items
-            );
-            this.item = {
-              id: "",
-              name: "",
-              evidence: "",
-            };
-          });
-      });
-    },
-    processDeleteItem: function (itemId) {
-      this.startLoader = true;
-      swal({
-        title: "¿Estás seguro?",
-        text: "Una vez eliminado, no podrás recuperar este elemento",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      }).then((willDelete) => {
-        if (willDelete) {
-          itemServices.deleteItem(itemId).then((response) => {
-            itemServices.getItemsList().then((result) => {
-              this.items = result;
-              this.startLoader = false;
-              this.paginatedDataItems = paginationItems.getDataPage(
-                this.actualPageItems,
-                this.items
-              );
-            });
-          });
-        } else {
-          this.startLoader = false;
-        }
-      });
-    },
-
-    closeModal: function (modal) {
-      this.modals[modal] = false;
-      let home = document.querySelector(".home");
-      home.classList.remove("parentDiv");
-    },
-
     // PAGINATION FUNCTIONS FOR ITEMS
-    getDataPageItems: function (page, items) {
-      this.filterSearch = ""; // borra el filtro
-      this.actualPageItems = page;
-      this.paginatedDataItems = paginationItems.getDataPage(page, items);
-    },
 
     getPreviousPageItems: function () {
       this.filterSearch = ""; // borra el filtro
@@ -311,35 +199,35 @@ export default {
       );
     },
     // PAGINATION FUNCTIONS FOR OUTPUT REPORTS
-    getDataPageOutputReports: function (page, outputReports) {
+    getDataPageReports: function (page, outputReports) {
       this.filterSearch = ""; // borra el filtro
       this.actualPageOutputReports = page;
-      this.paginatedDataOutputReports = paginationReports.getDataPage(
+      this.paginatedDataReports = paginationReports.getDataPage(
         page,
         outputReports
       );
     },
 
-    getPreviousPageOutputReports: function () {
+    getPreviousPageReports: function () {
       this.filterSearch = ""; // borra el filtro
       this.actualPageOutputReports = paginationReports.getPreviousPage(
         this.actualPageOutputReports
       );
 
-      this.paginatedDataOutputReports = paginationReports.getDataPage(
+      this.paginatedDataReports = paginationReports.getDataPage(
         this.actualPageOutputReports,
         this.outputReports
       );
     },
 
-    getNextPageOutputReports: function () {
+    getNextPageReports: function () {
       this.filterSearch = ""; // borra el filtro
       this.actualPageOutputReports = paginationReports.getNextPage(
         this.actualPageOutputReports,
         paginationReports.totalPages(this.outputReports.length)
       );
 
-      this.paginatedDataOutputReports = paginationReports.getDataPage(
+      this.paginatedDataReports = paginationReports.getDataPage(
         this.actualPageOutputReports,
         this.outputReports
       );
@@ -378,18 +266,6 @@ export default {
       }
     },
 
-    deleteItemSelected: function (item) {
-      this.itemsSelected = this.itemsSelected.filter((i) => i != item);
-      let input = document.getElementById("items-selected-input");
-      input.focus();
-    },
-
-    deleteEmployeeSelected: function (employee) {
-      this.employeesSelected = this.employeesSelected.filter(
-        (i) => i != employee
-      );
-    },
-
     // Comprobar si los datos iniciales ya fueron completados para desactivar el loader
     comproveInitialData: function () {
       this.initialDataCounter += 1;
@@ -404,169 +280,16 @@ export default {
 
       reportServices.getReportsList().then((result) => {
         this.outputReports = result;
-        this.paginatedDataOutputReports = paginationReports.getDataPage(
+        localStorage.setItem("reports", this.outputReports);
+        this.paginatedDataReports = paginationReports.getDataPage(
           this.actualPageOutputReports,
           this.outputReports
         );
-        this.comproveProgressBarLoad();
-        this.comproveInitialData();
       });
     },
 
-    employeeSelected: function () {
-      if (!this.employeesSelected.includes(this.employee.name)) {
-        this.employeesSelected.push(this.employee.name);
-        this.employee.name = "";
-      } else {
-        alert("Trabajador ya ha sido agregado!");
-        this.employee.name = "";
-      }
-    },
-
-    //pendiente
-    searchItem: function (code) {
-      const Swal = require("sweetalert2");
-      let itemsId = this.items.map((item) => item.id);
-      if (itemsId.includes(code.trim())) {
-        let item = this.items.filter((item) => item.id === code);
-        if (!this.itemsSelected.includes(item[0])) {
-          item[0].showTextArea = false;
-          this.itemsSelected.push(item[0]);
-        } else if (this.itemsSelected.includes(item[0])) {
-          Swal.fire({
-            position: "top",
-            icon: "warning",
-            title: "No se puede registrar dos veces!",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-        this.item.id = "";
-        let input = document.getElementById("items-selected-input");
-        input.focus();
-      }
-    },
-
-    //funcion para crear un reporte desde secondPage
-    processCreateReport: function (reportType) {
-      const Swal = require("sweetalert2");
-      this.startLoader = true;
-      if (
-        this.itemsSelected.length != 0 &&
-        this.employeesSelected.length != 0 &&
-        reportType === "output"
-      ) {
-        this.itemsSelected.forEach((item) => {
-          let outputReport = {
-            item: item.id,
-            status: "output",
-            observation: item.observation,
-            employee: this.employeesSelected.join(", "),
-          };
-          reportServices.createReport(outputReport).then((result) => {
-            this.getOutputReports();
-            Swal.fire({
-              position: "top",
-              icon: "success",
-              title: "Realizado con exito",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-          });
-        });
-
-        if (reportType != "input") {
-          this.openModal("home");
-        }
-        this.itemsSelected = [];
-        this.employeesSelected = [];
-        this.secondPage = false;
-        this.firstPage = true;
-      } else {
-        Swal.fire({
-          position: "top",
-          icon: "warning",
-          title: "Completa todos los pasos",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-      //Ventana modal
-      if (reportType === "input") {
-        reportServices.createReport(this.inputReport).then((result) => {
-          this.getOutputReports();
-          this.inputReport.item = "";
-          Swal.fire({
-            position: "top",
-            icon: "success",
-            title: "Realizado con exito",
-            showConfirmButton: false,
-            timer: 200,
-          });
-          if (this.showProgressBar === true) {
-            this.openModal("home");
-          }
-        });
-      }
-    },
-    focusInput: function (idInput) {
-      setTimeout(function () {
-        let input = document.getElementById(idInput);
-        input.focus();
-      }, 100);
-    },
-
-    comproveProgressBarLoad: function () {
-      if (this.outputReports.length === 0) {
-        this.showProgressBar = true;
-        setTimeout(function () {
-          this.circle1 = document.getElementById("two");
-          this.text1 = document.getElementById("percent-two");
-          (function () {
-            var angle1 = 0;
-            var percent1 = 100 * 4.7;
-
-            let timer1 = window.setInterval(
-              function () {
-                circle1.setAttribute("stroke-dasharray", angle1 + ", 20000");
-                text1.innerHTML =
-                  parseInt((angle1 / 475) * 100).toString() + "%";
-
-                if (angle1 >= percent1) {
-                  window.clearInterval(timer1);
-                }
-                angle1 += 7;
-              }.bind(this),
-              30
-            );
-          })();
-        }, 100);
-      } else {
-        this.showProgressBar = false;
-      }
-    },
-
-    progressBarLoad: function (circle1, text1) {
-      (function () {
-        var angle1 = 0;
-        var percent1 = 100 * 4.7;
-
-        let timer1 = window.setInterval(
-          function () {
-            circle1.setAttribute("stroke-dasharray", angle1 + ", 20000");
-            text1.innerHTML = parseInt((angle1 / 475) * 100).toString() + "%";
-
-            if (angle1 >= percent1) {
-              window.clearInterval(timer1);
-            }
-            angle1 += 7;
-          }.bind(this),
-          30
-        );
-      })();
-    },
-    imprimir: function (value) {
-      console.log(value);
+    filterBySearch: function () {
+      let reports = JSON.parse(localStorage.getItem("reports"));
     },
   },
   created: function () {

@@ -190,6 +190,7 @@
               id="input-entrada"
               class="input input-entrada"
               v-model="inputReport.item"
+              autoComplete="off"
               autofocus
             />
           </div>
