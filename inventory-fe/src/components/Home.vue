@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main" v-if="!startLoader">
     <section class="home inherit" v-if="modals.home">
       <div class="home-data">
         <div class="button-container">
@@ -488,6 +488,21 @@
         </text>
       </svg>
     </div>
+  </div>
+  <!-- LOADER -->
+  <div class="lds-spinner" v-if="startLoader">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
   </div>
 </template>
 <script>

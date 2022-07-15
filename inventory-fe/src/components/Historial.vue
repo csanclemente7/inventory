@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <!-- SECTION SEARCH FILTER -->
-    <section class="search-and-user">
+    <section class="search-and-user" v-if="paginatedDataReports.length > 0">
       <form>
         <input
           type="search"
@@ -17,7 +17,7 @@
       </form>
     </section>
 
-    <section class="table-container-two">
+    <section class="table-container-two" v-if="paginatedDataReports.length > 0">
       <!-- TABLE OUTPUT REPORTS-->
       <div class="main-table-container">
         <table class="custom-responsiva table-items">
@@ -97,6 +97,21 @@
       </div>
     </section>
   </div>
+  <!-- LOADER -->
+  <div class="lds-spinner" v-if="startLoader">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 </template>
 <script>
 import axios from "axios";
@@ -128,6 +143,7 @@ export default {
       firstPage: true,
       secondPage: false,
       itemsSelected: [],
+      initialDataElements: ["reports"],
       initialDataCounter: 0,
       circle1: null,
       text1: "",
@@ -277,8 +293,8 @@ export default {
     // DATOS INICIALES DE LA APP
     getInitialData: function () {
       this.startLoader = true;
-
       reportServices.getReportsList().then((result) => {
+        this.comproveInitialData();
         this.outputReports = result;
         localStorage.setItem("reports", this.outputReports);
         this.paginatedDataReports = paginationReports.getDataPage(
