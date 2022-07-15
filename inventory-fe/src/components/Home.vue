@@ -121,9 +121,11 @@
                     v-model="item.observation"
                     v-if="item.showTextArea"
                     name=""
+                    placeholder="observación"
                     id=""
                     cols="10"
                     rows="1"
+                    class="textarea observacion-textarea"
                   ></textarea>
                   <div class="link-container">
                     <i
@@ -952,22 +954,24 @@ export default {
       if (this.outputReports.length === 0) {
         this.showProgressBar = true;
         setTimeout(function () {
-          this.circle1 = document.getElementById("two");
-          this.text1 = document.getElementById("percent-two");
           (function () {
             var angle1 = 0;
             var percent1 = 100 * 4.7;
 
             let timer1 = window.setInterval(
               function () {
-                circle1.setAttribute("stroke-dasharray", angle1 + ", 20000");
-                text1.innerHTML =
-                  parseInt((angle1 / 475) * 100).toString() + "%";
+                let circle1 = document.getElementById("two");
+                let text1 = document.getElementById("percent-two");
+                if (circle1 != null && text1 != null) {
+                  circle1.setAttribute("stroke-dasharray", angle1 + ", 20000");
+                  text1.innerHTML =
+                    parseInt((angle1 / 475) * 100).toString() + "%";
+                }
 
-                if (angle1 >= percent1) {
+                if (angle1 >= percent1 || circle1 == null) {
                   window.clearInterval(timer1);
                 }
-                angle1 += 7;
+                angle1 += 14;
               }.bind(this),
               30
             );

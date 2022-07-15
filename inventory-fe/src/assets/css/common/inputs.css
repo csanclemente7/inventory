@@ -28,7 +28,7 @@
   flex-direction: column;
 }
 
-.create-report-form input{
+.create-report-form input {
   width: 60% !important;
   font-size: 1.4rem !important;
   text-align: center;
@@ -150,6 +150,11 @@ textarea {
   width: 100%;
   font-size: 1.4rem;
   min-height: 3rem;
+}
+
+.observacion-textarea {
+  font-size: 1.3rem !important;
+  min-height: inherit !important;
 }
 
 .textarea-container {
