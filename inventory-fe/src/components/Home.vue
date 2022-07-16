@@ -1,5 +1,5 @@
 <template>
-  <div class="main" v-if="!startLoader">
+  <div class="main">
     <section class="home inherit" v-if="modals.home">
       <div class="home-data">
         <div class="button-container">
@@ -686,7 +686,6 @@ export default {
       });
     },
     processDeleteItem: function (itemId) {
-      this.startLoader = true;
       swal({
         title: "¿Estás seguro?",
         text: "Una vez eliminado, no podrás recuperar este elemento",
@@ -694,6 +693,7 @@ export default {
         buttons: true,
         dangerMode: true,
       }).then((willDelete) => {
+        this.startLoader = true;
         if (willDelete) {
           itemServices.deleteItem(itemId).then((response) => {
             itemServices.getItemsList().then((result) => {
