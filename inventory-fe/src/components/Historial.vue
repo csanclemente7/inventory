@@ -1,101 +1,93 @@
 <template>
-  <div class="main">
+  <div class="main-historial" v-if="paginatedDataReports.length > 0">
     <!-- SECTION SEARCH FILTER -->
-    <section class="search-and-user" v-if="paginatedDataReports.length > 0">
-      <form>
-        <input
-          type="search"
-          placeholder="Buscar..."
-          id="input_search_clientes"
-          v-model="inputSearch"
-          v-on:input="filterBySearch"
-          autoComplete="off"
-        />
-        <button type="submit" aria-label="submit form">
-          <li class="fas fa-search"></li>
-        </button>
-      </form>
-    </section>
-
-    <section class="table-container-two" v-if="paginatedDataReports.length > 0">
-      <!-- TABLE OUTPUT REPORTS-->
-      <div class="main-table-container">
-        <table class="custom-responsiva table-items">
-          <thead>
-            <tr>
-              <th>Fecha</th>
-              <th>Código</th>
-              <th>Item</th>
-              <th>Empleado</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="report in paginatedDataReports"
-              :key="report"
-              id="table_row delete-custom"
-            >
-              <td>
-                {{ dateToString(report.date) }}
-                <br />
-                {{ convertTimeToLocal(report.time) }}
-              </td>
-              <td>
-                {{ report.item_id }}
-              </td>
-              <td>
-                {{ report.item_name }}
-              </td>
-              <td>
-                {{ report.employee }}
-              </td>
-              <td>
-                {{ report.status }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <br />
-        <!-- PAGINATION REPORTS -->
-        <div class="pagination-container">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item">
-                <a class="page-link" v-on:click="getPreviousPageReports()"
-                  >Anterior</a
-                >
-              </li>
-              <li
-                v-for="page in paginationReports.totalPages(
-                  outputReports.length
-                )"
-                :key="page"
-                v-on:click="getDataPageReports(page, outputReports)"
-                class="page-item"
-              >
-                <a class="page-link" v-if="page != actualPageOutputReports">{{
-                  page
-                }}</a>
-                <div class="page-item active" aria-current="page">
-                  <span
-                    class="page-link"
-                    v-if="page === actualPageOutputReports"
-                    >{{ actualPageOutputReports }}</span
-                  >
-                </div>
-              </li>
-
-              <li class="page-item">
-                <a class="page-link" v-on:click="getNextPageReports()"
-                  >Siguiente</a
-                >
-              </li>
-            </ul>
-          </nav>
+    <section class="search-container">
+      <!-- SECTION SEARCH FILTER -->
+      <div class="wrap_clientes">
+        <div class="search_clientes">
+          <input
+            type="text"
+            class="searchTerm_clientes"
+            placeholder="Buscar..."
+            v-model="inputSearchClientes"
+            v-on:input="filterBySearchClientes"
+          />
+          <button type="submit" class="searchButton_clientes">
+            <i class="fa fa-search"></i>
+          </button>
         </div>
       </div>
     </section>
+
+    <!-- TABLE REPORTS-->
+    <table class="custom-responsiva clientes-table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Código</th>
+          <th>Item</th>
+          <th>Empleado</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="report in paginatedDataReports"
+          :key="report"
+          id="table_row delete-custom"
+        >
+          <td>
+            {{ dateToString(report.date) }}
+            <br />
+            {{ convertTimeToLocal(report.time) }}
+          </td>
+          <td>
+            {{ report.item_id }}
+          </td>
+          <td>
+            {{ report.item_name }}
+          </td>
+          <td>
+            {{ report.employee }}
+          </td>
+          <td>
+            {{ report.status }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+    <!-- PAGINATION REPORTS -->
+    <div class="pagination-container">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" v-on:click="getPreviousPageReports()"
+              >Anterior</a
+            >
+          </li>
+          <li
+            v-for="page in paginationReports.totalPages(outputReports.length)"
+            :key="page"
+            v-on:click="getDataPageReports(page, outputReports)"
+            class="page-item"
+          >
+            <a class="page-link" v-if="page != actualPageOutputReports">{{
+              page
+            }}</a>
+            <div class="page-item active" aria-current="page">
+              <span class="page-link" v-if="page === actualPageOutputReports">{{
+                actualPageOutputReports
+              }}</span>
+            </div>
+          </li>
+
+          <li class="page-item">
+            <a class="page-link" v-on:click="getNextPageReports()">Siguiente</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </div>
   <!-- LOADER -->
   <div class="lds-spinner" v-if="startLoader">
@@ -317,7 +309,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.main {
+.main-historial {
   width: 100%;
   height: 70%;
   display: flex;
@@ -326,51 +318,8 @@ export default {
   flex-direction: column;
 }
 
-.home {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  z-index: 10;
-}
-
 .inherit {
   position: inherit;
-}
-
-.home-data {
-  width: 100%;
-}
-
-.home-data image {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-}
-
-.image img {
-  width: 30%;
-  height: auto;
-}
-
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  cursor: pointer;
-}
-a {
-  color: #42b983;
 }
 
 @import "../assets/css/common/modals.css";
@@ -383,6 +332,7 @@ a {
 @import "../assets/css/common/links.css";
 @import "../assets/css/common/itemsSelectedList.css";
 @import "../assets/css/common/suggestion.css";
+@import "../assets/css/common/searchbar.css";
 @import "../assets/css/base/base.css";
 @import "../assets/css/common/table.css";
 @import "../assets/css/common/tableMain.css";

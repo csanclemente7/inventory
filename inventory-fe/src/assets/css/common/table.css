@@ -1,13 +1,6 @@
 table.custom-responsiva {
-  width: 80%;
+  width: 80% !important;
   border-collapse: collapse !important;
-}
-
-.table-container-two {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
 }
 
 .custom-responsiva tr:nth-of-type(odd) {
@@ -44,15 +37,6 @@ table.custom-responsiva {
   font-weight: bold !important;
 }
 
-.table-items {
-  width: 50% !important;
-}
-.table-items th,
-td {
-  border: none !important;
-  cursor: inherit !important;
-}
-
 table.custom-responsiva-two {
   width: 40% !important;
 }
@@ -71,6 +55,29 @@ table.custom-responsiva-two {
   cursor: pointer;
   text-align: center;
   border: 0.5px solid #ccc;
+}
+
+.clientes-table th {
+  background: var(--th-header-table2);
+  color: white !important;
+  font-weight: bold !important;
+  padding: 6px !important;
+  border: 1px solid #ccc;
+  text-align: center !important;
+  font-weight: bold !important;
+}
+
+.clientes-table tr:nth-of-type(odd) {
+  background: var(--dark-row-table2);
+  color: var(--text-light);
+}
+
+.clientes-table tr {
+  background-color: var(--light-row-table2);
+  color: var(--text-dark);
+}
+.clientes-table td {
+  cursor: inherit !important;
 }
 
 .debe li {
@@ -100,6 +107,28 @@ table.custom-responsiva-two {
 
 @media (max-width: 768px) {
   table.custom-responsiva {
-    width: 100% !important;
+    width: 100%;
+  }
+
+  .custom-responsiva td,
+  .custom-responsiva th {
+    padding: 6px !important;
+    border: 1px solid #ccc;
+    text-align: center !important;
+    font-weight: bold !important;
+    font-size: 0.8rem;
+  }
+
+  .clientes-table {
+    width: 80% !important;
+  }
+
+  .clientes-table td,
+  .clientes-table th {
+    padding: 6px !important;
+    border: 1px solid #ccc;
+    text-align: center !important;
+    font-weight: bold !important;
+    font-size: 0.4rem !important;
   }
 }

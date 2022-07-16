@@ -300,15 +300,15 @@ body :-ms-input-placeholder {
 }
 
 .app {
-  height: 100vh;
+  height: auto;
 }
 
 .main-component {
   margin: 0%;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 .footer {
   margin: 0;

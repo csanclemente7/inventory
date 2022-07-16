@@ -48,8 +48,11 @@
   --light-border-color: #dadada41;
 
   --th-header-table: #1a1c1f;
+  --th-header-table2: #1e2a32;
   --dark-row-table: rgb(132, 134, 136);
+  --dark-row-table2: rgb(27, 36, 49);
   --light-row-table: #f5f5f5;
+  --light-row-table2: #90a1a6;
 
 
   /* MODALS COLORS */
