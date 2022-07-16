@@ -103,7 +103,7 @@
                 autoComplete="off"
                 placeholder="Digitar código"
               />
-              <button>Agregar</button>
+              <button class="button add-item-button">Agregar</button>
               <ol class="list">
                 <li
                   li

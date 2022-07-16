@@ -22,6 +22,13 @@
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+.add-item-button {
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 20%;
+  height: 100%;
+}
+
 .button img {
   width: 40%;
   height: 80%;
@@ -52,7 +59,7 @@
   margin-top: 0 !important;
 }
 
-.btn-employee-selected{
+.btn-employee-selected {
   justify-content: center;
   background: #ffffff;
   align-items: center;
@@ -75,15 +82,13 @@
 }
 
 .first-btn {
-  background-color: 
-    var(--input-modal-color2);
-  
+  background-color: var(--input-modal-color2);
+
   height: 125px;
 }
 
-.second-btn { 
-  background-color: 
-    var(--output-modal-color2);
+.second-btn {
+  background-color: var(--output-modal-color2);
   height: 125px;
 }
 
