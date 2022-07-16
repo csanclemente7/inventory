@@ -97,9 +97,11 @@
               <input
                 id="items-selected-input"
                 type="text"
+                class="input input-entrada"
                 autofocus
                 v-model="item.id"
                 autoComplete="off"
+                placeholder="Digitar código"
               />
               <button>Agregar</button>
               <ol class="list">
