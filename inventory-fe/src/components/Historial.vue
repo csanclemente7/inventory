@@ -302,7 +302,6 @@ export default {
       let searchInputValue = this.inputSearch.toLowerCase().trim();
 
       let reports = JSON.parse(localStorage.getItem("reports"));
-      console.log(searchInputValue);
       if (
         reports.filter((report) => {
           return (

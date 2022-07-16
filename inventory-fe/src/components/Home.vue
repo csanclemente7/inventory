@@ -941,6 +941,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         });
+        this.startLoader = false;
       }
       //Ventana modal
       if (reportType === "input") {
