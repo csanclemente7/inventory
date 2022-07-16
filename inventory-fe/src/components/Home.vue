@@ -4,7 +4,7 @@
       <div class="home-data">
         <div class="button-container">
           <button class="button second-btn" @click="openModal('output')">
-            <img src="../assets/img/exit.png" />
+            <img src="../assets/img/e.png" />
           </button>
 
           <button class="button first-btn" @click="openModal('input')">

@@ -75,12 +75,15 @@
 }
 
 .first-btn {
-  background-color: var(--green-button-color);
+  background-color: 
+    var(--input-modal-color2);
+  
   height: 125px;
 }
 
-.second-btn {
-  background-color: var(--red-button-color);
+.second-btn { 
+  background-color: 
+    var(--output-modal-color2);
   height: 125px;
 }
 
