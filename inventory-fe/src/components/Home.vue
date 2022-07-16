@@ -1,5 +1,5 @@
 <template>
-  <div class="main" v-if="!startLoader">
+  <div class="main">
     <section class="home inherit" v-if="modals.home">
       <div class="home-data">
         <div class="button-container">
@@ -512,7 +512,8 @@ import { paginationItems } from "../paginationItems";
 import { paginationOutputReports } from "../paginationOutputReports";
 import { employeeServices } from "../service/employee-service";
 import { reportServices } from "../service/report-service";
-import swal from "sweetalert2";
+import swal from "sweetalert";
+
 export default {
   name: "Home",
   data: function () {
