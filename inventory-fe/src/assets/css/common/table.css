@@ -57,7 +57,7 @@ table.custom-responsiva-two {
   border: 0.5px solid #ccc;
 }
 
-.clientes-table th {
+.reports-table th {
   background: var(--th-header-table2);
   color: white !important;
   font-weight: bold !important;
@@ -67,16 +67,16 @@ table.custom-responsiva-two {
   font-weight: bold !important;
 }
 
-.clientes-table tr:nth-of-type(odd) {
+.reports-table tr:nth-of-type(odd) {
   background: var(--dark-row-table2);
   color: var(--text-light);
 }
 
-.clientes-table tr {
+.reports-table tr {
   background-color: var(--light-row-table2);
   color: var(--text-dark);
 }
-.clientes-table td {
+.reports-table td {
   cursor: inherit !important;
 }
 
@@ -119,12 +119,12 @@ table.custom-responsiva-two {
     font-size: 0.8rem;
   }
 
-  .clientes-table {
+  .reports-table {
     width: 80% !important;
   }
 
-  .clientes-table td,
-  .clientes-table th {
+  .reports-table td,
+  .reports-table th {
     padding: 6px !important;
     border: 1px solid #ccc;
     text-align: center !important;

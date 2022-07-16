@@ -4,8 +4,8 @@
   align-content: center;
 }
 
-/* SECCION CLIENTES */
-.search_clientes {
+/* SECCION reports */
+.search_reports {
   width: 100%;
   position: relative;
   display: flex;
@@ -13,7 +13,7 @@
   align-content: center;
 }
 
-.searchTerm_clientes {
+.searchTerm_reports {
   border: 3px solid #00b4cc;
   border-right: none;
   padding: 5px;
@@ -24,14 +24,14 @@
   font-size: 1.3rem;
 }
 
-.searchTerm_clientes:focus {
+.searchTerm_reports:focus {
   color: var(--text-dark);
 }
-.searchTerm_clientes::placeholder {
+.searchTerm_reports::placeholder {
   color: rgb(110, 110, 110);
 }
 
-.searchButton_clientes {
+.searchButton_reports {
   width: 40px;
   height: 36px;
   border: 1px solid #00b4cc;
@@ -43,7 +43,7 @@
   font-size: 20px;
 }
 
-.wrap_clientes {
+.wrap_reports {
   width: 40%;
   top: 50%;
   left: 50%;

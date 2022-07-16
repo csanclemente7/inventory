@@ -1,18 +1,19 @@
 <template>
-  <div class="main-historial" v-if="paginatedDataReports.length > 0">
+  <div class="main-historial">
     <!-- SECTION SEARCH FILTER -->
     <section class="search-container">
       <!-- SECTION SEARCH FILTER -->
-      <div class="wrap_clientes">
-        <div class="search_clientes">
+      <div class="wrap_reports">
+        <div class="search_reports">
           <input
+            id="input_search_reports"
             type="text"
-            class="searchTerm_clientes"
+            class="searchTerm_reports"
             placeholder="Buscar..."
-            v-model="inputSearchClientes"
-            v-on:input="filterBySearchClientes"
+            v-model="inputSearch"
+            v-on:input="filterBySearch"
           />
-          <button type="submit" class="searchButton_clientes">
+          <button type="submit" class="searchButton_reports">
             <i class="fa fa-search"></i>
           </button>
         </div>
@@ -20,7 +21,7 @@
     </section>
 
     <!-- TABLE REPORTS-->
-    <table class="custom-responsiva clientes-table">
+    <table class="custom-responsiva reports-table">
       <thead>
         <tr>
           <th>Fecha</th>
@@ -140,6 +141,7 @@ export default {
       circle1: null,
       text1: "",
       showProgressBar: false,
+      inputSearch: "",
     };
   },
   methods: {
@@ -288,7 +290,7 @@ export default {
       reportServices.getReportsList().then((result) => {
         this.comproveInitialData();
         this.outputReports = result;
-        localStorage.setItem("reports", this.outputReports);
+        localStorage.setItem("reports", JSON.stringify(this.outputReports));
         this.paginatedDataReports = paginationReports.getDataPage(
           this.actualPageOutputReports,
           this.outputReports
@@ -297,7 +299,46 @@ export default {
     },
 
     filterBySearch: function () {
+      let searchInputValue = this.inputSearch.toLowerCase().trim();
+
       let reports = JSON.parse(localStorage.getItem("reports"));
+      console.log(searchInputValue);
+      if (
+        reports.filter((report) => {
+          return (
+            this.dateToString(report.date)
+              .toLowerCase()
+              .includes(searchInputValue) ||
+            report.item_id.toLowerCase().includes(searchInputValue) ||
+            report.item_name.toLowerCase().includes(searchInputValue) ||
+            report.status.toLowerCase().includes(searchInputValue) ||
+            report.employee.toLowerCase().includes(searchInputValue)
+          );
+        }).length > 0
+      ) {
+        this.outputReports = reports.filter((report) => {
+          return (
+            this.dateToString(report.date)
+              .toLowerCase()
+              .includes(searchInputValue) ||
+            report.item_id.toLowerCase().includes(searchInputValue) ||
+            report.item_name.toLowerCase().includes(searchInputValue) ||
+            report.status.toLowerCase().includes(searchInputValue) ||
+            report.employee.toLowerCase().includes(searchInputValue)
+          );
+        });
+        this.paginatedDataReports = paginationReports.getDataPage(
+          this.actualPageOutputReports,
+          this.outputReports
+        );
+      }
+      if (searchInputValue == "") {
+        this.outputReports = JSON.parse(localStorage.getItem("reports"));
+        this.paginatedDataReports = paginationReports.getDataPage(
+          this.actualPageOutputReports,
+          this.outputReports
+        );
+      }
     },
   },
   created: function () {
@@ -313,7 +354,6 @@ export default {
   width: 100%;
   height: 70%;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
 }

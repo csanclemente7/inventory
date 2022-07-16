@@ -1,4 +1,4 @@
-const elementsXpage = 8;
+const elementsXpage = 100;
 
 let paginatedData = [];
 
