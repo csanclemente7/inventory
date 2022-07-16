@@ -921,6 +921,7 @@ export default {
               showConfirmButton: false,
               timer: 1500,
             });
+            this.startLoader = false;
           });
         });
 
@@ -955,6 +956,8 @@ export default {
           if (this.showProgressBar === true) {
             this.openModal("home");
           }
+          this.startLoader = false;
+          this.focusInput("input-entrada");
         });
       }
     },

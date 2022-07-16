@@ -288,6 +288,17 @@ body :-ms-input-placeholder {
   margin-left: 5rem;
 }
 
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
+
+.pagination {
+  flex-wrap: wrap;
+}
+
 .app {
   height: 100vh;
 }
