@@ -512,7 +512,8 @@ import { paginationItems } from "../paginationItems";
 import { paginationOutputReports } from "../paginationOutputReports";
 import { employeeServices } from "../service/employee-service";
 import { reportServices } from "../service/report-service";
-import swal from "sweetalert2";
+import swal from "sweetalert";
+
 export default {
   name: "Home",
   data: function () {
