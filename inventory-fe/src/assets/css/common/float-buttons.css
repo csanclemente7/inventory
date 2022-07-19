@@ -9,7 +9,7 @@
 
 @media screen and (max-width: 768px) {
   .float-buttons-container {
-    padding-top: 15vh;
+    padding-top: 18vh;
     z-index: 0;
   }
 }
