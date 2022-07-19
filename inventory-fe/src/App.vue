@@ -335,12 +335,13 @@ body :-ms-input-placeholder {
   .header nav button {
     margin: 0 5px !important;
     padding: 5px 6px 5px 6px !important;
-    font-size: 14px;
+    font-size: 13px;
   }
   .header nav p {
     margin-right: 2%;
     margin-left: 4%;
     color: #ffffff;
+    font-size: 13px;
   }
 
   .pagination-container {
