@@ -12,7 +12,6 @@
   width: 60%;
 }
 
-
 .select_employee {
   display: flex;
   flex-direction: column;
@@ -34,17 +33,16 @@
   width: 100%;
 }
 
-.list-item button{
+.list-item button {
   width: 60%;
 }
 
-.list-item textarea{
+.list-item textarea {
   width: 40%;
 }
 
 .list-item .link-container {
   width: 5%;
-
 }
 
 .item-selected {
@@ -98,4 +96,23 @@ ol a:before {
   font-weight: bold;
   border-radius: 2em;
   transition: all 0.3s ease-out;
+}
+
+/* Para mobiles */
+@media screen and (max-width: 768px) {
+  .list-item button {
+    width: 100%;
+  }
+
+  .list-item {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .list-item textarea {
+    width: 100%;
+  }
 }

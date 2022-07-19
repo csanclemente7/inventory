@@ -104,5 +104,10 @@
 @media screen and (max-width: 768px) {
   .modals_input {
     width: 80%;
+    margin-top: 20%;
+  }
+
+  .modals_insumos {
+    margin-top: 60vh;
   }
 }

@@ -338,8 +338,16 @@ body :-ms-input-placeholder {
     font-size: 14px;
   }
   .header nav p {
-    margin-right: 15%;
+    margin-right: 2%;
+    margin-left: 4%;
     color: #ffffff;
+  }
+
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
   }
 }
 

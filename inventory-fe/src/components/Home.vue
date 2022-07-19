@@ -117,7 +117,6 @@
                   >
                     <a>{{ item.id }} &nbsp; &nbsp;{{ item.name }}</a>
                   </button>
-                  &nbsp;&nbsp;
 
                   <textarea
                     v-model="item.observation"
