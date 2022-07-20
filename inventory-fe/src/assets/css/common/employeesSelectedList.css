@@ -1,18 +1,17 @@
-.search-form-container {
+.select_employee {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
 }
 
-.search-form {
-  width: auto;
-  height: auto;
-  width: 60%;
+.employees-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.list-item {
+.list-employee {
   display: flex !important;
   flex-direction: row;
   justify-content: center;
@@ -20,15 +19,15 @@
   width: 100%;
 }
 
-.list-item button {
+.list-employee button {
   width: 60%;
 }
 
-.list-item textarea {
+.list-employee textarea {
   width: 40%;
 }
 
-.list-item .link-container {
+.list-employee .link-container {
   width: 5%;
 }
 
@@ -87,11 +86,11 @@ ol a:before {
 
 /* Para mobiles */
 @media screen and (max-width: 768px) {
-  .list-item button {
-    width: 100%;
+  .list-employee button {
+    width: 80%;
   }
 
-  .list-item {
+  .list-employee {
     display: flex !important;
     flex-direction: column;
     justify-content: center;
@@ -99,7 +98,7 @@ ol a:before {
     width: 100%;
   }
 
-  .list-item textarea {
-    width: 100%;
+  .select_employee select {
+    width: 100% !important;
   }
 }

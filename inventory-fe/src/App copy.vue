@@ -195,14 +195,6 @@ export default {
 body {
   font-family: "Source Sans Pro", sans-serif;
   background-color: var(--color-secondary);
-  background-color: #dfdbe5;
-  background-image: linear-gradient(
-    to top,
-    #000023 0%,
-    #000023 1%,
-    #0f0f59 100%
-  );
-
   color: white;
   font-weight: 300;
   margin: 0 0 0 0;
@@ -261,8 +253,7 @@ body :-ms-input-placeholder {
   align-items: center;
   align-items: center;
   position: inherit !important;
-  background-image: linear-gradient(-90deg, #3ea58e 0%, #4c9888 100%);
-
+  background-color: var(--color-secondary-dark);
   z-index: 2;
 }
 .header nav {

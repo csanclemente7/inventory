@@ -46,6 +46,7 @@
             <p>Paso 1: Selecciona trabajadores</p>
             <div class="select_employee">
               <select
+                class="select"
                 id="select_employee"
                 v-model="employee.name"
                 @change="employeeSelected()"
@@ -57,11 +58,10 @@
               </select>
             </div>
             <br />
-            <br />
             <ol class="list">
               <li
                 li
-                class="list-item"
+                class="list-employee"
                 v-for="employee in employeesSelected"
                 :key="employee"
               >
@@ -1095,11 +1095,13 @@ a {
 @import "../assets/css/common/popUp.css";
 @import "../assets/css/common/grid-menu.css";
 @import "../assets/css/common/inputs.css";
+@import "../assets/css/common/selects.css";
 @import "../assets/css/common/icons.css";
 @import "../assets/css/common/button.css";
 @import "../assets/css/common/float-buttons.css";
 @import "../assets/css/common/links.css";
 @import "../assets/css/common/itemsSelectedList.css";
+@import "../assets/css/common/employeesSelectedList.css";
 @import "../assets/css/common/suggestion.css";
 @import "../assets/css/base/base.css";
 @import "../assets/css/common/table.css";
