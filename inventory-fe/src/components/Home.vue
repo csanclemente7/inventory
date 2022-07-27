@@ -979,21 +979,37 @@ export default {
         reportServices.createReport(this.inputReport).then((result) => {
           this.getOutputReports();
           this.inputReport.item = "";
-          Swal.fire({
-            position: "top",
-            icon: "success",
-            title: "Realizado con exito",
-            showConfirmButton: false,
-            timer: 200,
-          });
-          if (this.showProgressBar === true) {
-            this.openModal("home");
+          if (result.detail != "duplicated") {
+            Swal.fire({
+              position: "top",
+              icon: "success",
+              title: "Realizado con exito",
+              showConfirmButton: false,
+              timer: 200,
+            });
+
+            if (this.showProgressBar === true) {
+              this.openModal("home");
+            }
+            this.startLoader = false;
+            setTimeout(function () {
+              let input = document.getElementById("input-entrada");
+              input.focus();
+            }, 500);
+          } else {
+            Swal.fire({
+              position: "top",
+              icon: "warning",
+              title: "El elemento no ha salido",
+              showConfirmButton: false,
+              timer: 1200,
+            });
+            this.startLoader = false;
+            setTimeout(function () {
+              let input = document.getElementById("input-entrada");
+              input.focus();
+            }, 1500);
           }
-          this.startLoader = false;
-          setTimeout(function () {
-            let input = document.getElementById("input-entrada");
-            input.focus();
-          }, 500);
         });
       }
     },
