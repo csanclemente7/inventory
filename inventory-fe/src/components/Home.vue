@@ -1,9 +1,35 @@
 <template>
-  <div class="main">
+  <div
+    class="main"
+    @click="
+      (e) => {
+        if (this.modals.input) {
+          this.focusInput('input-entrada');
+        }
+        if (
+          this.secondPage &&
+          e.target.id != 'ovservationstxtarea' &&
+          this.modals.output
+        ) {
+          this.focusInput('items-selected-input');
+        }
+      }
+    "
+  >
     <section class="home inherit" v-if="modals.home">
       <div class="home-data">
         <div class="button-container">
-          <button class="button second-btn" @click="openModal('output')">
+          <button
+            class="button second-btn"
+            @click="
+              () => {
+                openModal('output');
+                if (this.secondPage) {
+                  this.focusInput('items-selected-input');
+                }
+              }
+            "
+          >
             <img src="../assets/img/e.png" />
           </button>
 
@@ -98,7 +124,6 @@
                 id="items-selected-input"
                 type="text"
                 class="input input-entrada"
-                autofocus
                 v-model="item.id"
                 autoComplete="off"
                 placeholder="Digitar código"
@@ -123,7 +148,7 @@
                     v-if="item.showTextArea"
                     name=""
                     placeholder="observación"
-                    id=""
+                    id="ovservationstxtarea"
                     cols="10"
                     rows="1"
                     class="textarea observacion-textarea"
@@ -194,7 +219,6 @@
               class="input input-entrada"
               v-model="inputReport.item"
               autoComplete="off"
-              autofocus
             />
           </div>
           <div class="button-container">
@@ -624,7 +648,7 @@ export default {
         setTimeout(function () {
           let input = document.getElementById("input-entrada");
           input.focus();
-        }, 100);
+        }, 500);
       }
     },
 
@@ -934,14 +958,20 @@ export default {
         this.employeesSelected = [];
         this.secondPage = false;
         this.firstPage = true;
-      } else {
-        Swal.fire({
-          position: "top",
-          icon: "warning",
-          title: "Completa todos los pasos",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+      } else if (
+        this.itemsSelected.length === 0 ||
+        this.employeesSelected.length === 0
+      ) {
+        if (reportType === "output") {
+          Swal.fire({
+            position: "top",
+            icon: "warning",
+            title: "Completa todos los pasos",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+
         this.startLoader = false;
       }
       //Ventana modal
@@ -960,14 +990,19 @@ export default {
             this.openModal("home");
           }
           this.startLoader = false;
-          this.focusInput("input-entrada");
+          setTimeout(function () {
+            let input = document.getElementById("input-entrada");
+            input.focus();
+          }, 500);
         });
       }
     },
     focusInput: function (idInput) {
       setTimeout(function () {
-        let input = document.getElementById(idInput);
-        input.focus();
+        if (document.getElementById(idInput)) {
+          let input = document.getElementById(idInput);
+          input.focus();
+        }
       }, 100);
     },
 
