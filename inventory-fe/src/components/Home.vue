@@ -63,9 +63,20 @@
           <form
             v-on:submit.prevent="
               () => {
-                this.firstPage = false;
-                this.secondPage = true;
-                this.focusInput('items-selected-input');
+                if (employeesSelected.length > 0) {
+                  this.firstPage = false;
+                  this.secondPage = true;
+                  this.focusInput('items-selected-input');
+                } else {
+                  const Swal = require('sweetalert2');
+                  Swal.fire({
+                    position: 'top',
+                    icon: 'warning',
+                    title: 'Seleccione al menos un empleado',
+                    showConfirmButton: false,
+                    timer: 1200,
+                  });
+                }
               }
             "
           >
@@ -976,41 +987,59 @@ export default {
       }
       //Ventana modal
       if (reportType === "input") {
-        reportServices.createReport(this.inputReport).then((result) => {
-          this.getOutputReports();
-          this.inputReport.item = "";
-          if (result.detail != "duplicated") {
-            Swal.fire({
-              position: "top",
-              icon: "success",
-              title: "Realizado con exito",
-              showConfirmButton: false,
-              timer: 200,
-            });
+        reportServices
+          .createReport(this.inputReport)
+          .then((result) => {
+            this.getOutputReports();
+            this.inputReport.item = "";
+            if (result.detail != "duplicated") {
+              Swal.fire({
+                position: "top",
+                icon: "success",
+                title: "Realizado con exito",
+                showConfirmButton: false,
+                timer: 200,
+              });
 
-            if (this.showProgressBar === true) {
-              this.openModal("home");
+              if (this.showProgressBar === true) {
+                this.openModal("home");
+              }
+              this.startLoader = false;
+              setTimeout(function () {
+                let input = document.getElementById("input-entrada");
+                input.focus();
+              }, 500);
+            } else {
+              Swal.fire({
+                position: "top",
+                icon: "warning",
+                title: "El elemento no ha salido",
+                showConfirmButton: false,
+                timer: 1200,
+              });
+              this.startLoader = false;
+              setTimeout(function () {
+                let input = document.getElementById("input-entrada");
+                input.focus();
+              }, 1500);
             }
-            this.startLoader = false;
-            setTimeout(function () {
-              let input = document.getElementById("input-entrada");
-              input.focus();
-            }, 500);
-          } else {
+          })
+          .catch((error) => {
+            const Swal = require("sweetalert2");
             Swal.fire({
               position: "top",
               icon: "warning",
-              title: "El elemento no ha salido",
+              title: "Código no existe",
               showConfirmButton: false,
               timer: 1200,
             });
             this.startLoader = false;
+            this.inputReport.item = "";
             setTimeout(function () {
               let input = document.getElementById("input-entrada");
               input.focus();
             }, 1500);
-          }
-        });
+          });
       }
     },
     focusInput: function (idInput) {
