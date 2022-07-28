@@ -383,7 +383,7 @@
                   "
                 >
                   {{ item.id }}
-                  <p v-if="item.showCopied">ID Copiado</p>
+                  <p v-if="item.showCopied">Código Copiado</p>
                 </td>
                 <td>
                   {{ item.name }}
@@ -475,7 +475,7 @@
               "
             >
               {{ report.item_id }}
-              <p v-if="report.showCopied">ID Copiado</p>
+              <p v-if="report.showCopied">Código Copiado</p>
             </td>
             <td>
               {{ report.item_name }}
