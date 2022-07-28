@@ -191,7 +191,7 @@
               <button class="button third-btn">Enviar</button>
             </div>
           </form>
-          <div class="back-container">
+          <div class="link-container">
             <a
               class="go-back"
               @click="
