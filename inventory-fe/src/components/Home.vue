@@ -373,8 +373,17 @@
                   }
                 "
               >
-                <td>
+                <td
+                  @click="
+                    () => {
+                      this.copyIdItemToClipboard(item.id);
+                      item.showCopied = true;
+                      this.hideShowCopied(item);
+                    }
+                  "
+                >
                   {{ item.id }}
+                  <p v-if="item.showCopied">ID Copiado</p>
                 </td>
                 <td>
                   {{ item.name }}
@@ -456,8 +465,17 @@
               <br />
               {{ convertTimeToLocal(report.time) }}
             </td>
-            <td>
+            <td
+              @click="
+                () => {
+                  this.copyIdItemToClipboard(report.item_id);
+                  report.showCopied = true;
+                  this.hideShowCopied(report);
+                }
+              "
+            >
               {{ report.item_id }}
+              <p v-if="report.showCopied">ID Copiado</p>
             </td>
             <td>
               {{ report.item_name }}
@@ -672,7 +690,7 @@ export default {
     getOutputReports: function () {
       this.outputReports = [];
       reportServices.getReportsOutputList().then((result) => {
-        this.outputReports = result;
+        this.outputReports = result.map((v) => ({ ...v, showCopied: false }));
 
         this.paginatedDataOutputReports = paginationOutputReports.getDataPage(
           1,
@@ -687,7 +705,7 @@ export default {
       this.startLoader = true;
       itemServices.createItem(this.item).then((result) => {
         itemServices.getItemsList().then((result) => {
-          this.items = result;
+          this.items = result.map((v) => ({ ...v, showCopied: false }));
           this.startLoader = false;
           this.paginatedDataItems = paginationItems.getDataPage(1, this.items);
           this.item = {
@@ -708,7 +726,7 @@ export default {
         };
         (this.updateItem = false),
           itemServices.getItemsList().then((result) => {
-            this.items = result;
+            this.items = result.map((v) => ({ ...v, showCopied: false }));
             this.startLoader = false;
             this.paginatedDataItems = paginationItems.getDataPage(
               this.actualPageItems,
@@ -734,7 +752,7 @@ export default {
         if (willDelete) {
           itemServices.deleteItem(itemId).then((response) => {
             itemServices.getItemsList().then((result) => {
-              this.items = result;
+              this.items = result.map((v) => ({ ...v, showCopied: false }));
               this.startLoader = false;
               this.paginatedDataItems = paginationItems.getDataPage(
                 this.actualPageItems,
@@ -877,7 +895,7 @@ export default {
     getInitialData: function () {
       this.startLoader = true;
       itemServices.getItemsList().then((result) => {
-        this.items = result;
+        this.items = result.map((v) => ({ ...v, showCopied: false }));
         this.paginatedDataItems = paginationItems.getDataPage(
           this.actualPageItems,
           this.items
@@ -889,7 +907,7 @@ export default {
         this.comproveInitialData();
       });
       reportServices.getReportsOutputList().then((result) => {
-        this.outputReports = result;
+        this.outputReports = result.map((v) => ({ ...v, showCopied: false }));
         this.paginatedDataOutputReports = paginationOutputReports.getDataPage(
           this.actualPageOutputReports,
           this.outputReports
@@ -1105,6 +1123,22 @@ export default {
     imprimir: function (value) {
       console.log(value);
     },
+
+    copyIdItemToClipboard: function (text) {
+      // Copy to clipboard function
+      var dummy = document.createElement("textarea"); // Create a <textarea> element
+      document.body.appendChild(dummy); // Append the <textarea> element to the document
+      dummy.value = text; // Set its value to the string that you want copied
+      dummy.select(); // Select the <textarea> content
+      document.execCommand("copy"); // Copy - only works as a result of a user action (e.g. click events)
+      document.body.removeChild(dummy); // Remove the <textarea> element
+    },
+
+    hideShowCopied: function (element) {
+      setTimeout(() => {
+        element.showCopied = false;
+      }, 900);
+    },
   },
   created: function () {
     this.verifyAuth();
@@ -1169,6 +1203,10 @@ li {
 }
 a {
   color: #42b983;
+}
+
+.copied {
+  color: var(--color-copied);
 }
 
 @import "../assets/css/common/modals.css";

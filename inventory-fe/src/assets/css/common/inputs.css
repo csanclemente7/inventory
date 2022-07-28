@@ -81,10 +81,6 @@
   margin-left: 20px;
 }
 
-.fa-arrow-left {
-  cursor: pointer;
-}
-
 .input {
   box-sizing: border-box;
   border-bottom: 1px solid var(--text-dark);
