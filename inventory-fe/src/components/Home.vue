@@ -519,16 +519,17 @@
               v-for="report in paginatedDataOutputReports"
               :key="report"
               id="table_row delete-custom"
-              @click="
-                () => {
-                  if (report.observation) {
-                    this.showObservationSelected = true;
-                    this.observationSelected = report.observation;
-                  }
-                }
-              "
             >
-              <td>
+              <td
+                @click="
+                  () => {
+                    if (report.observation) {
+                      this.showObservationSelected = true;
+                      this.observationSelected = report.observation;
+                    }
+                  }
+                "
+              >
                 {{ dateToString(report.date) }}
                 <br />
                 {{ convertTimeToLocal(report.time) }}
@@ -545,10 +546,29 @@
                 {{ report.item_id }}
                 <p v-if="report.showCopied">Código Copiado</p>
               </td>
-              <td>
+              <td
+                @click="
+                  () => {
+                    if (report.observation) {
+                      this.showObservationSelected = true;
+                      this.observationSelected = report.observation;
+                    }
+                  }
+                "
+              >
                 {{ report.item_name }}
               </td>
-              <td class="last-column">
+              <td
+                class="last-column"
+                @click="
+                  () => {
+                    if (report.observation) {
+                      this.showObservationSelected = true;
+                      this.observationSelected = report.observation;
+                    }
+                  }
+                "
+              >
                 <div class="table-outputs-employee">
                   {{ report.employee }}
                 </div>
