@@ -452,11 +452,6 @@
         </div>
       </div>
     </section>
-    <div class="float-buttons-container">
-      <button class="button create-item-btn" @click="openModal('insumos')">
-        INSUMOS
-      </button>
-    </div>
 
     <!-- TABLE OUTPUT REPORTS-->
     <!-- SECTION SEARCH FILTER -->
@@ -636,6 +631,11 @@
         </text>
       </svg>
     </div>
+  </div>
+  <div class="float-buttons-container">
+    <button class="button create-item-btn" @click="openModal('insumos')">
+      INSUMOS
+    </button>
   </div>
   <!-- LOADER -->
   <div class="lds-spinner" v-if="startLoader">
@@ -1343,7 +1343,7 @@ export default {
 <style scoped>
 .main {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

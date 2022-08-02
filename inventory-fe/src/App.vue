@@ -265,7 +265,7 @@ body :-ms-input-placeholder {
   position: inherit !important;
   background-image: linear-gradient(-90deg, #3ea58e 0%, #4c9888 100%);
 
-  z-index: 2;
+  z-index: 200;
 }
 .header nav {
   height: 100%;
@@ -311,7 +311,7 @@ body :-ms-input-placeholder {
 }
 
 .app {
-  height: 100vh;
+  height: 100%;
   background-image: linear-gradient(
     to top,
     #000023 0%,

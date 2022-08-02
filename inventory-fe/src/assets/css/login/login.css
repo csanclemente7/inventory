@@ -10,11 +10,9 @@
     var(--color-primary-dark) 0%,
     var(--color-primary) 100%
   );
-  position: absolute;
   left: 0;
   width: 100%;
   height: 100vh;
-  min-height: auto;
   overflow: hidden;
   z-index: 2;
   display: flex;
