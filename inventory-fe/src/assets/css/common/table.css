@@ -25,7 +25,7 @@ table.custom-responsiva {
 
 .custom-responsiva th {
   background: var(--th-header-table);
-  color: white !important;
+  color: white;
   font-weight: bold !important;
 }
 
@@ -43,7 +43,7 @@ table.custom-responsiva-two {
 
 .custom-responsiva-two th {
   background: var(--th-header-table);
-  color: white !important;
+  color: white;
   font-weight: bold !important;
   padding: 6px !important;
   border: 1px solid #ccc;
@@ -59,25 +59,53 @@ table.custom-responsiva-two {
 
 .reports-table th {
   background: var(--th-header-table2);
-  color: white !important;
+  color: white;
   font-weight: bold !important;
   padding: 6px !important;
   border: 1px solid #ccc;
   text-align: center !important;
   font-weight: bold !important;
+  cursor: pointer;
 }
 
 .reports-table tr:nth-of-type(odd) {
   background: var(--dark-row-table2);
   color: var(--text-light);
+  cursor: pointer;
 }
 
 .reports-table tr {
   background-color: var(--light-row-table2);
   color: var(--text-dark);
+  cursor: pointer;
 }
 .reports-table td {
   cursor: inherit !important;
+}
+
+.reports-table .last-column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  gap: 1rem;
+  width: 100%;
+}
+
+.reports-table .attach {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.reports-table .attach .atach-icon {
+  position: relative;
+  top: 0px;
+  left: 0px !important;
+}
+
+.reports-table .table-outputs-employee {
+  width: 80%;
 }
 
 .debe li {

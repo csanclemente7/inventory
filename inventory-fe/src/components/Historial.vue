@@ -2,7 +2,6 @@
   <div class="main-historial">
     <!-- SECTION SEARCH FILTER -->
     <section class="search-container">
-      <!-- SECTION SEARCH FILTER -->
       <div class="wrap_reports">
         <div class="search_reports">
           <input
@@ -20,6 +19,26 @@
       </div>
     </section>
 
+    <!-- observation -->
+    <div class="observation-popup" v-if="showObservationSelected">
+      <!--  botón cerrar -- -->
+      <i
+        class="fas fa-times"
+        @click="
+          () => {
+            this.showObservationSelected = false;
+            this.observationSelected = '';
+          }
+        "
+        v-if="showObservationSelected"
+      ></i>
+      <!-- título -->
+      <div class="modals_title">
+        <h1>Observación&nbsp;</h1>
+      </div>
+      <p>{{ observationSelected }}</p>
+    </div>
+
     <!-- TABLE REPORTS-->
     <table class="custom-responsiva reports-table">
       <thead>
@@ -36,6 +55,14 @@
           v-for="report in paginatedDataReports"
           :key="report"
           id="table_row delete-custom"
+          @click="
+            () => {
+              if (report.observation) {
+                this.showObservationSelected = true;
+                this.observationSelected = report.observation;
+              }
+            }
+          "
         >
           <td>
             {{ dateToString(report.date) }}
@@ -51,8 +78,13 @@
           <td>
             {{ report.employee }}
           </td>
-          <td>
-            {{ report.status }}
+          <td class="last-column">
+            <div class="table-outputs-employee">
+              {{ report.status }}
+            </div>
+            <div class="attach">
+              <i class="fa fa-eye atach-icon" v-if="report.observation"></i>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -124,6 +156,8 @@ export default {
       actualPageItems: 1,
       actualPageOutputReports: 1,
       startLoader: false,
+      observationSelected: "",
+      showObservationSelected: false,
 
       itemReport: {
         item: "",
@@ -351,10 +385,11 @@ export default {
 <style scoped>
 .main-historial {
   width: 100%;
-  height: 70%;
+  height: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
+  padding-top: 10vh;
 }
 
 .inherit {
@@ -376,6 +411,8 @@ export default {
 @import "../assets/css/common/table.css";
 @import "../assets/css/common/tableMain.css";
 @import "../assets/css/common/tableResults.css";
+@import "../assets/css/common/observationPopUp.css";
+@import "../assets/css/common/tableOutputs.css";
 @import "../assets/css/common/lds-ripple.css";
 @import "../assets/css/common/percentage.css";
 </style>

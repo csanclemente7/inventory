@@ -352,7 +352,25 @@
           </form>
 
           <!-- TABLA INSUMOS -->
-          <table class="custom-responsiva table-items">
+          <!-- SECTION SEARCH FILTER -->
+          <section class="search-container">
+            <div class="wrap_reports">
+              <div class="search_reports">
+                <input
+                  id="input_search_reports"
+                  type="text"
+                  class="searchTerm_reports"
+                  placeholder="Buscar..."
+                  v-model="inputSearchInsumos"
+                  v-on:input="filterBySearchInsumos"
+                />
+                <button type="submit" class="searchButton_reports">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </section>
+          <table class="custom-responsiva">
             <thead>
               <tr>
                 <th>Código</th>
@@ -441,51 +459,107 @@
     </div>
 
     <!-- TABLE OUTPUT REPORTS-->
+    <!-- SECTION SEARCH FILTER -->
+
+    <br />
+    <section class="search-container">
+      <div class="wrap_reports">
+        <div class="search_reports">
+          <input
+            id="input_search_reports"
+            type="text"
+            class="searchTerm_reports"
+            placeholder="Buscar..."
+            v-model="inputSearch"
+            v-on:input="filterBySearch"
+          />
+          <button type="submit" class="searchButton_reports">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- observation -->
+    <div class="observation-popup" v-if="showObservationSelected">
+      <!--  botón cerrar -- -->
+      <i
+        class="fas fa-times"
+        @click="
+          () => {
+            this.showObservationSelected = false;
+            this.observationSelected = '';
+          }
+        "
+        v-if="showObservationSelected"
+      ></i>
+      <!-- título -->
+      <div class="modals_title">
+        <h1>Observación&nbsp;</h1>
+      </div>
+      <p>{{ observationSelected }}</p>
+    </div>
+
     <div
       class="main-table-container"
       v-if="paginatedDataOutputReports.length > 0"
     >
-      <table class="custom-responsiva table-items">
-        <thead>
-          <tr>
-            <th>Fecha</th>
-            <th>Código</th>
-            <th>Item</th>
-            <th>Empleado</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="report in paginatedDataOutputReports"
-            :key="report"
-            id="table_row delete-custom"
-          >
-            <td>
-              {{ dateToString(report.date) }}
-              <br />
-              {{ convertTimeToLocal(report.time) }}
-            </td>
-            <td
+      <div class="table-outputs-row">
+        <table class="custom-responsiva table-outputs">
+          <thead>
+            <tr>
+              <th scope="col">Fecha</th>
+              <th scope="col">Código</th>
+              <th scope="col">Item</th>
+              <th scope="col">Empleado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="report in paginatedDataOutputReports"
+              :key="report"
+              id="table_row delete-custom"
               @click="
                 () => {
-                  this.copyIdItemToClipboard(report.item_id);
-                  report.showCopied = true;
-                  this.hideShowCopied(report);
+                  if (report.observation) {
+                    this.showObservationSelected = true;
+                    this.observationSelected = report.observation;
+                  }
                 }
               "
             >
-              {{ report.item_id }}
-              <p v-if="report.showCopied">Código Copiado</p>
-            </td>
-            <td>
-              {{ report.item_name }}
-            </td>
-            <td>
-              {{ report.employee }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <td>
+                {{ dateToString(report.date) }}
+                <br />
+                {{ convertTimeToLocal(report.time) }}
+              </td>
+              <td
+                @click="
+                  () => {
+                    this.copyIdItemToClipboard(report.item_id);
+                    report.showCopied = true;
+                    this.hideShowCopied(report);
+                  }
+                "
+              >
+                {{ report.item_id }}
+                <p v-if="report.showCopied">Código Copiado</p>
+              </td>
+              <td>
+                {{ report.item_name }}
+              </td>
+              <td class="last-column">
+                <div class="table-outputs-employee">
+                  {{ report.employee }}
+                </div>
+                <div class="attach">
+                  <i class="fa fa-eye atach-icon" v-if="report.observation"></i>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <br />
       <!-- PAGINATION REPORTS -->
       <div class="pagination-container">
@@ -582,6 +656,10 @@ export default {
       actualPageItems: 1,
       actualPageOutputReports: 1,
       startLoader: false,
+      inputSearch: "",
+      inputSearchInsumos: "",
+      observationSelected: "",
+      showObservationSelected: false,
 
       modals: {
         home: true,
@@ -691,6 +769,11 @@ export default {
       this.outputReports = [];
       reportServices.getReportsOutputList().then((result) => {
         this.outputReports = result.map((v) => ({ ...v, showCopied: false }));
+        localStorage.removeItem("output_reports_home");
+        localStorage.setItem(
+          "output_reports_home",
+          JSON.stringify(this.outputReports)
+        );
 
         this.paginatedDataOutputReports = paginationOutputReports.getDataPage(
           1,
@@ -706,6 +789,8 @@ export default {
       itemServices.createItem(this.item).then((result) => {
         itemServices.getItemsList().then((result) => {
           this.items = result.map((v) => ({ ...v, showCopied: false }));
+          localStorage.removeItem("items");
+          localStorage.setItem("items", JSON.stringify(this.items));
           this.startLoader = false;
           this.paginatedDataItems = paginationItems.getDataPage(1, this.items);
           this.item = {
@@ -727,6 +812,8 @@ export default {
         (this.updateItem = false),
           itemServices.getItemsList().then((result) => {
             this.items = result.map((v) => ({ ...v, showCopied: false }));
+            localStorage.removeItem("items");
+            localStorage.setItem("items", JSON.stringify(this.items));
             this.startLoader = false;
             this.paginatedDataItems = paginationItems.getDataPage(
               this.actualPageItems,
@@ -753,6 +840,7 @@ export default {
           itemServices.deleteItem(itemId).then((response) => {
             itemServices.getItemsList().then((result) => {
               this.items = result.map((v) => ({ ...v, showCopied: false }));
+              localStorage.setItem("items", JSON.stringify(this.items));
               this.startLoader = false;
               this.paginatedDataItems = paginationItems.getDataPage(
                 this.actualPageItems,
@@ -774,15 +862,16 @@ export default {
 
     // PAGINATION FUNCTIONS FOR ITEMS
     getDataPageItems: function (page, items) {
-      this.filterSearch = ""; // borra el filtro
+      this.inputSearchInsumos = ""; // borra el filtro
       this.actualPageItems = page;
       this.paginatedDataItems = paginationItems.getDataPage(page, items);
     },
 
     getPreviousPageItems: function () {
-      this.filterSearch = ""; // borra el filtro
+      this.inputSearchInsumos = ""; // borra el filtro
       this.actualPageItems = paginationItems.getPreviousPage(
-        this.actualPageItems
+        this.actualPageItems,
+        this.items
       );
 
       this.paginatedDataItems = paginationItems.getDataPage(
@@ -792,7 +881,7 @@ export default {
     },
 
     getNextPageItems: function () {
-      this.filterSearch = ""; // borra el filtro
+      this.inputSearchInsumos = ""; // borra el filtro
       this.actualPageItems = paginationItems.getNextPage(
         this.actualPageItems,
         paginationItems.totalPages(this.items.length)
@@ -896,6 +985,8 @@ export default {
       this.startLoader = true;
       itemServices.getItemsList().then((result) => {
         this.items = result.map((v) => ({ ...v, showCopied: false }));
+        localStorage.removeItem("items");
+        localStorage.setItem("items", JSON.stringify(this.items));
         this.paginatedDataItems = paginationItems.getDataPage(
           this.actualPageItems,
           this.items
@@ -908,6 +999,10 @@ export default {
       });
       reportServices.getReportsOutputList().then((result) => {
         this.outputReports = result.map((v) => ({ ...v, showCopied: false }));
+        localStorage.setItem(
+          "output_reports_home",
+          JSON.stringify(this.outputReports)
+        );
         this.paginatedDataOutputReports = paginationOutputReports.getDataPage(
           this.actualPageOutputReports,
           this.outputReports
@@ -1069,6 +1164,83 @@ export default {
       }, 100);
     },
 
+    // FILTER SEARCH FUNCTIONS
+    filterBySearch: function () {
+      let searchInputValue = this.inputSearch.toLowerCase().trim();
+
+      let reports = JSON.parse(localStorage.getItem("output_reports_home"));
+      if (
+        reports.filter((report) => {
+          return (
+            this.dateToString(report.date)
+              .toLowerCase()
+              .includes(searchInputValue) ||
+            this.convertTimeToLocal(report.time)
+              .toLowerCase()
+              .includes(searchInputValue) ||
+            report.item_id.toLowerCase().includes(searchInputValue) ||
+            report.item_name.toLowerCase().includes(searchInputValue) ||
+            report.status.toLowerCase().includes(searchInputValue) ||
+            report.employee.toLowerCase().includes(searchInputValue)
+          );
+        }).length > 0
+      ) {
+        this.outputReports = reports.filter((report) => {
+          return (
+            this.dateToString(report.date)
+              .toLowerCase()
+              .includes(searchInputValue) ||
+            this.convertTimeToLocal(report.time)
+              .toLowerCase()
+              .includes(searchInputValue) ||
+            report.item_id.toLowerCase().includes(searchInputValue) ||
+            report.item_name.toLowerCase().includes(searchInputValue) ||
+            report.status.toLowerCase().includes(searchInputValue) ||
+            report.employee.toLowerCase().includes(searchInputValue)
+          );
+        });
+        this.paginatedDataOutputReports = paginationOutputReports.getDataPage(
+          this.actualPageOutputReports,
+          this.outputReports
+        );
+      }
+      if (searchInputValue == "") {
+        this.outputReports = JSON.parse(
+          localStorage.getItem("output_reports_home")
+        );
+        this.paginatedDataOutputReports = paginationReports.getDataPage(
+          this.actualPageOutputReports,
+          this.outputReports
+        );
+      }
+    },
+
+    filterBySearchInsumos: function () {
+      let searchInputValue = this.inputSearchInsumos.toLowerCase().trim();
+
+      let items = JSON.parse(localStorage.getItem("items"));
+      if (
+        items.filter((item) => {
+          return (
+            item.id.toLowerCase().includes(searchInputValue) ||
+            item.name.toLowerCase().includes(searchInputValue)
+          );
+        }).length > 0
+      ) {
+        this.items = items.filter((item) => {
+          return (
+            item.id.toLowerCase().includes(searchInputValue) ||
+            item.name.toLowerCase().includes(searchInputValue)
+          );
+        });
+        this.paginatedDataItems = paginationItems.getDataPage(1, this.items);
+      }
+      if (searchInputValue == "") {
+        this.items = JSON.parse(localStorage.getItem("items"));
+        this.paginatedDataItems = paginationItems.getDataPage(1, this.items);
+      }
+    },
+
     comproveProgressBarLoad: function () {
       if (this.outputReports.length === 0) {
         this.showProgressBar = true;
@@ -1151,7 +1323,7 @@ export default {
 <style scoped>
 .main {
   width: 100%;
-  height: 70%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1160,7 +1332,6 @@ export default {
 
 .home {
   width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1209,6 +1380,16 @@ a {
   color: var(--color-copied);
 }
 
+.atach {
+  width: 10px;
+}
+
+.atach-icon {
+  position: relative;
+  top: 0px;
+  left: -10px;
+}
+
 @import "../assets/css/common/modals.css";
 @import "../assets/css/common/popUp.css";
 @import "../assets/css/common/grid-menu.css";
@@ -1221,10 +1402,13 @@ a {
 @import "../assets/css/common/itemsSelectedList.css";
 @import "../assets/css/common/employeesSelectedList.css";
 @import "../assets/css/common/suggestion.css";
+@import "../assets/css/common/searchbar.css";
 @import "../assets/css/base/base.css";
 @import "../assets/css/common/table.css";
 @import "../assets/css/common/tableMain.css";
+@import "../assets/css/common/observationPopUp.css";
 @import "../assets/css/common/tableResults.css";
+@import "../assets/css/common/tableOutputs.css";
 @import "../assets/css/common/lds-ripple.css";
 @import "../assets/css/common/percentage.css";
 </style>

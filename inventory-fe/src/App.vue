@@ -202,6 +202,8 @@ body {
     #000023 1%,
     #0f0f59 100%
   );
+  background-repeat: no-repeat;
+  background-size: cover;
 
   color: white;
   font-weight: 300;
@@ -309,7 +311,13 @@ body :-ms-input-placeholder {
 }
 
 .app {
-  height: auto;
+  height: 100vh;
+  background-image: linear-gradient(
+    to top,
+    #000023 0%,
+    #000023 1%,
+    #0f0f59 100%
+  );
 }
 
 .main-component {
@@ -317,7 +325,12 @@ body :-ms-input-placeholder {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  background-image: linear-gradient(
+    to top,
+    #000023 0%,
+    #000023 1%,
+    #0f0f59 100%
+  );
 }
 .footer {
   margin: 0;
