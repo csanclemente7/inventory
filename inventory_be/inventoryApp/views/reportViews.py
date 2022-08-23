@@ -27,6 +27,8 @@ class ReportCreateView(generics.CreateAPIView):
         ReportStatus = request.data['status']
         itemId = request.data['item']
         lastReport = (Report.objects.filter(item_id=itemId)).last()
+        print("Ultimo estado: ",lastReport.status)
+        print("estado solicitado: ",ReportStatus)
         currentDate = timezone.now()
         #print("timezone",currentDate)
         #print("datetime",datetime.datetime.now())
@@ -175,6 +177,9 @@ def filterOutputs (reports,inputsList,outputsList):
   for report in reports:
     if ( quantityOutputsByItem(str(report).split(" ")[1]) != quantityInputsByItem(str(report).split(" ")[1])):
         if (len([i for i in finalList if str(i).split(" ")[1] == str(report).split(" ")[1]]) == 0):
+            print(str(report).split(" ")[1])
+            print(quantityOutputsByItem(str(report).split(" ")[1]))
+            print(quantityInputsByItem(str(report).split(" ")[1]))
             finalList.append(report)
         
 
